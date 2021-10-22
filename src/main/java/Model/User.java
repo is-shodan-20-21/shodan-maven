@@ -1,7 +1,7 @@
 package Model;
 
 import java.io.Serializable;
-import Handler.ShodanViews.Role;
+import java.util.ArrayList;
 
 public class User implements Serializable {
 
@@ -13,16 +13,16 @@ public class User implements Serializable {
 	private String password;
 	private String email;
 	private String session;
-	private Role role;
+	private ArrayList<Role> roles;
 	
-	public User(int id, String username, String password, String email, int money, String session, Role role) {
+	public User(int id, String username, String password, String email, int money, String session, ArrayList<Role> roles) {
 		this.id = id;
 		this.money = money;
 		this.name = username;
 		this.password = password;
 		this.email = email;
 		this.session = session;
-		this.role = role;
+		this.roles = roles;
 	}
 	
 	public int getId() {
@@ -49,8 +49,8 @@ public class User implements Serializable {
 		return session;
 	}
 	
-	public Role getRole() {
-		return this.role;
+	public ArrayList<Role> getRoles() {
+		return roles;
 	}
 
 	public void setId(int id) {
@@ -77,8 +77,8 @@ public class User implements Serializable {
 		this.session = session;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRole(ArrayList<Role> roles) {
+		this.roles = roles;
 	}
 
 	public String toString() {

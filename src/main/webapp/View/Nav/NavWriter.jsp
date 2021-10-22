@@ -10,14 +10,14 @@
 <!-- Navbar -->
 <div id="nav-items">
 	<div id="writer-link">
-		<i class="fas fa-users-cog"></i>
+		<i class="fas fa-feather-alt"></i>
 		<span>Dashboard</span>
 	</div>
-					
+
 	<div id="logout-link">
 		<i class="far fa-dizzy"></i>
 		<span>Esci</span>
 	</div>
 </div>
 
-<script type="module" src="Scripts/NavRoutines.js"></script>
+<script src="Scripts/NavRoutines.js"></script>

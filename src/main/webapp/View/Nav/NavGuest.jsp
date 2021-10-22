@@ -30,4 +30,4 @@
 	</div>
 </div>
 
-<script type="module" src="Scripts/NavRoutines.js"></script>
+<script src="Scripts/NavRoutines.js"></script>

@@ -8,7 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import Model.Role;
 import Model.User;
+import Service.HasRoleService;
 import Service.UserService;
 import Service.ViewService;
 
@@ -18,13 +21,6 @@ public class ShodanViews extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private User user;
-
-    public enum Role {
-        GUEST,
-        USER,
-        WRITER,
-        STOREMAN
-    }
 
     public enum RequestedView {
         MAIN,
@@ -36,20 +32,24 @@ public class ShodanViews extends HttpServlet {
 		HttpServletRequest request,
 		HttpServletResponse response
 	) throws ServletException, IOException {
-        System.out.println("# ShodanViews > Accesso al modulo dei ruoli");
-
-		Connection connection = (Connection) request.getServletContext().getAttribute("databaseConnection");
+		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
 		RequestedView requestedView = RequestedView.valueOf(request.getParameter("view"));
 
 		if(request.getParameter("cookie").equals("false"))
-			user = new UserService(connection).getUserBySession(request.getParameter("jsession"));
+			user = new UserService(db).getUserBySession(request.getParameter("jsession"));
 		else
 			user = (User) request.getSession().getAttribute("user_metadata");
 
-        Role role = user != null ? user.getRole() : Role.valueOf("GUEST");
-        String path = new ViewService(connection).getView(role, requestedView);
+        Role role = null;
 
-        System.out.println("# ShodanViews > View ottenuta (" + role + ", " + requestedView + ", " + path + ")");
+        if(request.getParameter("requestedRole") == null)
+            role = user != null ? new HasRoleService(db).getMainRole(user.getRoles()) : new Role(-1, "GUEST");
+        else
+            role = new Role(user.getId(), request.getParameter("requestedRole"));    
+
+        String path = new ViewService(db).getView(role, requestedView);
+
+        System.out.println("# ShodanViews > View ottenuta (" + role.getRoleName() + ", " + requestedView + ", " + path + ")");
 
         response.getWriter().print(path);
     }

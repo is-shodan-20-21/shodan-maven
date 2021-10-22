@@ -10,7 +10,7 @@
 <!-- Navbar -->
 <div id="nav-items">
 	<div id="storeman-link">
-		<i class="fas fa-users-cog"></i>
+		<i class="fas fa-database"></i>
 		<span>Dashboard</span>
 	</div>
 					
@@ -20,4 +20,4 @@
 	</div>
 </div>
 
-<script type="module" src="Scripts/NavRoutines.js"></script>
+<script src="Scripts/NavRoutines.js"></script>

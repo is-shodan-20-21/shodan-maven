@@ -13,8 +13,8 @@ $(document).ready(
 						window.location.href.lastIndexOf("=") + 1
 					)
 				},
-				error: (data) => console.log("# UserServlet (role) - 4**/5**" + data),
-				success: (data) => console.log("# Shodan [Sidebar loaded from " + data + "]")
+				error: (data) => console.log("# ShodanViews - 4**/5**" + data),
+				success: (data) => console.log("# Shodan [Sidebar loaded]")
 			}
 		);
 
@@ -29,8 +29,8 @@ $(document).ready(
 						window.location.href.lastIndexOf("=") + 1
 					)
 				},
-				error: (data) => console.log("# UserServlet (role) - 4**/**" + data),
-				success: (data) => console.log("# Shodan [Dashboard loaded from " + data + "]")
+				error: (data) => console.log("# ShodanViews - 4**/5**" + data),
+				success: (data) => console.log("# Shodan [Dashboard loaded]")
 			}
 		);
 
@@ -48,13 +48,24 @@ $(document).ready(
 					localStorage.setItem("last-page", data.split("/")[1].split(".")[0]); 	
 				});
 			}
-		} else
+
+			if(localStorage.getItem("last-nav") != null)
+				$("nav").load("View/Nav/" + localStorage.getItem("last-nav") + ".jsp");
+			else {
+				NAV_HANDLER.done(function(data) {
+					$("nav").load(data);
+					localStorage.setItem("last-nav", data.split("/")[2].split(".")[0]);  	
+				});
+			}
+		} else {
 			MAIN_HANDLER.done(function(data) {
 				$("#app").load(data); 	
 			});
-		NAV_HANDLER.done(function(data) {
-			$("nav").load(data); 	
-		});
+
+			NAV_HANDLER.done(function(data) {
+				$("nav").load(data); 	
+			});
+		}
 	}
 );
 

@@ -2,18 +2,18 @@ package Control;
 
 import java.io.IOException;
 import java.sql.Connection;
-
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import Handler.ShodanViews.Role;
+import Model.Role;
 import Model.Game;
 import Model.User;
 import Service.GameService;
 import Service.HasGameService;
+import Service.HasRoleService;
 import Service.UserService;
 
 @WebServlet("/UserServlet")
@@ -23,6 +23,10 @@ public class UserServlet extends HttpServlet {
 
 	User user;
 	Connection db;
+
+	public UserServlet() {
+		this.user = null;
+	}
 	
 	protected void doGet(
 		HttpServletRequest request,
@@ -33,17 +37,35 @@ public class UserServlet extends HttpServlet {
 		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
 		String endpoint = request.getParameter("endpoint");
 		
-		if(request.getParameter("cookie").equals("false")) {
-			user = new UserService(db).getUserBySession(request.getParameter("jsession"));
+		if(request.getParameter("cookie") != null) {
+			if(request.getParameter("cookie").equals("false"))
+				user = new UserService(db).getUserBySession(request.getParameter("jsession"));
+			else
+				user = (User) request.getSession().getAttribute("user_metadata");
 		} else
-			user = (User) request.getSession().getAttribute("user_metadata");
+			return;
 		
 		switch(request.getParameter("action")) {
 			case "role":
-				System.out.println("# UserSerlvet > GET > Accesso al ruolo (" + user.getRole().toString() + ")");
+				String main_role = new HasRoleService(db).getMainRole(user.getRoles()).getRoleName();
+
+				System.out.println("# UserSerlvet > GET > Accesso al ruolo (" + main_role + ")");
 					
-				response.getWriter().println(user.getRole().toString());
+				response.getWriter().println(main_role);
 				
+				break;
+
+			case "switchableRoles":
+				if(user != null && user.getRoles().size() > 1) {
+					System.out.println("# UserServlet > GET > Accesso alla lista dei ruoli dell'utente");
+
+					ArrayList<Role> roles = user.getRoles();
+
+					request.setAttribute("roles", roles);	
+					request.getRequestDispatcher(endpoint).forward(request, response);
+					response.setStatus(200);
+				} else
+					response.setStatus(400);
 				break;
 
 			case "info":
@@ -105,32 +127,6 @@ public class UserServlet extends HttpServlet {
 		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
 		
 		switch(request.getParameter("action")) {
-			case "removeUser":
-				User user = new UserService(db).getUser(Integer.valueOf(request.getParameter("user-id")));
-				
-				if(user != null ) {
-					if((user.getRole() != Role.STOREMAN) && (user.getRole() != Role.WRITER)) {
-						new UserService(db).deleteUser(Integer.valueOf(request.getParameter("user-id")));
-					
-						request.setAttribute("messageUserDelete", "Utente eliminato con successo");
-						request.getRequestDispatcher("admin.jsp").forward(request, response);
-						
-						System.out.println("# UserServlet > POST > Utente eliminato > " + user.getId());
-					} else {
-						request.setAttribute("errorMessageUserDelete", "Un admin non puo' essere cancellato");
-						request.getRequestDispatcher("admin.jsp").forward(request, response);
-						
-						System.out.println("# UserServlet > POST > Impossibile eliminare utente > " + user.getId());
-					}
-				} else {
-					request.setAttribute("errorMessageUserDelete", "Utente inesistente");
-					request.getRequestDispatcher("admin.jsp").forward(request, response);
-					
-					System.out.println("# UserServlet > POST > Utente inesistente > " + Integer.valueOf(request.getParameter("user-id")));
-				}
-				
-				break;
-			
 			case "logout":
 				System.out.println("# UserServlet > POST > Logout dell'utente");
 				

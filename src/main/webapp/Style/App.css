@@ -119,6 +119,10 @@ body nav {
 	background: #171717;
 	z-index: 1;
 	position: fixed;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 body nav .selected {
@@ -144,20 +148,31 @@ body nav #nav-logo-container #nav-logo:hover {
 	filter: brightness(1.5);
 }
 
-body nav #nav-items {
+body nav #nav-items,
+body nav #nav-items #roles-link #roles-items {
 	padding: 10px;
 }
 
-body nav #nav-items #cart-link .cart-quantity i {
+body nav #nav-items #cart-link .cart-quantity i,
+body nav #nav-items #roles-link .role-selector-icon i {
 	margin: 0;
 	margin-left: 10px;
+}
+
+body nav #nav-items #roles-link .role-selector-icon i {
+	transition: 0.3s;
+}
+
+.rotate-icon {
+	transform: rotate(180deg);
 }
 
 body nav #nav-items #settings-link i {
 	margin-left: 2.5px;
 }
 
-body nav #nav-items #cart-link .cart-quantity {
+body nav #nav-items #cart-link .cart-quantity,
+body nav #nav-items #roles-link .role-selector-icon {
 	padding-left: 5px;
     padding-right: 5px;
     float: right;
@@ -171,7 +186,8 @@ body nav #nav-items i {
 	margin-right: 5px;
 }
 
-body nav #nav-items div {
+body nav #nav-items div,
+body nav #nav-items #roles-link #roles-items .role-item {
 	margin-bottom: 5px;
 	color: white;
 	text-decoration: none;
@@ -179,16 +195,35 @@ body nav #nav-items div {
 	padding: 10px;
 	margin-bottom: 4px;
 	cursor: pointer;
-	transition: 0.5s;
 	border-radius: 3px;
+}
+
+#roles-placeholder {
+	padding: 0 !important;
+	transition: 0s !important;
+	background: inherit;
+	margin: 0;
 }
 
 body nav #nav-items div:hover {
 	background: #1c1c1c;
 }
 
+#roles-link {
+	transition: 0s !important;
+}
+
+#roles-items {
+	display: none;
+	padding-bottom: 0 !important;
+}
+
+#roles-items div:hover {
+	background: #171717 !important;
+}
+
 body nav #nav-items div span {
-	margin-left: 5px;
+	/*margin-left: 5px;*/ 
 }
 
 body nav #nav-close {
@@ -248,7 +283,7 @@ body main #app .featured {
 }
 
 body main #app .featured .featured-text-outer {
-	background: linear-gradient(to right, transparent 0%, black 60%);
+	background: linear-gradient(to right, transparent 0%, black 35%);
 	height: 100%;
 	width: 80%;
 	float: right;
@@ -260,7 +295,7 @@ body main #app .featured .featured-text-outer {
 
 body main #app .featured .featured-text-outer .featured-text-inner {
 	font-size: 15px;
-	margin-left: 40%;
+	margin-left: 20%;
 }
 
 body main #app .featured .featured-text-outer .featured-text-inner strong  {
@@ -625,11 +660,6 @@ body main #app .content #cart tr td {
     body main #app .content #game-page .game-info-container .game-release-date {
     	font-size: 20.5px !important;
     }
-	
-	body main #app .content #game-page .game-info-container .game-description {
-		
-	}
-	
 }
 
 @media screen and (max-width: 500px) {

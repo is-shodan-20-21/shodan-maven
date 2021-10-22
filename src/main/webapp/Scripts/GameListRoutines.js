@@ -1,4 +1,7 @@
 $(function() {
+	$('[data-game-owned="true"]').hide();
+	$('[data-game-owned="true"]').parent().children(".game-overlay").children(".game-price").hide();
+
 	$(".game-container").click(
 		function() {
 			window.history.pushState(null, null, "?game=" + $(this).attr("data-game-id"));
@@ -32,6 +35,7 @@ $(function() {
 					},
 					success: () => {
 						$(".game-confirm").html("Aggiunto <strong>" + $(this).parent().attr("data-game-name") +"</strong> al carrello!");
+						$(this).hide();
 						if(navigator.cookieEnabled)
 							updateCart();
 					},

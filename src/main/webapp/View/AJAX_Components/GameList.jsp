@@ -5,17 +5,22 @@
     pageEncoding="ISO-8859-1"
 %>
 
-<c:forEach items="${games}" var="game">
+<c:forEach items="${source}" var="source">
 	<div 
-		data-game-id="${game.id}" 
-		data-game-name="${game.name}" 
-		data-game-price="${game.price}" 
-		style="background-image: url('Static/GamePictures/${game.image}')" 
+		data-game-id="${source.game.id}" 
+		data-game-name="${source.game.name}" 
+		data-game-price="${source.game.price}"
+		style="background-image: url('Static/GamePictures/${source.game.image}')" 
 		class="game-container"
 	>
-		<div class="game-add">+</div>
+		<div 
+			class="game-add"
+			data-game-owned="${source.owned}" 
+		>
+			+
+		</div>
 		<div class="game-overlay">
-			${game.name} <span class="game-price">&bull; ${game.price}&euro;</span>
+			${source.game.name} <span class="game-price">&bull; ${source.game.price}&euro;</span>
 		</div>
 	</div>
 </c:forEach>

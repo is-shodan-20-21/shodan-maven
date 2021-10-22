@@ -364,7 +364,7 @@ body main #app .content .games .game-add:hover {
 #cta {
 	padding: 15px;
 	font-size: 17.5px;
-	background: #171717;
+	background: #141313;
 	font-family: 'Karla', sans-serif;
 	animation: cta-a 2.5s infinite;
 	animation-direction: alternate;
@@ -487,8 +487,20 @@ body main #app .content #game-page .game-info-container .game-price {
 }
 
 body main #app .content #game-page .game-info-container .game-release-date {
-	font-family: 'Monofonto';
+	font-family: 'Karla', sans-serif;
 	font-size: 22.5px;
+}
+
+#cta a {
+    border: 1px solid;
+    padding: 5px;
+    border-radius: 3px;
+    margin-right: 7.5px;
+	transition: 0.3s;
+}
+
+#cta a strong {
+    font-weight: 700;
 }
 
 body main #app .content #game-page .game-info-container .game-description {

@@ -2,6 +2,11 @@ $(document).ready(
 	() => {
 		console.log("# Shodan [Container: App]");
 
+		$("#cta a").click(() => {
+			localStorage.removeItem("last-nav");
+			localStorage.removeItem("last-page");
+		});;
+
 		$.ajax(
 			{
 				type: "GET",

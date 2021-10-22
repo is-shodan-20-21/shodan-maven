@@ -7,7 +7,7 @@ $(document).ready(
 				type: "GET",
 				url: "GameServlet",
 				data: {
-					action: "shop",
+					action: "parsed",
 					endpoint: "View/AJAX_Components/GameList.jsp",
 					cookie: navigator.cookieEnabled,
 					jsession: window.location.href.substring(

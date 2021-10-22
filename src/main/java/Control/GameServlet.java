@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import Model.Game;
+import Model.OwnedGamesParser;
 import Model.User;
 import Service.GameService;
 import Service.HasGameService;
@@ -33,6 +34,9 @@ public class GameServlet extends HttpServlet {
 		User user = null;
 		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
 		String endpoint = request.getParameter("endpoint");
+		int limit = (request.getParameter("limit") != null) 
+					? Integer.parseInt(request.getParameter("limit"))
+					: 0;
 		
 		if(request.getParameter("cookie").equals("false"))
 			user = new UserService(db).getUserBySession(request.getParameter("jsession"));
@@ -40,11 +44,30 @@ public class GameServlet extends HttpServlet {
 			user = (User) request.getSession().getAttribute("user_metadata");
 
 		switch(request.getParameter("action")) {
+			case "parsed":
+				ArrayList<Game> raw_games = new GameService(db).getAllDescendingGames(limit);
+				ArrayList<OwnedGamesParser> parser = new ArrayList<OwnedGamesParser>();
+
+				if(user == null)
+					for(Game game : raw_games)
+						parser.add(new OwnedGamesParser(game, false));
+				else {
+					for(Game game : raw_games) {
+						HasGameService bridge = new HasGameService(db);
+						if(bridge.hasGame(user, game))
+							parser.add(new OwnedGamesParser(game, true));
+						else
+							parser.add(new OwnedGamesParser(game, false));
+					}
+				}
+
+				request.setAttribute("source", parser);
+				request.getRequestDispatcher(endpoint).forward(request, response);
+				response.setStatus(200);
+
+				break;
+
 			case "shop":
-				int limit = (request.getParameter("limit") != null) 
-							? Integer.parseInt(request.getParameter("limit"))
-							: 0;
-				
 				ArrayList<Game> ascending = new GameService(db).getAllAscendingGames(limit);
 				ArrayList<Game> descending = new GameService(db).getAllDescendingGames(limit);
 				
@@ -70,9 +93,13 @@ public class GameServlet extends HttpServlet {
 				
 			case "library":
 				ArrayList<Game> games = new GameService(db).getAllGamesByUser(user.getId());
+				ArrayList<OwnedGamesParser> libraryParser = new ArrayList<OwnedGamesParser>();
+
+				for(Game game : games)
+					libraryParser.add(new OwnedGamesParser(game, true));
 				
 				if(games != null) {
-					request.setAttribute("games", games);
+					request.setAttribute("source", libraryParser);
 					request.getRequestDispatcher(endpoint).forward(request, response);
 					response.setStatus(200);
 				} else

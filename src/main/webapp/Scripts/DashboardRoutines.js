@@ -9,8 +9,7 @@ $(document).ready(
 				method: "GET",
 				url: "GameServlet",
 				data: {
-					action: "shop",
-					order: "desc",
+					action: "parsed",
 					cookie: navigator.cookieEnabled,
 					jsession: window.location.href.substring(
 						window.location.href.lastIndexOf("=") + 1

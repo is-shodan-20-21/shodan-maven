@@ -42,16 +42,22 @@ public class UserServlet extends HttpServlet {
 				user = new UserService(db).getUserBySession(request.getParameter("jsession"));
 			else
 				user = (User) request.getSession().getAttribute("user_metadata");
-		} else
-			return;
+		}
 		
 		switch(request.getParameter("action")) {
 			case "role":
-				String main_role = new HasRoleService(db).getMainRole(user.getRoles()).getRoleName();
+				if(user != null) {
+					String main_role = new HasRoleService(db).getMainRole(user.getRoles()).getRoleName();
 
-				System.out.println("# UserSerlvet > GET > Accesso al ruolo (" + main_role + ")");
-					
-				response.getWriter().println(main_role);
+					System.out.println("# UserSerlvet > GET > Accesso al ruolo (" + main_role + ")");
+						
+					response.getWriter().println(main_role);
+					response.setStatus(200);
+
+					return;
+				}
+				
+				response.setStatus(400);
 				
 				break;
 

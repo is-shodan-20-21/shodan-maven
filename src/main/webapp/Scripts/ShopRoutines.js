@@ -19,7 +19,22 @@ $(document).ready(
 				},
 				success: (data) => {
 					setTimeout(() => {
-						$("#shop-games").html(data)
+						$("#shop-games").html(data);
+
+						$.ajax(
+							{
+								type: "GET",
+								url: "UserServlet",
+								data: {
+									action: "role",
+									cookie: navigator.cookieEnabled,
+									jsession: window.location.href.substring(
+										window.location.href.lastIndexOf("=") + 1
+									)
+								},
+								error: (data) => $(".game-add").click(() => window.location.href="index.jsp")
+							}
+						);
 					}, 250);
 				},
 				error: () => {

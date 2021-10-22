@@ -26,6 +26,21 @@ $(document).ready(
 							$.ajax(
 								{
 									type: "GET",
+									url: "UserServlet",
+									data: {
+										action: "role",
+										cookie: navigator.cookieEnabled,
+										jsession: window.location.href.substring(
+											window.location.href.lastIndexOf("=") + 1
+										)
+									},
+									error: (data) => $("#add-to-cart").click(() => window.location.href="index.jsp")
+								}
+							);
+
+							$.ajax(
+								{
+									type: "GET",
 									url: "GameServlet",
 									data: {
 										action: "hasGame",

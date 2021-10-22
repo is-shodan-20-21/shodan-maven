@@ -2,6 +2,21 @@ $(document).ready(
 	() => {
 		console.log("# Shodan [Container: App]");
 
+		$.ajax(
+			{
+				type: "GET",
+				url: "UserServlet",
+				data: {
+					action: "role",
+					cookie: navigator.cookieEnabled,
+					jsession: window.location.href.substring(
+						window.location.href.lastIndexOf("=") + 1
+					)
+				},
+				error: (data) => $("#cta").show()
+			}
+		);
+
 		var NAV_HANDLER = $.ajax(
 			{
 				type: "GET",

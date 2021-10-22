@@ -361,6 +361,18 @@ body main #app .content .games .game-add:hover {
 	background: #9f0595;
 }
 
+#cta {
+	padding: 15px;
+	font-size: 17.5px;
+	background: #171717;
+	font-family: 'Karla', sans-serif;
+	animation: cta-a 2.5s infinite;
+	animation-direction: alternate;
+	text-align: center;
+	display: none;
+}
+
+
 #add-to-cart, #play-game {
 	display: none;
 }

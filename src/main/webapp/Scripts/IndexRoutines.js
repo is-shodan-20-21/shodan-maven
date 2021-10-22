@@ -8,7 +8,11 @@ $(document).ready(
 				data: {
 					action: "shop",
 					limit: 4,
-					endpoint: "View/AJAX_Components/GameSlideshow.jsp"
+					endpoint: "View/AJAX_Components/GameSlideshow.jsp",
+					cookie: navigator.cookieEnabled,
+					jsession: window.location.href.substring(
+						window.location.href.lastIndexOf("=") + 1
+					)
 				},
 				beforeSend: () => {
 					$(".left").html("<div class='loader-container'><div class=\"loader\"></div>");
@@ -29,7 +33,11 @@ $(document).ready(
 					action: "shop",
 					limit: 4,
 					order: "DESC",
-					endpoint: "View/AJAX_Components/GameSlideshow.jsp"
+					endpoint: "View/AJAX_Components/GameSlideshow.jsp",
+					cookie: navigator.cookieEnabled,
+					jsession: window.location.href.substring(
+						window.location.href.lastIndexOf("=") + 1
+					)
 				},
 				beforeSend: () => {
 					$(".right").html("<div class='loader-container'><div class=\"loader\"></div>");

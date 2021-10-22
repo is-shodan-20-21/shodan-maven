@@ -118,7 +118,20 @@ public class UserService implements Serializable {
 			statement.setString(3, email);
 			
 			statement.executeUpdate();
-			
+
+			query = "SELECT * FROM users WHERE user_name = ?";
+			statement = db.prepareStatement(query);
+			statement.setString(1, username);
+
+			ResultSet result = statement.executeQuery();
+
+			if(result.next()) {
+				query = "INSERT INTO has_role(user_id, role) VALUES (?, \"USER\")";	
+				statement = db.prepareStatement(query);
+				statement.setInt(1, result.getInt("user_id"));
+				statement.executeUpdate();
+			}
+
 			System.out.println("# UserService > Inserisco l'utente " + username);
 			
 			return true;

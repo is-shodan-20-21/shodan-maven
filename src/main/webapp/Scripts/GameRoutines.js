@@ -9,6 +9,10 @@ $(document).ready(
 				data: {
 					action: "game",
 					endpoint: "View/Game.jsp",
+					cookie: navigator.cookieEnabled,
+					jsession: window.location.href.substring(
+						window.location.href.lastIndexOf("=") + 1
+					),
 					game_id: new URLSearchParams(window.location.search).get("game")
 				},
 				beforeSend: () => {
@@ -17,7 +21,35 @@ $(document).ready(
 				success: (data) => {
 					setTimeout(
 						() => {
-							$(".content").replaceWith(data.substring(0, data.lastIndexOf("\n")))
+							$(".content").replaceWith(data.substring(0, data.lastIndexOf("\n")));
+
+							$.ajax(
+								{
+									type: "GET",
+									url: "GameServlet",
+									data: {
+										action: "hasGame",
+										game_id: new URLSearchParams(window.location.search).get("game"),
+										cookie: navigator.cookieEnabled,
+										jsession: window.location.href.substring(
+											window.location.href.lastIndexOf("=") + 1
+										)
+									},
+									success: () => {
+										console.log("# Shodan [Game already owned; purchase not allowed]");
+										console.log($("#add-to-cart"));
+										$("#play-game").css("display", "inline-block");
+
+										$("#play-game").click(
+											() => alert("Avvio del gioco...")
+										);
+									},
+									error: () => {
+										$("#add-to-cart").css("display", "inline-block");
+									}
+								}
+							);
+
 						}, 150)
 				},
 				error: () => {

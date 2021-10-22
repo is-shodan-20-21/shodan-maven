@@ -345,7 +345,7 @@ body main #app .content .games .game-add {
     font-weight: 700;
     width: 20px;
     height: 20px;
-    border-radius: 25px;
+	transition: 0.3s;
     right: 0;
     position: absolute;
     margin-top: -5px;
@@ -353,6 +353,27 @@ body main #app .content .games .game-add {
     text-align: center;
     cursor: pointer;
     margin-right: -5px;
+	box-shadow: 2px 2px 0px #54084f;
+    border: 1px solid #54084f;
+}
+
+body main #app .content .games .game-add:hover {
+	background: #9f0595;
+}
+
+#add-to-cart, #play-game {
+	display: none;
+}
+
+#play-game {
+	background:#368107;
+	min-width: 100px;
+	text-align: center;
+	transition: 0.3s;
+}
+
+#play-game:hover {
+	background: #509d20;
 }
 
 body main #app .content .games .game-container {

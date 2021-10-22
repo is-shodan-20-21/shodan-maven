@@ -9,8 +9,10 @@ $(function() {
 		}
 	);
 	
-	if($("#my-collection").length)
+	if($("#my-collection").length) {
 		$(".game-add").hide();
+		$(".game-price").hide();
+	}
 					
 	$(".game-add").off().click(
 		function(event) {

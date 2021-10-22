@@ -15,7 +15,7 @@
 	>
 		<div class="game-add">+</div>
 		<div class="game-overlay">
-			${game.name}
+			${game.name} <span class="game-price">&bull; ${game.price}&euro;</span>
 		</div>
 	</div>
 </c:forEach>

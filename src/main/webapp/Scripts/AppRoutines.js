@@ -49,7 +49,7 @@ $(document).ready(
 				});
 			}
 
-			if(localStorage.getItem("last-nav") != null)
+			if(localStorage.getItem("last-nav") != null && localStorage.getItem("last-nav") != "NavGuest")
 				$("nav").load("View/Nav/" + localStorage.getItem("last-nav") + ".jsp");
 			else {
 				NAV_HANDLER.done(function(data) {

@@ -11,6 +11,10 @@ $(document).ready(
 				data: {
 					action: "shop",
 					order: "desc",
+					cookie: navigator.cookieEnabled,
+					jsession: window.location.href.substring(
+						window.location.href.lastIndexOf("=") + 1
+					),
 					endpoint: "View/AJAX_Components/GameList.jsp",
 					limit: 5
 				},

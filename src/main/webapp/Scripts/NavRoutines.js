@@ -6,6 +6,7 @@ function openSider() {
 	$("nav").css("width", "275px");
 	$("main").css("margin-left", "274px");
 	$("nav").addClass("open");
+	$("#roles-placeholder").css("display", "block");
 }
 	
 function closeSider() {
@@ -16,6 +17,8 @@ function closeSider() {
 	$("nav").css("width", "55px");
 	$("main").css("margin-left", "55px");
 	$("nav").removeClass("open");
+	console.log(0);
+	$("#roles-placeholder").css("display", "none");
 }
 
 if(!navigator.cookieEnabled) {
@@ -46,14 +49,18 @@ $(document).ready(
 					console.log("# Shodan [User either has no admin powers or is a guest]");
 				}
 			}
-		)
+		).done(
+			() => {
+				if(navigator.cookieEnabled) {
+					if(localStorage.getItem("sider") == "open" || localStorage.getItem("sider") == null) 
+						openSider();
+					else
+						closeSider();
+				}
+			}
+		);
 
 		if(navigator.cookieEnabled) {
-			if(localStorage.getItem("sider") == "open" || localStorage.getItem("sider") == null) 
-				openSider();
-			else
-				closeSider();
-			
 			if(localStorage.getItem("last-page") != null) {
 				const container = "#" + localStorage.getItem("last-page").toLowerCase().split(".")[0] + "-link";
 				
@@ -198,6 +205,7 @@ $(document).ready(
 				document.cookie = "user_session=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
 				window.location.replace("index.jsp");
 				localStorage.removeItem("last-page");
+				localStorage.removeItem("last-nav");
 			}
 		);
 	}

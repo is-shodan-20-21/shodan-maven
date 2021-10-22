@@ -16,7 +16,9 @@
 				<p class="game-price"> ${game.price}&euro; </p>
 				<p class="game-release-date">Pubblicato il ${game.release} </p>
 				<p class="game-description"> ${game.description} </p>
+
 				<div class="button button--submit" id="add-to-cart">Aggiungi al carrello</div>
+				<div class="button button--submit" id="play-game">Gioca!</div>
 			</div>
 				
 			<div class="game-image-container">

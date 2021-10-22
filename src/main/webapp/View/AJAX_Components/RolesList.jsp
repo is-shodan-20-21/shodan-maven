@@ -7,7 +7,7 @@
 
 <div id="roles-link">
     <i class="fas fa-dice-d6"></i>
-    <span>Ruoli</span>
+    <span class="role-sign">Ruoli</span>
 
     <span class="role-selector-icon">
         <i class="fas fa-chevron-right"></i>

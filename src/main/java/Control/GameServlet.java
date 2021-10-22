@@ -18,6 +18,7 @@ import javax.servlet.http.Part;
 import Model.Game;
 import Model.User;
 import Service.GameService;
+import Service.HasGameService;
 import Service.UserService;
 
 @WebServlet("/GameServlet")
@@ -29,10 +30,15 @@ public class GameServlet extends HttpServlet {
 		HttpServletRequest request,
 		HttpServletResponse response
 	) throws ServletException, IOException {
-		User user;
+		User user = null;
 		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
 		String endpoint = request.getParameter("endpoint");
 		
+		if(request.getParameter("cookie").equals("false"))
+			user = new UserService(db).getUserBySession(request.getParameter("jsession"));
+		else
+			user = (User) request.getSession().getAttribute("user_metadata");
+
 		switch(request.getParameter("action")) {
 			case "shop":
 				int limit = (request.getParameter("limit") != null) 
@@ -63,11 +69,6 @@ public class GameServlet extends HttpServlet {
 				break;
 				
 			case "library":
-				if(request.getParameter("cookie").equals("false"))
-					user = new UserService(db).getUserBySession(request.getParameter("jsession"));
-				else
-					user = (User) request.getSession().getAttribute("user_metadata");
-				
 				ArrayList<Game> games = new GameService(db).getAllGamesByUser(user.getId());
 				
 				if(games != null) {
@@ -108,6 +109,26 @@ public class GameServlet extends HttpServlet {
 				
 				break;
 				
+			case "hasGame":
+				if(user != null && new HasGameService(db).hasGame(
+					user, 
+					new GameService(db).getGame(
+						Integer.valueOf(
+							request.getParameter("game_id")
+						)
+					)
+				)) {
+					response.setStatus(200);
+					return;
+				}
+					
+
+				
+
+				response.setStatus(400);
+
+				break;
+
 			default:
 				System.out.println("# GameServlet > GET > Nessuna azione specificata");
 				

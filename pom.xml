@@ -11,7 +11,7 @@
 
   <name>Shodan (Maven)</name>
   <!-- FIXME change it to the project's website -->
-  <url>https://github.com/is-shodan-20-21</url>
+  <url>https://github.com/is-shodan-21-22</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

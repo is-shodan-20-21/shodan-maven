@@ -8,10 +8,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import Collection.ParsedCard;
 import Model.Role;
+import Model.Card;
 import Model.Game;
 import Model.User;
 import Service.GameService;
+import Service.HasCardService;
 import Service.HasGameService;
 import Service.HasRoleService;
 import Service.UserService;
@@ -75,6 +79,13 @@ public class UserServlet extends HttpServlet {
 				break;
 		
 			case "cardList":
+				ArrayList<Card> cards = new HasCardService(db).getCards(user);
+				ArrayList<ParsedCard> parsed = new ArrayList<ParsedCard>();
+
+				for(Card card : cards)
+					parsed.add(new ParsedCard(card));
+					
+				request.setAttribute("cards", parsed);
 				request.getRequestDispatcher(endpoint).forward(request, response);
 				response.setStatus(200);
 				break;
@@ -112,11 +123,6 @@ public class UserServlet extends HttpServlet {
 				
 				response.getWriter().println("Pagamento concluso con successo!");
 				request.getSession().setAttribute("user_metadata", user);
-				
-				break;
-			
-			default:
-				System.out.println("#UserServlet > GET > Nessuna azione specificata");
 				
 				break;
 		}

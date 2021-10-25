@@ -16,10 +16,9 @@
 				&bull;&bull;&bull;&bull;
 			</td>
             <td>${parsed.card.card_owner}</td>
-            <td>${parsed.card.card_date}&euro;</td>
+            <td>${parsed.card.card_date}</td>
         </tr>
     </c:forEach>
 </table>
-
 
 <script src="Scripts/CardsTable.js"></script>

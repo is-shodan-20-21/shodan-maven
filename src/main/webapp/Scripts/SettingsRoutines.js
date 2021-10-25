@@ -13,7 +13,7 @@ $(document).ready(
 					endpoint: "View/Settings.jsp"
 				},
 				beforeSend: () => {
-					$("#settings-forms-loader").html("<div class=\"loader \">");
+					$("#settings-forms-loader").html("<div class=\"loader loader-lowered\">");
 					$("#transactions-table-loader").html("<div class=\"loader\">");
 					$("#cards-table-loader").html("<div class=\"loader\">")
 				},

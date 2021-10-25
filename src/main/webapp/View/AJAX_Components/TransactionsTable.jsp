@@ -10,7 +10,9 @@
     <c:forEach items="${transactions}" var="transaction">
         <tr>
             <td>Acquisto</td>
-            <td>${transaction.game.name}</td>
+            <td class="transaction-link">
+                <span data-game-id="${transaction.game.id}">${transaction.game.name}</span>
+            </td>
             <td>${transaction.transaction_date}</td>
             <td>${transaction.game.price}&euro;</td>
         </tr>

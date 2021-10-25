@@ -7,6 +7,14 @@
 		<td>Titolare</td>
 		<td>Scadenza</td>
 	</tr>
+	<c:forEach items="${cards}" var="card">
+        <tr>
+            <td>${card.card_type}</td>
+            <td>${card.card_number}</td>
+            <td>${card.card_owner}</td>
+            <td>${card.card_date}&euro;</td>
+        </tr>
+    </c:forEach>
 </table>
 
 

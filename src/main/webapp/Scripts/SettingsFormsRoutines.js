@@ -39,6 +39,7 @@ function tryEmailChange() {
 			success: (data) => {
 				$("#email-change-message").html(data);
 				$("#email-change-message").show();
+				$(".user-data>h2").html($("#settings-input-email").val());
 				setTimeout(() => $("#email-change-message").hide(), 2500);
 			}
 		}

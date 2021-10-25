@@ -37,9 +37,9 @@ function tryEmailChange() {
 				email: $("#settings-input-email").val()
 			},
 			success: (data) => {
-				$(".settings-status").html(data);
-				$(".settings-status").show();
-				setTimeout(() => $(".settings-status").hide(), 2500);
+				$("#email-change-message").html(data);
+				$("#email-change-message").show();
+				setTimeout(() => $("#email-change-message").hide(), 2500);
 			}
 		}
 	);
@@ -67,15 +67,15 @@ function tryPasswordChange() {
 					new_password_again: $("#settings-input-new-password-again").val()
 				},
 				success: (data) => {
-					$(".settings-status").html(data);
-					$(".settings-status").show();
-					setTimeout(() => $(".settings-status").hide(), 2500);
+					$("#password-change-message").html(data);
+					$("#password-change-message").show();
+					setTimeout(() => $("#password-change-message").hide(), 2500);
 				}
 			}
 		);
 	} else {
-		$(".settings-status").html("La password deve avere almeno cinque caratteri, di cui almeno una lettera e un numero.");
-		$(".settings-status").show();
-		setTimeout(() => $(".settings-status").hide(), 2500);
+		$("#password-change-message").html("La password deve avere almeno cinque caratteri, di cui almeno una lettera e un numero.");
+		$("#password-change-message").show();
+		setTimeout(() => $("#password-change-message").hide(), 2500);
 	}
 }

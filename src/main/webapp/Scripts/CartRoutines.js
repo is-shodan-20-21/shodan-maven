@@ -88,17 +88,17 @@ $(document).ready(
 									localStorage.setItem("cart", localStorage.getItem("cart") - 1);
 
 									refreshCart();
-
-									$(".cart-quantity-value").fadeOut("slow", 
-										() => {
-											$(".fa-clipboard").fadeIn("slow");
-										}
-									);
 									
 									if(localStorage.getItem("cart") == 0) {
 										localStorage.removeItem("cart");
+										$(".cart-quantity-value").fadeOut("slow", 
+											() => {
+												$(".fa-clipboard").fadeIn("slow");
+											}
+										);
 										$("#cart-container").replaceWith(setEmptyView());
 									} else {
+										
 										$(e.target.parentElement.parentElement).css("display", "none");									
 									}
 								

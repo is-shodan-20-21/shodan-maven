@@ -1,12 +1,20 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<table>
-    <th>
+<table id="transactions-table">
+    <tr class="table-header">
         <td>Operazione</td>
         <td>Titolo</td>
         <td>Data</td>
         <td>Costo</td>
-    </th>
+    </tr>
+    <c:forEach items="${transactions}" var="transaction">
+        <tr>
+            <td>Acquisto</td>
+            <td>${transaction.game.name}</td>
+            <td>${transaction.transaction_date}</td>
+            <td>${transaction.game.price}&euro;</td>
+        </tr>
+    </c:forEach>
 </table>
 
 <script src="Scripts/TransactionsTableRoutines.js"></script>

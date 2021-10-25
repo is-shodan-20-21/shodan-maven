@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Model.Game;
 import Model.HasCart;
+import Model.Transaction;
 import Model.User;
 import Service.HasCartService;
 import Service.HasGameService;
+import Service.TransactionService;
 import Service.UserService;
 
 @WebServlet("/CartServlet")
@@ -89,8 +91,14 @@ public class CartServlet extends HttpServlet {
 					HasCartService service = new HasCartService(db);
 					ArrayList<Game> games = service.selectCart(user);
 					
-					for(Game game : games)
+					System.out.println(new java.sql.Date(new java.util.Date().getTime()));
+
+					for(Game game : games) {
 						new HasGameService(db).addGame(user, game);
+						new TransactionService(db).insertTransaction(
+							new Transaction(user, game, new java.sql.Date(new java.util.Date().getTime()))
+						);
+					}
 					
 					System.out.println("# CartServlet > Pagamento > Saldo utente: " + user.getMoney() + " - Totale: " + Integer.valueOf(request.getParameter("total")));
 					

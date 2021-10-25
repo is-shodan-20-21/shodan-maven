@@ -680,6 +680,11 @@ body main #app .content #cart tr td {
 	flex-flow: column;
 }
 
+#transactions-table tr:nth-child(odd),
+#cards-table tr:nth-child(odd) {
+	background: #201f1f;
+}
+
 #settings-forms {
 	width: 100% !important;
 }
@@ -687,14 +692,14 @@ body main #app .content #cart tr td {
 #settings-form-info {
 	text-align: left !important;
 	font-family: 'Karla', sans-serif;
-	flex: 0 1 525px;
+	flex-grow: 1.5;
+	justify-content: center;
 }
 
 #settings-form-info .info-container {
 	width: 100%;
 	display: flex;
 	flex-flow: row;
-	margin-bottom: 5%;
 }
 
 #settings-form-info .info-container .user-data {
@@ -705,6 +710,8 @@ body main #app .content #cart tr td {
 
 #settings-form-info .info-container .user-cash {
 	justify-content: center;
+	flex-flow: column;
+	align-items: center;
 }
 
 #settings-form-info .info-container>div {
@@ -724,10 +731,42 @@ body main #app .content #cart tr td {
 	margin: 0;
 }
 
+.email-form {
+	margin-right: 0 !important;
+}
+
+.settings-start {
+	justify-content: flex-start !important;
+	flex-flow: column;
+	display: flex;
+}
+
+.settings-end {
+	justify-content: flex-end !important;
+	display: flex;
+	flex-flow: column;
+	flex-grow: 1;
+	width: 100%;
+}
+
+#password-change-message,
+#email-change-message {
+	font-size: 17.5px;
+    font-weight: 600;
+    font-family: 'Karla', sans-serif;
+    margin-top: 10
+px
+;
+    color: #ffa9f9;
+}
+
 #settings-form-info h3 {
 	font-size: 25px;
-	text-align: right;
+	text-align: center;
+	margin-bottom: 12.5px;
+	margin-top: 0;
 	font-weight: 400;
+	justify-content: center;
 }
 
 #settings-form-info h3 i {
@@ -744,8 +783,7 @@ body main #app .content #cart tr td {
 	font-family: 'Open Sans', sans-serif;
 	text-align: center;
 	font-weight: 650;
-	width: 100%;
-
+	width: 75%;
 }
 
 .shodan-form-container {
@@ -762,7 +800,6 @@ body main #app .content #cart tr td {
 	min-width: 300px;
 	background: #322d33;
 	flex-direction: column;
-	justify-content: center;
 	flex: 1 1 auto;
 }
 
@@ -812,6 +849,31 @@ input:-webkit-autofill:focus {
   -webkit-text-fill-color: #75756A;
   background-color: transparent;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Settings Tables */
+
+#transactions-table-container {
+	margin-right: 50px;
+}
+
+#transactions-table,
+#cards-table {
+	width: 100%;
+	font-family: 'Karla', sans-serif;
+	border-collapse: collapse;
+}
+
+#transactions-table td,
+#cards-table td {
+	padding: 10px;
+}
+
+#transactions-table .table-header,
+#cards-table .table-header {
+	background: #171717 !important;
+	font-weight: 600;
+	font-size: 20px;
 }
 
 /* Responsive Design */

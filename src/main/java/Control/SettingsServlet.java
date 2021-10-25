@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Model.User;
+import Service.TransactionService;
 import Service.UserService;
 import Utils.PasswordHasher;
 
@@ -46,6 +47,7 @@ public class SettingsServlet extends HttpServlet {
 
 			case "transactionsTable":
 				String endpointTT = request.getParameter("endpoint");
+				request.setAttribute("transactions", new TransactionService(db).getTransactionsByUser(user));
 				request.getRequestDispatcher(endpointTT).forward(request, response);
 				break;
 

@@ -148,9 +148,6 @@ public class GameServlet extends HttpServlet {
 					response.setStatus(200);
 					return;
 				}
-					
-
-				
 
 				response.setStatus(400);
 

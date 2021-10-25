@@ -2,6 +2,7 @@ package Control;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,7 @@ import Model.Role;
 import Model.Card;
 import Model.Game;
 import Model.User;
+import Service.CardService;
 import Service.GameService;
 import Service.HasCardService;
 import Service.HasGameService;
@@ -90,6 +92,12 @@ public class UserServlet extends HttpServlet {
 				response.setStatus(200);
 				break;
 
+			case "updateBalance":
+				User dup = user;
+				dup.setMoney(dup.getMoney() + 100);
+				new UserService(db).updateUser(user);
+				break;
+
 			case "purchase":
 				System.out.println("# UserSerlvet > GET > Pagamento in corso da " + user.getName());
 				
@@ -131,10 +139,52 @@ public class UserServlet extends HttpServlet {
 	protected void doPost(
 		HttpServletRequest request,
 		HttpServletResponse response
-	) throws ServletException, IOException {
+	) throws ServletException, IOException, NumberFormatException {
 		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
 		
+		if(request.getParameter("cookie") != null) {
+			if(request.getParameter("cookie").equals("false"))
+				user = new UserService(db).getUserBySession(request.getParameter("jsession"));
+			else
+				user = (User) request.getSession().getAttribute("user_metadata");
+		}
+
 		switch(request.getParameter("action")) {
+			case "newCard":
+				try {
+					Long card_number = Long.valueOf(request.getParameter("cardNumber"));
+					int digits = String.valueOf(card_number).length();
+
+					if(digits != 16) {
+						response.setStatus(400);
+						System.out.println("# UserServlet > Tentativo di aggiunta di una nuova carda fallito");
+						return;
+					}
+
+					System.out.println(card_number);
+
+					Card raw_card = new Card(
+						0,
+						request.getParameter("cardType"),
+						card_number,
+						request.getParameter("cardOwner"),
+						Date.valueOf(request.getParameter("cardDate"))
+					);
+
+					new CardService(db).insertCard(raw_card);
+
+					Card parsed_card = new CardService(db).getCardByNumber(card_number);
+
+					new HasCardService(db).addCard(user, parsed_card);
+
+					response.setStatus(200);
+					System.out.println("# UserServlet > Tentativo di aggiunta di una nuova carda riuscito");
+				} catch(IllegalArgumentException e) {
+					response.setStatus(400);
+					System.out.println("# UserServlet > Tentativo di aggiunta di una nuova carda fallito");
+				}
+				break;
+
 			case "logout":
 				System.out.println("# UserServlet > POST > Logout dell'utente");
 				
@@ -147,13 +197,6 @@ public class UserServlet extends HttpServlet {
 				request.getSession().removeAttribute("user_metadata");
 				
 				break;
-				
-			default:
-				System.out.println("# UserServlet > POST > Nessuna azione specificata");
-				
-				break;
-			
 		}
 	}
-	
 }

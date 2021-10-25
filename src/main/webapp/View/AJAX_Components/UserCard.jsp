@@ -18,4 +18,4 @@
     </div>
 </div>
 
-<script src="Scripts/UserCard.js"></script>
+<script src="Scripts/UserCardRoutines.js"></script>

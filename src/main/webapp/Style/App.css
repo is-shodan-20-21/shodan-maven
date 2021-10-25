@@ -711,7 +711,6 @@ body main #app .content #cart tr td {
 }
 
 #cards-container .credit-card {
-	width: 350px;
 	background: black;
 	box-shadow: 2px 3px 0px 2px grey;
 	font-family: 'Karla', sans-serif;
@@ -722,6 +721,7 @@ body main #app .content #cart tr td {
 	margin-right: 30px;
 	flex-flow: column;
 	border-radius: 10px;
+	flex: 1 1 350px;
 }
 
 #cards-container .credit-card h1,
@@ -785,6 +785,7 @@ input[type="search"]::-webkit-search-results-decoration {
 #cards-container .credit-card-wip form .card-type {
 	font-weight: 700;
 	font-size: 2em;
+	padding-bottom: 15px;
 }
 
 #cards-container .credit-card-wip form .card-number {

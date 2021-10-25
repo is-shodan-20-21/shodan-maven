@@ -41,4 +41,17 @@ public class HasCardService {
 
         return cards;
     }
+
+    public void addCard(User user, Card card) {
+        try {
+            String query = "INSERT INTO has_card(user_id, card_id) VALUES (?, ?)";
+
+            statement = db.prepareStatement(query);
+            statement.setInt(1, user.getId());
+            statement.setInt(2, card.getCard_id());
+            statement.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

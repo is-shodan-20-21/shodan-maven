@@ -74,6 +74,11 @@ public class UserServlet extends HttpServlet {
 					response.setStatus(400);
 				break;
 		
+			case "cardList":
+				request.getRequestDispatcher(endpoint).forward(request, response);
+				response.setStatus(200);
+				break;
+
 			case "purchase":
 				System.out.println("# UserSerlvet > GET > Pagamento in corso da " + user.getName());
 				

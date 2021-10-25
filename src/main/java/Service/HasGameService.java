@@ -42,8 +42,6 @@ public class HasGameService implements Serializable {
 			statement.setInt(1, user.getId());
 			statement.setInt(2, game.getId());
 
-			System.out.println("# GameService > Query > " + query);
-
 			if(statement.executeQuery().next())
 				return true;
 		} catch (SQLException e) {

@@ -2,6 +2,9 @@ $("#cart-container").html("");
 
 $(document).ready(
 	() => {
+		if(!navigator.cookieEnabled)
+			$(".nullable").css("display", "none");
+
 		$.ajax(
 			{
 				type: "GET",
@@ -64,6 +67,47 @@ $(document).ready(
 					}
 				);
 				
+				$(document).on("click", ".del-cart-item span",
+					(e) => {
+						$.ajax(
+							{
+								type: "POST",
+								url: "CartServlet",
+								data: {
+									action: "removeItem",
+									cookie: navigator.cookieEnabled,
+									jsession: window.location.href.substring(
+										window.location.href.lastIndexOf("=") + 1
+									),
+									game_id: $(e.target.parentElement.parentElement).attr("data-game-id") 
+								},
+								error: () => {
+									console.log("# Shodan > RemoveItem from {USER_HAS_CART} failed.")
+								},
+								success: () => {
+									localStorage.setItem("cart", localStorage.getItem("cart") - 1);
+
+									refreshCart();
+
+									$(".cart-quantity-value").fadeOut("slow", 
+										() => {
+											$(".fa-clipboard").fadeIn("slow");
+										}
+									);
+									
+									if(localStorage.getItem("cart") == 0) {
+										localStorage.removeItem("cart");
+										$("#cart-container").replaceWith(setEmptyView());
+									} else {
+										$(e.target.parentElement.parentElement).css("display", "none");									
+									}
+								
+								}
+							}
+						);
+					}
+				);
+
 				$(document).on("click", "#cart-delete",
 					() => {
 						$(".cart-item").hide();

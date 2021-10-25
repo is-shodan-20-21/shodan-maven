@@ -19,6 +19,7 @@ import Model.Game;
 import Model.OwnedGamesParser;
 import Model.User;
 import Service.GameService;
+import Service.HasCartService;
 import Service.HasGameService;
 import Service.UserService;
 
@@ -53,11 +54,10 @@ public class GameServlet extends HttpServlet {
 						parser.add(new OwnedGamesParser(game, false));
 				else {
 					for(Game game : raw_games) {
-						HasGameService bridge = new HasGameService(db);
-						if(bridge.hasGame(user, game))
-							parser.add(new OwnedGamesParser(game, true));
-						else
-							parser.add(new OwnedGamesParser(game, false));
+						boolean bridge = new HasGameService(db).hasGame(user, game);
+						boolean river = new HasCartService(db).hasInCart(user, game);
+
+						parser.add(new OwnedGamesParser(game, bridge || river));
 					}
 				}
 

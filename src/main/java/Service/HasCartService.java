@@ -121,4 +121,23 @@ public class HasCartService implements Serializable {
 		
 		return cart;
 	}
+
+	public boolean hasInCart(User user, Game game) {
+		String query = "SELECT * FROM has_cart WHERE user_id = ? AND game_id = ?";
+
+		try {
+			statement = db.prepareStatement(query);
+			statement.setInt(1, user.getId());
+			statement.setInt(2, game.getId());
+			
+			ResultSet result = statement.executeQuery();
+			
+			if(result.next())
+				return true;
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
 }

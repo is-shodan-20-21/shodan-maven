@@ -72,6 +72,17 @@ public class CartServlet extends HttpServlet {
 			case "delete":
 				new HasCartService(db).dropCart(user);
 				break;
+
+			case "removeItem":
+				new HasCartService(db).removeItem(
+					new HasCart(
+						user.getId(), 
+						Integer.valueOf(
+							request.getParameter("game_id")
+						)
+					)
+				);
+				break;
 				
 			case "pay":
 				if(user.getMoney() >= Integer.valueOf(request.getParameter("total"))) {

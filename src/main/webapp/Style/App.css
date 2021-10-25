@@ -678,6 +678,11 @@ body main #app .content #cart tr td {
 	font-weight: 200;
 }
 
+.del-cart-item span {
+	font-size: 20px !important;
+	cursor: pointer;
+}
+
 /* Responsive Design */
 
 @media screen and (max-width: 1350px) {

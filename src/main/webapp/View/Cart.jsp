@@ -17,9 +17,12 @@
 				<td>Copertina</td>
 				<td>Titolo</td>
 				<td>Prezzo</td>
+				<td class="nullable">&nbsp;</td>
 			</tr>
 			<c:forEach items="${games}" var="game">
-				<tr class="cart-item">
+				<tr class="cart-item"
+					data-game-id=${game.id}
+				>
 					<td class="cart-picture-col"> 
 						<img src="Static/GamePictures/${game.image}" />
 					</td>
@@ -30,12 +33,18 @@
 					</td>
 					
 					<td class="cart-price-col"> ${game.price} &euro; </td>
+					<td class="nullable del-cart-item cart-price-col">
+						<span class="button button--danger button--unshadow">
+							Rimuovi
+						</span>
+					</td>
 				</tr>
 			</c:forEach>
 			<tr class="last-row">
 				<td class="last-row-info"> &nbsp; </td>
 				<td class="last-row-tag"> <strong>Totale</strong> </td>
 				<td class="last-row-total"> ${total} &euro; </td>
+				<td class="nullable">&nbsp;</td>
 			</tr>
 		</table>
 		

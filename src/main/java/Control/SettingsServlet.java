@@ -17,6 +17,49 @@ public class SettingsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -3000288672809209195L;
 
+	protected void doGet(
+		HttpServletRequest request,
+		HttpServletResponse response
+	) throws ServletException, IOException {
+		System.out.println("# SettingsServlet > Session: " + request.getSession().getId());
+		
+		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
+		
+		User user;
+		
+		if(request.getParameter("cookie").equals("false")) {
+			user = new UserService(db).getUserBySession(request.getParameter("jsession"));
+		} else
+			user = (User) request.getSession().getAttribute("user_metadata");
+		
+		switch(request.getParameter("action")) {
+			case "userCard":
+				String endpointUC = request.getParameter("endpoint");
+				request.setAttribute("user", user);
+				request.getRequestDispatcher(endpointUC).forward(request, response);
+				break;
+
+			case "settingsForms":
+				String endpointSF = request.getParameter("endpoint");
+				request.getRequestDispatcher(endpointSF).forward(request, response);
+				break;
+
+			case "transactionsTable":
+				String endpointTT = request.getParameter("endpoint");
+				request.getRequestDispatcher(endpointTT).forward(request, response);
+				break;
+
+			case "cardsTable":
+				String endpointCT = request.getParameter("endpoint");
+				request.getRequestDispatcher(endpointCT).forward(request, response);
+				break;
+
+			default:
+				System.out.println("# SettingsServlet > Bad GET Request");
+				break;
+		}
+	}
+
 	protected void doPost(
 		HttpServletRequest request,
 		HttpServletResponse response
@@ -33,6 +76,21 @@ public class SettingsServlet extends HttpServlet {
 			user = (User) request.getSession().getAttribute("user_metadata");
 		
 		switch(request.getParameter("action")) {
+			case "settingsForms":
+				String endpointSF = request.getParameter("endpoint");
+				request.getRequestDispatcher(endpointSF).forward(request, response);
+				break;
+
+			case "transactionsTable":
+				String endpointTT = request.getParameter("endpoint");
+				request.getRequestDispatcher(endpointTT).forward(request, response);
+				break;
+
+			case "cardsTable":
+				String endpointCT = request.getParameter("endpoint");
+				request.getRequestDispatcher(endpointCT).forward(request, response);
+				break;
+
 			case "updateEmail":
 				String email = request.getParameter("email");
 				

@@ -73,15 +73,6 @@ public class UserServlet extends HttpServlet {
 				} else
 					response.setStatus(400);
 				break;
-
-			case "info":
-				System.out.println("# UserSerlvet > GET > Accesso ai dati personali di " + user.getName());
-					
-				request.setAttribute("user", user);
-				request.getRequestDispatcher(endpoint).forward(request, response);
-				response.setStatus(200);
-				
-				break;
 		
 			case "purchase":
 				System.out.println("# UserSerlvet > GET > Pagamento in corso da " + user.getName());

@@ -1,5 +1,3 @@
-$("#settings-page").html("");
-
 $(document).ready(
 	() => {
 		$.ajax(
@@ -15,71 +13,99 @@ $(document).ready(
 					endpoint: "View/Settings.jsp"
 				},
 				beforeSend: () => {
-					$("#settings-page").html("<div class=\"loader loader-lowered\">");
+					$("#settings-forms-loader").html("<div class=\"loader \">");
+					$("#transactions-table-loader").html("<div class=\"loader\">");
+					$("#cards-table-loader").html("<div class=\"loader\">")
 				},
 				success: (data) => {
 					setTimeout(() => {
-						$(".content").replaceWith(data.substring(0, data.lastIndexOf("\n")))
-					}, 400)
+						loadSettingsForms();
+						loadTransactionsTable();
+						loadCardsTable();
+					}, 300);
 				}
 			}
 		);
 	}
 );
 
-function tryEmailChange() {
+function loadSettingsForms() {
 	$.ajax(
 		{
-			method: "POST",
+			method: "GET",
 			url: "SettingsServlet",
 			data: {
-				action: "updateEmail",
+				action: "settingsForms",
 				cookie: navigator.cookieEnabled,
 				jsession: window.location.href.substring(
 					window.location.href.lastIndexOf("=") + 1
 				),
-				email: $("#settings-input-email").val()
+				endpoint: "View/AJAX_Components/SettingsForms.jsp"
 			},
 			success: (data) => {
-				$(".settings-status").html(data);
-				$(".settings-status").show();
-				setTimeout(() => $(".settings-status").hide(), 2500);
+				setTimeout(() => {
+					$("#settings-forms-loader").html(data)
+				}, 400)
+			},
+			error: () => {
+				setTimeout(() => {
+					$("#settings-forms-loader").html(setEmptyView())
+				}, 400)
 			}
 		}
 	);
 }
 
-function tryPasswordChange() {
-	const password_regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/;
-	
-	if(
-		$("#settings-input-new-password").val().match(password_regex) &&
-		$("#settings-input-new-password-again").val().match(password_regex)
-	) {
-		$.ajax(
-			{
-				method: "POST",
-				url: "SettingsServlet",
-				data: {
-					action: "updatePassword",
-					cookie: navigator.cookieEnabled,
-					jsession: window.location.href.substring(
-						window.location.href.lastIndexOf("=") + 1
-					),
-					old_password: $("#settings-input-old-password").val(),
-					new_password: $("#settings-input-new-password").val(),
-					new_password_again: $("#settings-input-new-password-again").val()
-				},
-				success: (data) => {
-					$(".settings-status").html(data);
-					$(".settings-status").show();
-					setTimeout(() => $(".settings-status").hide(), 2500);
-				}
+function loadTransactionsTable() {
+	$.ajax(
+		{
+			method: "GET",
+			url: "SettingsServlet",
+			data: {
+				action: "transactionsTable",
+				cookie: navigator.cookieEnabled,
+				jsession: window.location.href.substring(
+					window.location.href.lastIndexOf("=") + 1
+				),
+				endpoint: "View/AJAX_Components/TransactionsTable.jsp"
+			},
+			success: (data) => {
+				setTimeout(() => {
+					$("#transactions-table-loader").html(data)
+				}, 400)
+			},
+			error: () => {
+				setTimeout(() => {
+					$("#transactions-table-loader").html(setEmptyView())
+				}, 400)
 			}
-		);
-	} else {
-		$(".settings-status").html("La password deve avere almeno cinque caratteri, di cui almeno una lettera e un numero.");
-		$(".settings-status").show();
-		setTimeout(() => $(".settings-status").hide(), 2500);
-	}
+		}
+	);
+}
+
+function loadCardsTable() {
+	$.ajax(
+		{
+			method: "GET",
+			url: "SettingsServlet",
+			data: {
+				action: "cardsTable",
+				cookie: navigator.cookieEnabled,
+				jsession: window.location.href.substring(
+					window.location.href.lastIndexOf("=") + 1
+				),
+				endpoint: "View/AJAX_Components/CardsTable.jsp"
+			},
+			success: (data) => {
+				setTimeout(() => {
+					$("#cards-table-loader").html(data)
+				}, 400)
+			},
+			error: () => {
+				setTimeout(() => {
+					$("#cards-table-loader").html(setEmptyView())
+				}, 400)
+			}
+		}
+	);
 }

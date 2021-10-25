@@ -575,23 +575,6 @@ body main #app .content #settings-page .settings-routines .settings-status {
 	padding: 10px;
 }
 
-body main #app .content #settings-page .set-info {
-	min-width: 40%;
-	padding-right: 50px;
-}
-
-body main #app .content #settings-page .set-info .settings-money {
-    min-height: 20px;
-    display: block;
-	font-size: 15px;
-	cursor: default;
-    padding: 10px;
-}
-
-body main #app .content #settings-page .set-info .psw-form h2 {
-	margin-top: 27px;
-}
-
 body main #app .content #settings-page .set-avatar .avatar {
 	width: 200px;
 	height: 200px;
@@ -681,6 +664,154 @@ body main #app .content #cart tr td {
 .del-cart-item span {
 	font-size: 20px !important;
 	cursor: pointer;
+}
+
+/* Forms */
+
+.settings-tables {
+	display: flex;
+	width: 100%;
+	flex-flow: row;
+}
+
+.settings-tables>div {
+	display: flex;
+	flex-grow: 1;
+	flex-flow: column;
+}
+
+#settings-forms {
+	width: 100% !important;
+}
+
+#settings-form-info {
+	text-align: left !important;
+	font-family: 'Karla', sans-serif;
+	flex: 0 1 525px;
+}
+
+#settings-form-info .info-container {
+	width: 100%;
+	display: flex;
+	flex-flow: row;
+	margin-bottom: 5%;
+}
+
+#settings-form-info .info-container .user-data {
+	flex-flow: column;	
+	justify-content: center;
+	align-items: center;
+}
+
+#settings-form-info .info-container .user-cash {
+	justify-content: center;
+}
+
+#settings-form-info .info-container>div {
+	display: flex;
+	flex: 1 1 auto;
+}
+
+#settings-form-info h1 {
+	font-size: 35px;
+	padding-bottom: 0;
+	text-align: left;
+	margin-left: 0 !important;
+}
+
+#settings-form-info h2 {
+	font-size: 17.5px;
+	margin: 0;
+}
+
+#settings-form-info h3 {
+	font-size: 25px;
+	text-align: right;
+	font-weight: 400;
+}
+
+#settings-form-info h3 i {
+	font-size: 20px;
+	margin-right: 2.5px;
+}
+
+#settings-form-info h3 span {
+	color: #FF71F7;
+	font-weight: 650;
+}
+
+#settings-form-info .button {
+	font-family: 'Open Sans', sans-serif;
+	text-align: center;
+	font-weight: 650;
+	width: 100%;
+
+}
+
+.shodan-form-container {
+	padding: 20px;
+	display: flex;
+}
+
+.shodan-form-container form {
+	border-radius: 5px;
+	padding: 25px;
+	margin-right: 25px;
+	align-items: center;
+	display: flex;
+	min-width: 300px;
+	background: #322d33;
+	flex-direction: column;
+	justify-content: center;
+	flex: 1 1 auto;
+}
+
+.shodan-form-container form h1 {
+	padding: 0;
+	text-align: center;
+	padding-bottom: 20px;
+	font-weight: 600;
+	font-size: 22.5px;
+	display: block;
+	margin: 0;
+}
+
+.shodan-form-container form input {
+	border: 0;
+	padding: 6px;
+	margin-bottom: 5px;
+	outline: 0;
+	color: white;
+	background: transparent;
+}
+
+.shodan-form-container form input[type="submit"] {
+	margin-top: 10px;
+	padding: 7.5px 32.5px 7.5px 32.5px;
+	color: white;
+	font-weight: 600;
+	display: inline-block;
+	transition: 0.3s;
+	box-shadow: none;
+	width: 100%;
+	outline: 0;
+	border: 0;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 2px;
+	background: #b72cae;
+}
+
+.shodan-form-container form input[type="submit"]:hover {
+	background: #ff71f7;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #75756A;
+  background-color: transparent;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 /* Responsive Design */

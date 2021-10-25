@@ -37,7 +37,7 @@ public class CardService implements Serializable {
                 card = new Card(
                     card_id,
                     result.getString("card_type"),
-                    result.getDouble("card_number"),
+                    result.getLong("card_number"),
                     result.getString("card_owner"),
                     result.getDate("card_date")
                 );

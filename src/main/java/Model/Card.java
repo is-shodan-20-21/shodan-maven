@@ -1,6 +1,7 @@
 package Model;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.sql.Date;
 
 public class Card implements Serializable {
@@ -9,11 +10,11 @@ public class Card implements Serializable {
     
     private int card_id;
     private String card_type;
-    private double card_number;
+    private long card_number;
     private String card_owner;
     private Date card_date;
 
-    public Card(int card_id, String card_type, double card_number, String card_owner, Date card_date) {
+    public Card(int card_id, String card_type, long card_number, String card_owner, Date card_date) {
         this.card_id = card_id;
         this.card_type = card_type;
         this.card_number = card_number;
@@ -37,11 +38,11 @@ public class Card implements Serializable {
         this.card_type = card_type;
     }
 
-    public double getCard_number() {
+    public long getCard_number() {
         return this.card_number;
     }
 
-    public void setCard_number(double card_number) {
+    public void setCard_number(long card_number) {
         this.card_number = card_number;
     }
 

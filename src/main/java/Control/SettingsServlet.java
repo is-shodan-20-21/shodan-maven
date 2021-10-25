@@ -2,12 +2,16 @@ package Control;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import Collection.ParsedCard;
+import Model.Card;
 import Model.User;
 import Service.HasCardService;
 import Service.TransactionService;
@@ -54,7 +58,14 @@ public class SettingsServlet extends HttpServlet {
 
 			case "cardsTable":
 				String endpointCT = request.getParameter("endpoint");
-				request.setAttribute("cards", new HasCardService(db).getCards(user));
+
+				ArrayList<Card> cards = new HasCardService(db).getCards(user);
+				ArrayList<ParsedCard> parsed = new ArrayList<ParsedCard>();
+
+				for(Card card : cards)
+					parsed.add(new ParsedCard(card));
+
+				request.setAttribute("collection", parsed);
 				request.getRequestDispatcher(endpointCT).forward(request, response);
 				break;
 

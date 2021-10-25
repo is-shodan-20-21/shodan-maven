@@ -7,12 +7,16 @@
 		<td>Titolare</td>
 		<td>Scadenza</td>
 	</tr>
-	<c:forEach items="${cards}" var="card">
+	<c:forEach items="${collection}" var="parsed">
         <tr>
-            <td>${card.card_type}</td>
-            <td>${card.card_number}</td>
-            <td>${card.card_owner}</td>
-            <td>${card.card_date}&euro;</td>
+            <td>${parsed.card.card_type}</td>
+            <td>${parsed.safe_digits}
+				&bull;&bull;&bull;&bull;
+				&bull;&bull;&bull;&bull;
+				&bull;&bull;&bull;&bull;
+			</td>
+            <td>${parsed.card.card_owner}</td>
+            <td>${parsed.card.card_date}&euro;</td>
         </tr>
     </c:forEach>
 </table>

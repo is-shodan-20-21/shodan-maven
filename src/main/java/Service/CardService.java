@@ -49,15 +49,42 @@ public class CardService implements Serializable {
         return card;
     }
 
-    public void insertCard(Card card) {
+    public Card getCardByNumber(Long card_number) {
+        Card card = null;
         try {
-            String query = "INSERT INTO cards(card_type, card_number, card_owner, card_date) VALUES ("
-                + card.getCard_type() + ", "
-                + card.getCard_number() + ", "
-                + card.getCard_owner() + ", "
-                + card.getCard_date() + ")";
+            String query = "SELECT * FROM cards WHERE card_number = ?";
 
             statement = db.prepareStatement(query);
+            statement.setLong(1, card_number);
+
+            ResultSet result = statement.executeQuery();
+
+            if(result.next()) {
+                card = new Card(
+                    result.getInt("card_id"),
+                    result.getString("card_type"),
+                    result.getLong("card_number"),
+                    result.getString("card_owner"),
+                    result.getDate("card_date")
+                );
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
+        return card;
+    }
+
+    public void insertCard(Card card) {
+        try {
+            String query = "INSERT INTO cards(card_type, card_number, card_owner, card_date) VALUES (?, ?, ?, ?)";
+
+
+            statement = db.prepareStatement(query);
+            statement.setString(1, card.getCard_type());
+            statement.setLong(2, card.getCard_number());
+            statement.setString(3, card.getCard_owner());
+            statement.setDate(4, card.getCard_date());
             statement.executeUpdate();
         } catch(SQLException e) {
             e.printStackTrace();

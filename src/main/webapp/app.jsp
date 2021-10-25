@@ -33,9 +33,9 @@
 		<main>
 			<div id="cta">
 				<a href="index.jsp">
-						<strong>Effettua l'accesso</strong> oppure <strong>crea un account</strong>
+					<strong>Effettua l'accesso</strong> oppure <strong>crea un account</strong>
 				</a>
-				 per sfruttare tutte le funzionalità di Shodan!</div>
+				per sfruttare tutte le funzionalità di Shodan!</div>
 			<div id="app"></div>	
 		</main>
 	</body>

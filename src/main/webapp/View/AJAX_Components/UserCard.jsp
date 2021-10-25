@@ -14,6 +14,8 @@
                 ${user.money}&euro;
             </span>
         </h3>
-        <div class="button button--submit button--unshadow">Ricarica il saldo</div>
+        <div id="add-card" class="button button--submit button--unshadow">Ricarica il saldo</div>
     </div>
 </div>
+
+<script src="Scripts/UserCardRoutines.js"></script>

@@ -1,7 +1,6 @@
 package Model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.sql.Date;
 
 public class Card implements Serializable {

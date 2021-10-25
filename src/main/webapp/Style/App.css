@@ -680,6 +680,152 @@ body main #app .content #cart tr td {
 	flex-flow: column;
 }
 
+#cards-container {
+	display: flex;
+	flex-flow: row;
+}
+
+.VISA {
+	background: linear-gradient(90deg, rgba(127,57,143,1) 0%, rgba(80,30,244,1) 35%, rgba(115,32,102,1) 100%) !important;
+	box-shadow: 2px 3px 0px 2px rgb(139 45 161) !important;
+}
+
+.VISA:hover {
+	background: linear-gradient(90deg, rgb(157, 83, 173) 0%, rgb(100, 58, 238) 35%, rgb(165, 67, 150) 100%) !important;
+}
+
+.MASTERCARD {
+    background: linear-gradient(90deg, rgb(33 17 139) 0%, rgb(73 45 165) 50%, rgb(20 8 84) 100%) !important;
+    box-shadow: 2px 3px 0px 2px rgb(25 22 100) !important;
+}
+
+.MASTERCARD:hover {
+    background: linear-gradient(90deg, rgb(82 62 215) 0%, rgb(133 102 233) 50%, rgb(81 63 175) 100%) !important;
+}
+
+.card-tip {
+	color: lightgrey;
+	font-family: 'Karla', sans-serif;
+	font-size: 20px;
+	margin-bottom: 20px;
+}
+
+#cards-container .credit-card {
+	background: black;
+	box-shadow: 2px 3px 0px 2px grey;
+	font-family: 'Karla', sans-serif;
+	display: flex;
+	background: linear-gradient(90deg, rgba(89,89,89,1) 0%, rgba(65,54,102,1) 50%, rgba(79,74,78,1) 100%);
+	height: 175px;
+	cursor: pointer;
+	margin-right: 30px;
+	flex-flow: column;
+	border-radius: 10px;
+	flex: 1 1 350px;
+}
+
+#cards-container .credit-card h1,
+#cards-container .credit-card h2,
+#cards-container .credit-card h3 {
+	margin: 0 !important;
+	padding: 0;
+}
+
+#cards-container .credit-card div {
+	padding: 25px;
+}
+
+#cards-container .credit-card h1 {
+	padding-bottom: 20px;
+}
+
+#cards-container .credit-card h2 {
+	font-size: 20px;
+}
+
+#cards-container .credit-card h3 {
+	font-size: 17.5px;
+	padding-bottom: 10px;
+}
+
+#cards-container .credit-card h4 {
+	font-size: 15px;
+	padding: 0;
+	font-weight: 400;
+	margin: 0;
+}
+#cards-container .credit-card-wip form  {
+	justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-flow: column;
+    padding: 25px;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+	display: none;
+}
+
+#cards-container .credit-card-wip form input:focus {
+	outline: none;
+}
+
+#cards-container .credit-card-wip form input {
+	background: transparent;
+	border: 0;
+	color: white;
+	font-family: 'Karla', sans-serif;
+	width: 100%;
+	outline: none;
+}
+
+#cards-container .credit-card-wip form .card-type {
+	font-weight: 700;
+	font-size: 2em;
+	padding-bottom: 15px;
+}
+
+#cards-container .credit-card-wip form .card-number {
+	font-weight: 600;
+	font-size: 17.5px;
+}
+
+#cards-container .credit-card-wip form .card-owner {
+	font-weight: 600;
+	font-size: 17.5px;
+}
+
+#cards-container .credit-card-wip form .card-cvv {
+	font-weight: 500;
+	font-size: 15px;
+}
+
+#cards-container .credit-card-wip form .card-due {
+	font-weight: 400;
+	font-size: 15px;
+}
+
+#cards-container .credit-card-wip form {
+	cursor: default;
+}
+
+#cards-container .credit-card-add {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 75px;
+	background: transparent;
+	box-shadow: 0px 0px 0px 2.5px rgb(139 45 161);
+	color: #8C40B8;
+}
+
+#cards-container .credit-card-add:hover {
+	background: #c396dd; 
+}
+
 #transactions-table tr:nth-child(odd),
 #cards-table tr:nth-child(odd) {
 	background: #201f1f;
@@ -888,6 +1034,16 @@ input:-webkit-autofill:focus {
 }
 
 /* Responsive Design */
+
+@media screen and (max-width: 1500px) {
+	#cards-container {
+		flex-flow: column;
+	}
+
+	#cards-container .credit-card {
+		margin-bottom: 25px;
+	}
+}
 
 @media screen and (max-width: 1350px) {
 	body {

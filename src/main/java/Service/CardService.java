@@ -3,15 +3,10 @@ package Service;
 
 import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import Model.Card;
-import Model.Game;
-
 public class CardService implements Serializable {
 
 	private static final long serialVersionUID = -7187173329847684984L;

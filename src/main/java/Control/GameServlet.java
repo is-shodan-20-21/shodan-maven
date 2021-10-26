@@ -221,7 +221,8 @@ public class GameServlet extends HttpServlet {
 						fileName, 
 						Integer.valueOf(request.getParameter("game-price")),
 						rawDate,
-						request.getParameter("game-description")
+						request.getParameter("game-description"),
+						request.getParameter("game-landscape")
 					);
 				} catch(IllegalArgumentException e) {
 					e.printStackTrace();

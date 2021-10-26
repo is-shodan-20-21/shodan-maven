@@ -16,7 +16,7 @@ public class Role implements Serializable {
 
         switch(this.role_name) {
             case "USER":
-                this.parsed_role_name = "Utente";
+                this.parsed_role_name = "Cliente";
                 break;
             
             case "WRITER":

@@ -463,65 +463,159 @@ body main #app .content .blog .article-container .article span i {
 
 /* Game Page */
 
-body main #app .content #game-page h1 i {
-	margin-right: 10px !important;
-}
-
-body main #app .content #game-page .game-flex {
+.game-landscape {
+	background-image: url('https://cdn.wallpapersafari.com/39/12/ydHVgi.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position-y: center;
+	color: black;
 	display: flex;
+	flex-flow: row;
 }
 
-body main #app .content #game-page .game-info-container {
-	width: 50%;
-}
-
-body main #app .content #game-page .game-info-container p {
-	padding: 10px;
-	margin: 0;
-}
-
-body main #app .content #game-page .game-info-container .game-price {
-	color: #81f966;
-	font-size: 40px;
-	font-weight: 700;
-}
-
-body main #app .content #game-page .game-info-container .game-release-date {
+#game-page {
+	display: flex;
 	font-family: 'Karla', sans-serif;
-	font-size: 22.5px;
+	flex-flow: column;
+}
+
+.no-padding {
+	padding: 0 !important;
+}
+
+.game-flex {
+	padding: 25px;
+}
+
+.game-left {
+	background: linear-gradient(to left, transparent 0%, black 65%);
+	color: white;
+}
+
+.game-left h1 {
+	margin-top: 15px;
+	margin-bottom: 0;
+	color: #db79d5;
+}
+
+.game-left h2 {
+	margin: 0;
+	font-size: 17.5px;
+	color: rgb(224, 223, 223);
+}
+
+.game-right {
+	justify-content: flex-end;
+	align-items: center;
+	flex-flow: column;
+	display: flex;
+	padding-bottom: 0 !important;
+}
+
+.game-right {
+	margin-bottom: -15px;
+}
+
+#add-to-cart, #play-game {
+	padding: 0 !important;
+	width: 75%;
+	max-width: 400px;
+}
+
+.game-right .button--cart {
+	box-shadow: 2px 3px 1px 2px #f337ff;
+	transition: 0s !important;
+	cursor: pointer;
+	padding: 5px;
+}
+
+.game-right .button--play {
+	box-shadow: 2px 3px 1px 2px #0c5805;
+	transition: 0s !important;
+	cursor: pointer;
+	padding: 5px;
+}
+
+.game-description {
+    font-size: 22.5px;
+    line-height: 27.5px;
+    padding: 10px;
+    padding-top: 0;
+}
+
+.game-right .button:hover .add-to-cart-text {
+	background: rgb(199, 80, 199);
+}
+
+.game-right .button:hover .play-game-text {
+	background: darkgreen;
+}
+
+.game-right .button:hover .add-to-cart-icon {
+	background: rgb(255, 126, 255);
+}
+
+.game-right .button:hover .play-game-icon {
+	background: rgb(13, 156, 13);
+}
+
+.add-to-cart-icon {
+	background: rgb(255, 144, 255);
+	flex-grow: 0.5;
+	font-size: 18px !important;
+	padding: 12.5px;
+}
+
+.play-game-icon {
+	background: green;
+	flex-grow: 0.5;
+	font-size: 18px !important;
+	padding: 12.5px;
+}
+
+.add-to-cart-text,
+.play-game-text {
+	display: flex;
+	flex-grow: 4;
+	font-size: 18px !important;
+	padding: 12.5px;
+}
+
+#add-to-cart>div, #play-game>div {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+	text-align: center;
+}
+
+.game-left,
+.game-right {
+	flex: 1;
+	padding: 25px 100px 25px 100px;
 }
 
 #cta a {
-    border: 1px solid;
     padding: 5px;
     border-radius: 3px;
     margin-right: 7.5px;
-	transition: 0.3s;
+    background: #c220cd;
+	color: white;
+    box-shadow: 2px 2px 0px 1px #821589;
+}
+
+#cta a:hover {
+    background: #c947d3;
 }
 
 #cta a strong {
     font-weight: 700;
 }
 
-body main #app .content #game-page .game-info-container .game-description {
-	font-size: 17.5px;
-	text-align: justify;
-}
-
-body main #app .content #game-page .game-info-container .button {
-	margin: 10px 0px 0 10px;
-}
-
-body main #app .content #game-page .game-image-container {
-	width: 50%;
-}
-
 body main #app .content #game-page .game-image-container .game-image {
-	height: 500px;
-	width: 350px;
+	height: 325px;
+	width: 225px;
 	background-size: cover;
 	box-shadow: 0px 0px 2px black;
-	margin: auto;
 }
 
 /* Blog Page */

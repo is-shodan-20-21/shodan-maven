@@ -91,10 +91,12 @@ $(document).off().on("click", "#add-to-cart", () => {
 				total: $(".last-row-total").text().split(" ")[1]
 			},
 			success: () => {
+				$(".button--cart").css("cssText", "font-size: 17.5px; cursor: defualt; display: inline-block; padding: 15px !important");
 				$("#add-to-cart").html("Gioco aggiunto al carrello!");
 				updateCart();
 			},
 			error: () => {
+				$(".button--cart").css("cssText", "font-size: 17.5px; cursor: defualt; display: inline-block; padding: 15px !important");
 				$("#add-to-cart").html("Non è stato possibile aggiungere il gioco al carrello!");	
 			}	
 		}

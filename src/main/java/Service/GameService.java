@@ -40,7 +40,8 @@ public class GameService implements Serializable {
 					result.getString("game_name"),
 					result.getString("game_description"),
 					result.getString("game_image"),
-					result.getDate("game_release")
+					result.getDate("game_release"),
+					result.getString("game_landscape")
 				);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -73,7 +74,8 @@ public class GameService implements Serializable {
 						result.getString("game_name"),
 						result.getString("game_description"),
 						result.getString("game_image"),
-						result.getDate("game_release")
+						result.getDate("game_release"),
+						result.getString("game_landscape")
 					)
 				);
 			}
@@ -106,7 +108,8 @@ public class GameService implements Serializable {
 						result.getString("game_name"),
 						result.getString("game_description"),
 						result.getString("game_image"),
-						result.getDate("game_release")
+						result.getDate("game_release"),
+						result.getString("game_landscape")
 					)
 				);
 			}
@@ -139,7 +142,8 @@ public class GameService implements Serializable {
 						result.getString("game_name"),
 						result.getString("game_description"),
 						result.getString("game_image"),
-						result.getDate("game_release")
+						result.getDate("game_release"),
+						result.getString("game_landscape")
 					)
 				);
 			}
@@ -150,9 +154,9 @@ public class GameService implements Serializable {
 		return games;
 	}
 	
-	public boolean addGame(String game_name, String game_image, int game_price, Date game_date, String game_description) {
+	public boolean addGame(String game_name, String game_image, int game_price, Date game_date, String game_description, String game_landscape) {
 		try {
-			String query = "INSERT INTO games(game_name, game_image, game_price, game_release, game_description) VALUES(?, ?, ?, ?, ?)";
+			String query = "INSERT INTO games(game_name, game_image, game_price, game_release, game_description, game_landscape) VALUES(?, ?, ?, ?, ?, ?)";
 		
 			System.out.println("# GameService > Query > " + query);
 			
@@ -162,6 +166,7 @@ public class GameService implements Serializable {
 			statement.setInt(3, game_price);
 			statement.setDate(4, game_date);
 			statement.setString(5, game_description);
+			statement.setString(6, game_landscape);
 			
 			statement.executeUpdate();
 			

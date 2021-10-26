@@ -13,14 +13,16 @@ public class Game implements Serializable {
 	private String description;
 	private String image;
 	private Date release;
+	private String landscape;
 	
-	public Game(int id, int price, String name, String description, String image, Date release) {
+	public Game(int id, int price, String name, String description, String image, Date release, String landscape) {
 		this.id = id;
 		this.price = price;
 		this.name = name;
 		this.description = description;
 		this.image = image;
 		this.release = release;
+		this.landscape = landscape;
 	}
 	
 	public int getId() {
@@ -45,6 +47,10 @@ public class Game implements Serializable {
 	
 	public Date getRelease() {
 		return release;
+	}
+
+	public String getLandscape() {
+		return landscape;
 	}
 	
 }

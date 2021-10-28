@@ -1,159 +1,124 @@
-/* Font APIs */
+/* Storeman Layout */
 
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
-
-/* Layout */
-
-body{
-	background-color: black;
-	color:white;
-	text-shadow: 2px 2px #423189;
-	font-size: Large;
-	font-family: sans-serif;
-	text-align: center
+#header {
+  padding: 25px 0 10px 100px;
 }
 
-.shodan-admin-header {
-	background-image: url('../Static/Assets/LogoAdmin.png');
-	width: 100%;
-    height: 200px;
-    background-repeat: no-repeat;
-    opacity: 0.75;
-    transition: 0.1s;
-    background-position: center;
+.storeman-div {
+  width: 600px;
+  height: 750px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
-#article-html {
-	resize: none;
+.add-game {
+  border-radius: 5px;
+  width: 400px;
+  height: 480px;
+  background: #322d33;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
 }
 
-.shodan-admin-form {
-	display: flex;
-	justify-content: center;
+.remove-game {
+  border-radius: 5px;
+  width: 400px;
+  height: 200px;
+  background: #322d33;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
 }
 
-.shodan-admin-form form {
-	border-radius: 5px;
-	padding: 25px;
-	display: flex;
-	flex-direction: column;
-	min-width: 35%;
-	background: #322d33;
-	margin-bottom: 15px;
-	margin-right: 15px;
+form {
+  width: 400px;
+  height: 480px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
 }
 
-.shodan-admin-form form:hover {
-	box-shadow: 2px 2px #fb21ff;
+input {
+  width: 250px;
+  background-color: #322d33;
+  border: none;
+  box-shadow: none;
 }
 
-.shodan-admin-form form h2 {
-	padding: 0;
-	text-align: center;
-	padding-bottom: 20px;
-	font-weight: 600;
-	font-size: 22.5px;
-	display: block;
-	margin: 0;
+#date-input {
+  color: #6e6e6f;
 }
 
-.shodan-admin-form form .admin-message{
-	color: green;
-	font-size: 13px;
-	text-shadow: 0 0;
+#date-input::-webkit-calendar-picker-indicator {
+  filter: invert(0.4);
 }
 
-#go-back {
-	margin-bottom: 15px;
-	padding: 7.5px 32.5px 7.5px 32.5px;
-	color: white;
-	font-weight: 600;
-	display: inline-block;
-	transition: 0.3s;
-	box-shadow: none;
-	outline: 0;
-	border: 0;
-	font-size: 16px;
-	cursor: pointer;
-	border-radius: 2px;
-	background: #b72cae;
-	text-shadow: none;
+#textarea-game,
+#article-description {
+  color: #6e6e6f;
+  background-color: #322d33;
+  border: none;
+  resize: none;
+  height: 150px;
+  width: 250px;
 }
 
-#go-back:hover {
-	background: #ff71f7;
-}
-
-.shodan-admin-form form .error-admin-message{
-	color: red;
-	font-size: 13px;
-	text-shadow: 0 0;
-}
-
-.button{
-	margin-top:10px;
-	background-color:white;
-	border-radius:5px;
-	transition: 0.4s;
-	cursor: pointer;
-	border: 2px solid #fb21ff;
-	transition-duration: 0.4s;
-	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-	width:20%;
-	position:relative;
-	left:40%;
-	font-size:13px;
+.button {
+  background-color: #b62bae;
+  border: none;
+  box-shadow: none;
 }
 
 .button:hover {
-	width:21%;
-	background-color:#fb21ff;
-	color:white;
+  background: rgb(199, 80, 199);
 }
 
-.button:active {
-  background-color: #423189;
-  box-shadow: 0 4px #2B2B2B;
-  transform: translateY(1px);
-  border: 2px solid #423189;
+/* Writer Layout */
+
+.writer-div {
+  height: 750px;
+  width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
 }
 
-.input {
-	border: 2px solid #181818;
-	padding: 4px;
-	margin-bottom: 7px;
-	outline: 0;
-	color: #767676;
-	background: transparent;
-	border-radius:10px;
-	position:relative;
-	width:90%;
-	margin-left:5%;
-	resize:none;
+#add-article {
+  border-radius: 5px;
+  width: 400px;
+  height: 480px;
+  background: #322d33;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 50px;
 }
 
-.input:hover{
-	box-shadow: 0 5px #2B2B2B;
-	border: 2px solid black;
-	
+.remove-article {
+  border-radius: 5px;
+  width: 400px;
+  height: 200px;
+  background: #322d33;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
 }
 
-@media screen and (max-width: 425px) {
-    .shodan-admin-header{
-        background-image: url('../Static/Assets/Icon.png');
-    }
-
-    .shodan-admin-form {
-    	flex-direction:column;
-    }
-
-    .shodan-admin-form form {
-    	margin-right: 5%;
-    	margin-left: 5%;
-    }
-
-    .button{
-    	width:25%;
-    }
-
+::-webkit-file-upload-button {
+  margin-right: 15px;
+  height: 25px;
+  border-radius: 2px;
+  border: none;
+  box-shadow: none;
+  background: #6e6e6f;
+  color: #322d33;
 }

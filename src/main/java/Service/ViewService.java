@@ -1,15 +1,15 @@
 package Service;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import Model.Role;
 import Handler.ShodanViews.RequestedView;
 
 public class ViewService {
     private Connection db;
-	private Statement statement;
+	private PreparedStatement statement;
 
     public static final String DEFAULT_VIEW = "View/Default.jsp";
     public static final String DEFAULT_DIR = "View/";
@@ -22,11 +22,13 @@ public class ViewService {
         String path = DEFAULT_VIEW;
 
         try {
-            this.statement = db.createStatement();
+            String query = "SELECT path FROM views WHERE role = ? AND view = ?";
 
-            String query = "SELECT path FROM views WHERE role = \"" + role.getRoleName() + "\" AND view = \"" + view.toString() + "\"";
+            statement = db.prepareStatement(query);
+            statement.setString(1, role.getRoleName());
+            statement.setString(2, view.toString());
 
-            ResultSet result = statement.executeQuery(query);
+            ResultSet result = statement.executeQuery();
 
             if(result.next())
                 path = DEFAULT_DIR + result.getString("path");

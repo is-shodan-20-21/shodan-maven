@@ -222,10 +222,6 @@ body nav #nav-items div:hover {
 	background: #171717 !important;
 }
 
-body nav #nav-items div span {
-	/*margin-left: 5px;*/ 
-}
-
 body nav #nav-close {
 	position: absolute;
 	transition: 0.2s;
@@ -601,6 +597,37 @@ body main #app .content .blog .article-container .article span i {
     background: #c220cd;
 	color: white;
     box-shadow: 2px 2px 0px 1px #821589;
+}
+
+.game-header-flex {
+	display: flex;
+	flex-flow: row;
+}
+
+.game-header-flex .game-header-search {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.game-header-flex .game-header-search input {
+    background: #171717;
+    padding: 10px 40px 10px 40px;
+    border-radius: 5px;
+    border: 1px solid #292626;
+    font-family: 'Karla', sans-serif;
+    font-size: 17.5px;
+	color: #f49af4;
+	flex-grow: 0.25;
+	outline: none;
+}
+
+.game-header-flex .game-header-search input:focus {
+	box-shadow: 2px 2px 0px 1px #821589;
+}
+
+.game-header-flex div {
+	flex: 1;
 }
 
 #cta a:hover {

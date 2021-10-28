@@ -18,7 +18,11 @@ $(document).ready(
 						window.location.href.lastIndexOf("=") + 1
 					)
 				},
-				error: (data) => $("#cta").show()
+				error: (data) => {
+					localStorage.removeItem("last-page");
+					localStorage.removeItem("last-nav");
+					$("#cta").show();
+				}
 			}
 		);
 

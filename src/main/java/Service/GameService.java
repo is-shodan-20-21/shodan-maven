@@ -119,6 +119,78 @@ public class GameService implements Serializable {
 		
 		return games;
 	}
+
+	public ArrayList<Game> searchGames(String searched_game) {
+		ArrayList<Game> games = new ArrayList<Game>();
+		
+		try {
+			String query = "SELECT * FROM games WHERE LOWER(game_name) LIKE LOWER(?)";
+
+			statement = db.prepareStatement(query);
+			statement.setString(1, "%" + searched_game + "%");
+			ResultSet result = statement.executeQuery();
+			
+			if(!result.next())
+				return null;
+			
+			result.beforeFirst();
+			
+			while(result.next()) {
+				games.add(
+					new Game(
+						result.getInt("game_id"),
+						result.getInt("game_price"),
+						result.getString("game_name"),
+						result.getString("game_description"),
+						result.getString("game_image"),
+						result.getDate("game_release"),
+						result.getString("game_landscape")
+					)
+				);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return games;
+	}
+
+	public ArrayList<Game> searchGamesInLibrary(int user_id, String search_query) {
+		ArrayList<Game> games = new ArrayList<Game>();
+		
+		try {
+			String query = "SELECT * FROM games AS G, has_game AS HG WHERE G.game_id = HG.game_id AND user_id = ? AND LOWER(G.game_name) LIKE LOWER(?)";
+			
+			statement = db.prepareStatement(query);
+			statement.setInt(1, user_id);
+			statement.setString(2, "%" + search_query + "%");
+			
+			ResultSet result = statement.executeQuery();
+			
+			if(!result.next())
+				return null;
+			
+			result.beforeFirst();
+			
+			while(result.next()) {
+				games.add(
+					new Game(
+						result.getInt("game_id"),
+						result.getInt("game_price"),
+						result.getString("game_name"),
+						result.getString("game_description"),
+						result.getString("game_image"),
+						result.getDate("game_release"),
+						result.getString("game_landscape")
+					)
+				);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return games;
+	}
 	
 	public ArrayList<Game> getAllAscendingGames(int limit) {
 		ArrayList<Game> games = new ArrayList<Game>();

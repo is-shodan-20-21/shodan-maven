@@ -153,6 +153,51 @@ public class GameServlet extends HttpServlet {
 
 				break;
 
+			case "searchGameShop":
+				ArrayList<Game> searchedGamesShop = new GameService(db).searchGames(request.getParameter("search_query"));
+				ArrayList<OwnedGamesParser> searchedGamesParserShop = new ArrayList<OwnedGamesParser>();
+
+				if(searchedGamesShop != null) {
+					if(user == null)
+						for(Game lookedGame : searchedGamesShop)
+						searchedGamesParserShop.add(new OwnedGamesParser(lookedGame, false));
+					else {
+						for(Game lookedGame : searchedGamesShop) {
+							boolean bridge = new HasGameService(db).hasGame(user, lookedGame);
+							boolean river = new HasCartService(db).hasInCart(user, lookedGame);
+								
+							searchedGamesParserShop.add(new OwnedGamesParser(lookedGame, bridge || river));
+						}
+					}
+
+					request.setAttribute("source", searchedGamesParserShop);
+					request.getRequestDispatcher(endpoint).forward(request, response);
+					response.setStatus(200);
+				} else
+					response.setStatus(400);
+				
+				System.out.println("# GameServlet > GET > Ricerca di " + request.getParameter("search_query"));
+				
+				break;
+			
+			case "searchGameLibrary":
+				ArrayList<Game> searchedGamesLibrary = new GameService(db).searchGamesInLibrary(user.getId(), request.getParameter("search_query"));
+				ArrayList<OwnedGamesParser> searchedGamesParserLibrary = new ArrayList<OwnedGamesParser>();
+
+				if(searchedGamesLibrary != null) {
+					for(Game lookedGame : searchedGamesLibrary)
+						searchedGamesParserLibrary.add(new OwnedGamesParser(lookedGame, true));
+
+					request.setAttribute("source", searchedGamesParserLibrary);
+					request.getRequestDispatcher(endpoint).forward(request, response);
+					response.setStatus(200);
+				} else
+					response.setStatus(400);
+				
+				System.out.println("# GameServlet > GET > Ricerca di " + request.getParameter("search_query"));
+				
+				break;
+
 			default:
 				System.out.println("# GameServlet > GET > Nessuna azione specificata");
 				

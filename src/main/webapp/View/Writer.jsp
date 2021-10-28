@@ -13,10 +13,21 @@
 			<form action="BlogServlet" method="POST">
 				<input class="input" name="add-article-title" type="text" placeholder="Inserisci il titolo dell'articolo" required>
 				<input class="input" name="article-shortTitle" type="text" placeholder="Inserisci il sottotitolo dell'articolo" required>
-				<textarea class="input" id="article-description" name="article-html" rows="4" cols="5">Inserisci il contenuto dell'articolo.</textarea>
+				<textarea class="input" id="article-description" name="article-html" rows="4" cols="5" placeholder="Inserisci il contenuto dell'articolo"></textarea>
 				<input type="hidden" name="action" value="addArticle">
-				<input class="button" type="submit" value="Aggiungi">
+				<input class="button" id="add-article-button" type="submit" value="Aggiungi">
 			</form>
+	</div>
+
+	<div class="modify-article">
+		<h2>Modifica articolo</h2>
+		<form action="BlogServlet" method="POST">
+			<input class="input" name="delete-article-id" type="number" placeholder="Inserisci l'ID dell'articolo" required style="margin-bottom: 10px;">
+			<input class="input" name="add-article-title" type="text" placeholder="Inserisci il titolo dell'articolo" required>
+			<input class="input" name="article-shortTitle" type="text" placeholder="Inserisci il sottotitolo dell'articolo" required>
+			<textarea class="input" id="article-description" name="article-html" rows="4" cols="5" placeholder="Inserisci il nuovo contenuto dell'articolo"></textarea>
+			<input class="button" type="submit" value="Elimina">
+		</form>
 	</div>
 	
 	<div class="remove-article">
@@ -25,10 +36,31 @@
 			<input class="input" name="delete-article-id" type="number" placeholder="Inserisci l'ID dell'articolo" required style="margin-bottom: 10px;">
 			<input type="hidden" name="action" value="deleteArticle">
 			<input class="button" type="submit" value="Elimina">
-			<span class="admin-message">${messageArticleDelete}</span>
-			<span class="error-admin-message">${errorMessageArticleDelete}</span>
 		</form>
 	</div>
-	
+</div>
+
+
+<h1 id="header">
+	<i class="fas fa-info-circle"></i>
+	Informazioni sugli articoli
+</h1>
+
+<div class="table-storeman">
+    <table class="table">
+        <tr class="table-title">
+            <th>ID articolo</th>
+            <th>Titolo articolo</th>
+            <th>Sottotitolo articolo</th>
+            <th>Descrizione articolo</th>
+        </tr>
+        <tr class="table-row">
+            <td class="table-data">OK</td>
+            <td class="table-data">OK</td>
+            <td class="table-data">OK</td>
+            <td class="table-data">OK</td>
+        </tr>
+        
+    </table>
 </div>
 

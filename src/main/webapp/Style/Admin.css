@@ -1,16 +1,17 @@
 /* Storeman Layout */
 
-#header {
-  padding: 25px 0 10px 100px;
+h1 {
+  padding: 25px 0 10px 85px;
 }
 
 .storeman-div {
-  width: 600px;
-  height: 750px;
+  margin-left: 30px;
+  width: 1400px;
+  height: 500px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-evenly;
 }
 
 .add-game {
@@ -35,6 +36,13 @@
   flex-direction: column;
 }
 
+.modify-game {
+  border-radius: 5px;
+  width: 400px;
+  height: 480px;
+  background: #322d33;
+}
+
 form {
   width: 400px;
   height: 480px;
@@ -47,8 +55,13 @@ form {
 input {
   width: 250px;
   background-color: #322d33;
+  color: white;
   border: none;
   box-shadow: none;
+}
+
+input::placeholder {
+  color: #6e6e6f;
 }
 
 #date-input {
@@ -61,12 +74,16 @@ input {
 
 #textarea-game,
 #article-description {
-  color: #6e6e6f;
+  color: white;
   background-color: #322d33;
   border: none;
   resize: none;
   height: 150px;
   width: 250px;
+}
+
+#textarea-game::placeholder {
+  color: #6e6e6f;
 }
 
 .button {
@@ -82,12 +99,13 @@ input {
 /* Writer Layout */
 
 .writer-div {
-  height: 750px;
-  width: 600px;
+  margin-left: 30px;
+  height: 500px;
+  width: 1400px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-evenly;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 #add-article {
@@ -102,10 +120,25 @@ input {
   margin-bottom: 50px;
 }
 
+#add-article-button {
+  margin-top: 55px;
+}
+
 .remove-article {
   border-radius: 5px;
   width: 400px;
   height: 200px;
+  background: #322d33;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.modify-article {
+  border-radius: 5px;
+  width: 400px;
+  height: 480px;
   background: #322d33;
   display: flex;
   justify-content: flex-start;
@@ -121,4 +154,33 @@ input {
   box-shadow: none;
   background: #6e6e6f;
   color: #322d33;
+}
+
+/* Table layout */
+
+.table-storeman {
+  height: 400px;
+  margin-left: 80px;
+}
+
+.table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 20px;
+  min-width: 1000px;
+}
+
+.table-title {
+  font-weight: 600;
+  height: 40px;
+  background-color: #171717;
+  text-align: left;
+}
+
+.table-row {
+  border-bottom: 2px solid #322d33;
+}
+
+.table-data {
+  padding: 10px;
 }

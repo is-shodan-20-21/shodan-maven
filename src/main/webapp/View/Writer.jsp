@@ -46,21 +46,10 @@
 	Informazioni sugli articoli
 </h1>
 
-<div class="table-storeman">
-    <table class="table">
-        <tr class="table-title">
-            <th>ID articolo</th>
-            <th>Titolo articolo</th>
-            <th>Sottotitolo articolo</th>
-            <th>Descrizione articolo</th>
-        </tr>
-        <tr class="table-row">
-            <td class="table-data">OK</td>
-            <td class="table-data">OK</td>
-            <td class="table-data">OK</td>
-            <td class="table-data">OK</td>
-        </tr>
+<div class="table-writer">
+    
         
-    </table>
+        
 </div>
 
+<script src="Scripts/WriterRoutines.js"></script>

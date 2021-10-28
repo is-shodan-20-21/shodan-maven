@@ -50,25 +50,9 @@
 </h1>
 
 <div class="table-storeman">
-    <table class="table">
-        <tr class="table-title">
-            <th>ID gioco</th>
-            <th>Nome gioco</th>
-            <th>Prezzo gioco</th>
-            <th>Data di rilascio</th>
-            <th>Immagine gioco</th>
-            <th>Copertina gioco</th>
-        </tr>
-        <tr class="table-row">
-            <td class="table-data">OK</td>
-            <td class="table-data">OK</td>
-            <td class="table-data">OK</td>
-            <td class="table-data">OK</td>
-            <td class="table-data">OK</td>
-            <td class="table-data">OK</td>
-        </tr>
+    
         
-    </table>
+
 </div>
 
 <script src="Scripts/StoremanRoutines.js"></script>

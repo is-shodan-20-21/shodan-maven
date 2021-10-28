@@ -198,6 +198,19 @@ public class GameServlet extends HttpServlet {
 				
 				break;
 
+			case "getGames":
+				ArrayList<Game> gameList = new GameService(db).getAllAscendingGames(0);
+				if(gameList != null){
+					request.setAttribute("gameList", gameList);
+					request.getRequestDispatcher(endpoint).forward(request, response);
+					response.setStatus(200);
+				}else
+					response.setStatus(400);
+
+				System.out.println("# GameServlet > GET > Tutti i giochi");
+
+				break;
+
 			default:
 				System.out.println("# GameServlet > GET > Nessuna azione specificata");
 				

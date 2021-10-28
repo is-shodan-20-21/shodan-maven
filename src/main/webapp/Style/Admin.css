@@ -160,7 +160,10 @@ input::placeholder {
 
 .table-storeman {
   height: 400px;
-  margin-left: 80px;
+}
+
+.table-writer {
+  height: 400px;
 }
 
 .table {
@@ -168,6 +171,7 @@ input::placeholder {
   margin: 25px 0;
   font-size: 20px;
   min-width: 1000px;
+  margin-left: 80px;
 }
 
 .table-title {

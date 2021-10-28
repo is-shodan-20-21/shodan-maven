@@ -13,10 +13,10 @@ $(document).ready(
                     endpoint: "View/AJAX_Components/GamesTable.jsp"
                 },
                 success: (data) => {
-                    $(".gamestable").html(data);
+                    $(".table-storeman").html(data);
                 },
                 error: () => {
-                    $(".gamestable").html("Impossibile ottenere il la tabella dei giochi.")
+                    $(".table-storeman").html("Impossibile ottenere il la tabella dei giochi.")
                 }
             }
         );

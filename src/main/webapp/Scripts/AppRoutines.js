@@ -21,6 +21,10 @@ $(document).ready(
 				error: (data) => {
 					localStorage.removeItem("last-page");
 					localStorage.removeItem("last-nav");
+
+					$("#app").load("View/Dashboard.jsp");
+					$("nav").load("View/Nav/NavGuest.jsp");
+
 					$("#cta").show();
 				}
 			}
@@ -78,6 +82,7 @@ $(document).ready(
 			else {
 				NAV_HANDLER.done(function(data) {
 					$("nav").load(data);
+					console.log(data);
 					localStorage.setItem("last-nav", data.split("/")[2].split(".")[0]);  	
 				});
 			}

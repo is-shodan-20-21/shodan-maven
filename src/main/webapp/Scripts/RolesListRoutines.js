@@ -38,8 +38,7 @@ $(document).ready(() => {
                         )
                     },
                     error: (data) => console.log("# ShodanViews - 4**/5**" + data),
-                    success: (data) => { 
-                        console.log(data);
+                    success: (data) => {
                         localStorage.setItem("last-nav", data.split("/")[2].split(".")[0]); 
                         $("nav").load(data);
                     }

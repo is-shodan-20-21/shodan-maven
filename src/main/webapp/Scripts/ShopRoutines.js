@@ -39,6 +39,7 @@ $(document).ready(
 						$("#game-search-input").on("input", function() {
 							if($(this).val() != "") {
 								console.log("# Shodan [Looking for {" + $(this).val() + "}]");
+								
 								$.ajax(
 									{
 										type: "GET",

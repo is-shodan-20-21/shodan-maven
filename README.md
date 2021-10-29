@@ -9,7 +9,7 @@ Se si desidera, invece, utilizzare un IDE alternativo come [Visual Studio Code](
 
 È possibile [scaricare la repository](https://github.com/is-shodan-20-21/shodan-maven/archive/refs/heads/master.zip) oppure clonarla tramite `git clone https://github.com/is-shodan-20-21/shodan-maven.git`.
 
-Navigare, poi, nella directory creata sotto il nome di `shodan-maven` e lanciare dapprima `mvn clean install` per installare le dipendenze e i plugin necessari alla costruzione del pacchetto WAR, e infine `mvn tomcat7:run` per il deployment della webapp. Si potrà accedere alla piattaforma via `http://localhost:8080/shodan-maven`.
+Navigare, poi, nella directory creata sotto il nome di `shodan-maven` e lanciare dapprima `mvn clean install` per installare le dipendenze e i plugin necessari alla costruzione del pacchetto WAR, e infine `mvn tomcat7:run` per il deployment della webapp. Si potrà accedere alla piattaforma via `http://localhost:8080/shodan_maven`.
 
 ## Strumenti
 

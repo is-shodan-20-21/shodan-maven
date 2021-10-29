@@ -8,7 +8,7 @@
 		<link rel="icon" href="Static/Assets/Icon.png" type="image/x-icon" />
 		<title>Shodan</title>
 		
-		<!-- Index Stylesheet -->
+		<!-- Stylesheet -->
 		<link rel="stylesheet" href="Style/Index.css">
 		
 		<!-- FontAwesome Icons -->
@@ -24,8 +24,14 @@
 	<body>
 		<div class="shodan-games left">
 			<!-- View/AJAX_Components/GameSlideshow.jsp -->
-		</div>
-		
+		</div>	
+
+		<!--
+			In realtà, Shodan non è interamente one-page.
+			Questa porzione di sito, cioè l'index, è del tutto scollegata rispetto all'app principale.
+
+			In ogni caso, l'unica finalità dell'index è mostrare i form di login e registrazione.
+		-->
 		<main>
 			<div class="shodan-logo-container">
 				<video autoplay muted loop class="shodan-vhs">
@@ -120,9 +126,6 @@
 						</div>	
 					</div>
 				</div>
-				
-				
-			
 			</div>
 			
 			<footer>

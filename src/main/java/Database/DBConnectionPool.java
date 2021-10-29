@@ -3,6 +3,9 @@ package Database;
 import java.sql.*;
 import java.util.*;
 
+/*
+	Routine standard di connessione al database previste da JDBC.
+*/
 public class DBConnectionPool {
 	private static List<Connection> freeDbConnections;
 

@@ -7,6 +7,10 @@ import java.security.NoSuchAlgorithmException;
 
 public class PasswordHasher {
 
+	/*
+		Routine di crittografia per celare le password nel database utilizzando algoritmi predefiniti.
+		Il digest utilizzato è SHA-256.
+	*/
 	public static String hash(String text) {
 		MessageDigest md;
 		

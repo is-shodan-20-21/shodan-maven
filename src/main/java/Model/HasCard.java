@@ -2,6 +2,12 @@ package Model;
 
 import java.io.Serializable;
 
+/*
+	[MODEL] Mappatura delle seguenti tabelle:
+	- {HAS_CARD}
+
+    Sfrutta gli ID di {USERS} e {CARDS}.
+*/
 public class HasCard implements Serializable {
 
 	private static final long serialVersionUID = -9122194956940676022L;
@@ -20,14 +26,6 @@ public class HasCard implements Serializable {
 
     public Card getCard() {
         return this.card;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setCard(Card card) {
-        this.card = card;
     }
 
 }

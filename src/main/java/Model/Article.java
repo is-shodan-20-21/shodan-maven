@@ -2,6 +2,10 @@ package Model;
 
 import java.io.Serializable;
 
+/*
+	[MODEL] Mappatura delle seguenti tabelle:
+	- {ARTICLE}
+*/
 public class Article implements Serializable {
 
 	private static final long serialVersionUID = -2719650670762044594L;

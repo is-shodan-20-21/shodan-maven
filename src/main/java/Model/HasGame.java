@@ -2,6 +2,12 @@ package Model;
 
 import java.io.Serializable;
 
+/*
+	[MODEL] Mappatura delle seguenti tabelle:
+	- {HAS_CART}
+
+    Sfrutta gli ID di {USERS} e {GAMES}.
+*/
 public class HasGame implements Serializable {
 
 	private static final long serialVersionUID = 1781620604484876503L;

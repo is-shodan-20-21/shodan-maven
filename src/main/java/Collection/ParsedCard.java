@@ -2,6 +2,10 @@ package Collection;
 
 import Model.Card;
 
+/*
+    ParsedCard è una collezione che permette, in maniera rapida e indolore, di stampare esclusivamente ..
+    .. le prime quattro cifre del numero della carta.
+*/
 public class ParsedCard {
     
     Card card;
@@ -17,16 +21,8 @@ public class ParsedCard {
         return this.card;
     }
 
-    public void setCard(Card card) {
-        this.card = card;
-    }
-
     public long getSafe_digits() {
         return this.safe_digits;
-    }
-
-    public void setSafe_digits(long safe_digits) {
-        this.safe_digits = safe_digits;
     }
 
 }

@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import Collection.ParsedGame;
 import Model.Game;
-import Model.OwnedGamesParser;
 import Model.User;
 import Service.GameService;
 import Service.HasCartService;
@@ -24,6 +24,10 @@ import Service.HasGameService;
 import Service.UserService;
 
 @WebServlet("/GameServlet")
+/*
+	@MultipartConfig è necessario per le logiche di creazione di un nuovo gioco ..
+	.. nelle quali viene richiesto l'upload di più immagini via client.
+*/
 @MultipartConfig
 public class GameServlet extends HttpServlet {
 	private static final long serialVersionUID = -8724190928795580877L;
@@ -47,17 +51,17 @@ public class GameServlet extends HttpServlet {
 		switch(request.getParameter("action")) {
 			case "parsed":
 				ArrayList<Game> raw_games = new GameService(db).getAllDescendingGames(limit);
-				ArrayList<OwnedGamesParser> parser = new ArrayList<OwnedGamesParser>();
+				ArrayList<ParsedGame> parser = new ArrayList<ParsedGame>();
 
 				if(user == null)
 					for(Game game : raw_games)
-						parser.add(new OwnedGamesParser(game, false));
+						parser.add(new ParsedGame(game, false));
 				else {
 					for(Game game : raw_games) {
 						boolean bridge = new HasGameService(db).hasGame(user, game);
 						boolean river = new HasCartService(db).hasInCart(user, game);
 
-						parser.add(new OwnedGamesParser(game, bridge || river));
+						parser.add(new ParsedGame(game, bridge || river));
 					}
 				}
 
@@ -93,10 +97,10 @@ public class GameServlet extends HttpServlet {
 				
 			case "library":
 				ArrayList<Game> games = new GameService(db).getAllGamesByUser(user.getId());
-				ArrayList<OwnedGamesParser> libraryParser = new ArrayList<OwnedGamesParser>();
+				ArrayList<ParsedGame> libraryParser = new ArrayList<ParsedGame>();
 
 				for(Game game : games)
-					libraryParser.add(new OwnedGamesParser(game, true));
+					libraryParser.add(new ParsedGame(game, true));
 				
 				if(games != null) {
 					request.setAttribute("source", libraryParser);
@@ -155,18 +159,18 @@ public class GameServlet extends HttpServlet {
 
 			case "searchGameShop":
 				ArrayList<Game> searchedGamesShop = new GameService(db).searchGames(request.getParameter("search_query"));
-				ArrayList<OwnedGamesParser> searchedGamesParserShop = new ArrayList<OwnedGamesParser>();
+				ArrayList<ParsedGame> searchedGamesParserShop = new ArrayList<ParsedGame>();
 
 				if(searchedGamesShop != null) {
 					if(user == null)
 						for(Game lookedGame : searchedGamesShop)
-						searchedGamesParserShop.add(new OwnedGamesParser(lookedGame, false));
+						searchedGamesParserShop.add(new ParsedGame(lookedGame, false));
 					else {
 						for(Game lookedGame : searchedGamesShop) {
 							boolean bridge = new HasGameService(db).hasGame(user, lookedGame);
 							boolean river = new HasCartService(db).hasInCart(user, lookedGame);
 								
-							searchedGamesParserShop.add(new OwnedGamesParser(lookedGame, bridge || river));
+							searchedGamesParserShop.add(new ParsedGame(lookedGame, bridge || river));
 						}
 					}
 
@@ -182,11 +186,11 @@ public class GameServlet extends HttpServlet {
 			
 			case "searchGameLibrary":
 				ArrayList<Game> searchedGamesLibrary = new GameService(db).searchGamesInLibrary(user.getId(), request.getParameter("search_query"));
-				ArrayList<OwnedGamesParser> searchedGamesParserLibrary = new ArrayList<OwnedGamesParser>();
+				ArrayList<ParsedGame> searchedGamesParserLibrary = new ArrayList<ParsedGame>();
 
 				if(searchedGamesLibrary != null) {
 					for(Game lookedGame : searchedGamesLibrary)
-						searchedGamesParserLibrary.add(new OwnedGamesParser(lookedGame, true));
+						searchedGamesParserLibrary.add(new ParsedGame(lookedGame, true));
 
 					request.setAttribute("source", searchedGamesParserLibrary);
 					request.getRequestDispatcher(endpoint).forward(request, response);

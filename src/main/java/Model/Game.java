@@ -3,6 +3,12 @@ package Model;
 import java.io.Serializable;
 import java.sql.Date;
 
+/*
+	[MODEL] Mappatura delle seguenti tabelle:
+	- {GAME}
+
+	L'ID viene referenziato in {HAS_CART} e {HAS_GAME} da {USERS}.
+*/
 public class Game implements Serializable {
 
 	private static final long serialVersionUID = -9122194956940676053L;
@@ -29,6 +35,9 @@ public class Game implements Serializable {
 		return id;
 	}
 	
+	/*
+		Questo campo è espresso come intero. L'accostamento della valuta in euro avviene tramite markup (&euro).
+	*/
 	public int getPrice() {
 		return price;
 	}
@@ -41,6 +50,9 @@ public class Game implements Serializable {
 		return description;
 	}
 	
+	/*
+		La "cover" o "image" è la copertina del gioco.
+	*/
 	public String getImage() {
 		return image;
 	}
@@ -49,6 +61,9 @@ public class Game implements Serializable {
 		return release;
 	}
 
+	/*
+		Il "landscape" è l'immagine scenografica in background nella pagina individuale del gioco.
+	*/
 	public String getLandscape() {
 		return landscape;
 	}

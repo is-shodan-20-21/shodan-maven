@@ -3,6 +3,13 @@ package Model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/*
+	[MODEL] Mappatura delle seguenti tabelle:
+	- {USERS}
+
+    Un'istanza di questo modello viene salvato nella JSession per preservare l'accesso dell'utente.
+	{USERS} è coinvolto nella stragrande maggioranza di operazioni su Shodan.
+*/
 public class User implements Serializable {
 
 	private static final long serialVersionUID = -3555522637968508649L;

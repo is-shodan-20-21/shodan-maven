@@ -7,6 +7,12 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import Database.DBConnectionPool;
 
+/*
+	Sfruttare i Java Servlet Context per connettersi al database previene la necessità ..
+	.. di doversi ricollegare a JDBC ogni qualvolta si desidera lanciare una query.
+
+	La connessione al database viene stabilita all'avvio del webserver.
+*/
 @WebListener
 public class ShodanContext implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {	

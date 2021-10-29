@@ -1,5 +1,15 @@
+# L'index page fa uso di un "effetto VHS" sotto forma di video .mp4
+# Il video in questione è troppo pesante per GitHub (~100mb)
+# E' possibile scaricarlo manualmente da commons/assets
+
 src/main/webapp/Static/Assets/VHS.mp4
+
+# {dir(s)} di caching di Visual Studio Code
+# Shodan non utilizza alcuna task personalizzata, ma dei file simil-json potrebbero essere creati ugualmente ..
+# .. motivo per cui si ignora /.project/ e /.settings/
 .project
+.settings
+
+# deploy e target contengono metadati e binari della build effettiva del progetto
 deploy
 target
-.settings

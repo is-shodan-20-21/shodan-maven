@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- 
+    pom.xml è un file di configurazione per costruire il pacchetto WAR di deploy del progetto.
+    E' esclusivo di Maven. Modificare una qualsiasi impostazione in questo file potrebbe compromettere ..
+    .. l'integrità della codebase.
+-->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -10,7 +16,6 @@
   <packaging>war</packaging>
 
   <name>Shodan (Maven)</name>
-  <!-- FIXME change it to the project's website -->
   <url>https://github.com/is-shodan-21-22</url>
 
   <properties>

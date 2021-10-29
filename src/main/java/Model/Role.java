@@ -2,6 +2,29 @@ package Model;
 
 import java.io.Serializable;
 
+/*
+	[MODEL] Mappatura delle seguenti tabelle:
+	- {ROLES}
+    - ... e sopperisce alla mancanza di {VIEWS}
+
+    Sfrutta l'ID di {USERS}.
+
+    La tabella {VIEWS} non è stata mappata perché non ritenuto necessario. E' sufficiente ottenere il/i ruolo/i ..
+    .. dell'utente per ottenere l'ENDPOINT corretto sotto forma di path.
+
+    Inoltre, [this.parsed_role_name] è il testo mostrato a schermo nel menù di selezione del ruolo.
+
+    Il sistema di ruoli di Shodan prevede quattro posizioni:
+    - Ospite, default
+    - Utente, ottenuto una volta loggati a Shodan
+    - Articolista, cioè un admin che gestisce le notizie del blog
+    - Cataloghista, cioè un admin che gestisce il catalogo di giochi
+
+    Un attore può ricoprire più di un ruolo se loggato.
+
+    La tabella {VIEWS} associa i ruoli a dei componenti e determina quale componente mostrare ..
+    .. all'attore, in funzione dei suoi ruoli per l'appunto.
+*/
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1781620604484876509L;

@@ -1,5 +1,11 @@
 package Model;
 
+/*
+	[MODEL] Mappatura delle seguenti tabelle:
+	- {HAS_CART}
+
+    Sfrutta gli ID di {USERS} e {GAMES}.
+*/
 public class HasCart {
 	
 	private int user_id;

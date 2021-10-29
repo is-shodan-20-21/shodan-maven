@@ -16,8 +16,7 @@ import Service.UserService;
 @WebFilter(urlPatterns = 
 	{ 
 		"/index.jsp", 
-		"/app.jsp", 
-		"/admin.jsp" 
+		"/app.jsp"
 	}
 )
 public class ShodanFilters implements Filter {
@@ -39,6 +38,13 @@ public class ShodanFilters implements Filter {
 		
 		Connection db = (Connection) hRequest.getServletContext().getAttribute("databaseConnection");
 		
+		/*
+			E' possibile utilizzare Shodan anche se l'utente ha disabilitato completamente i cookie.
+			In questo caso, l'URL viene modificato e ad esso viene aggiunto l'ID della JSESSION corrente.
+
+			L'ID in questione è il medesimo salvato nella tabella {SESSIONS} all'accesso.
+			La riga di accesso viene distrutta al logout.
+		*/
 		if(uri.contains("jsessionid")) {
 			String jsession = uri.substring(uri.lastIndexOf("=") + 1);
 			System.out.println("# ShodanFilters > URL Rewriting > " + jsession);
@@ -59,17 +65,22 @@ public class ShodanFilters implements Filter {
 		if(user != null)
 			System.out.println("# ShodanFilters > Routing di [" + user.getId() + "] " + user.getName());
 		
-		/*if(uri.contains("/index.jsp") || uri.contains("Shodan/;jsessionid=") || uri.equals("/Shodan/")) {
-			if(user != null)
-				hResponse.sendRedirect("app.jsp" + encoding);
-		} else if(uri.contains("/app.jsp")) {
-			if(user == null)
-				hResponse.sendRedirect("index.jsp" + encoding);
-		} else if(uri.contains("/admin.jsp")) {
-			if(user == null || !user.isAdmin())
-				hResponse.sendRedirect("app.jsp" + encoding);
-		}*/
+		// Prima che Shodan fosse effettivamente one-page, la seguente parte doveva essere decommentata.
 
+		/*
+			if(uri.contains("/index.jsp") || uri.contains("Shodan/;jsessionid=") || uri.equals("/Shodan/")) {
+				if(user != null)
+					hResponse.sendRedirect("app.jsp" + encoding);
+			} else if(uri.contains("/app.jsp")) {
+				if(user == null)
+					hResponse.sendRedirect("index.jsp" + encoding);
+			} else if(uri.contains("/admin.jsp")) {
+				if(user == null || !user.isAdmin())
+					hResponse.sendRedirect("app.jsp" + encoding);
+			}
+		*/
+
+		// Gli utenti non possono accedere alla Index una volta loggati.
 		if(uri.contains("/index.jsp") && user != null)
 			hResponse.sendRedirect("app.jsp" + encoding);
 	}

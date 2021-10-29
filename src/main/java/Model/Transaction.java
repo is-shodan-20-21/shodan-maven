@@ -3,6 +3,14 @@ package Model;
 import java.io.Serializable;
 import java.sql.Date;
 
+/*
+	[MODEL] Mappatura delle seguenti tabelle:
+	- {TRANSACTIONS}
+
+    Sfrutta gli ID di {USERS} e {GAMES}. La data viene salvata in formato YYYY-MM-DD (ref. java.sql.Date).
+
+    Lo storico delle transazioni viene stampato esclusivamente nella pagina delle impostazioni.
+*/
 public class Transaction implements Serializable {
 
 	private static final long serialVersionUID = -9122194956940676063L;

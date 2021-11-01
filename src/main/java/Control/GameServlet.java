@@ -235,6 +235,14 @@ public class GameServlet extends HttpServlet {
 			case "addGame":
 				System.out.println("# GameServlet > POST > Trying to add a game...");
 
+				if(Integer.valueOf(request.getParameter("game-price")) < 0) {
+					request.setAttribute("addGameResponse", "Il costo non puo' essere negativo.");
+					request.getRequestDispatcher("app.jsp").forward(request, response);
+					System.out.println("# GameServlet > POST > Costo negativo");
+					response.setStatus(400);
+					return;
+				}
+
 				String fileNameImage;
 				String fileNameLandscape;
 

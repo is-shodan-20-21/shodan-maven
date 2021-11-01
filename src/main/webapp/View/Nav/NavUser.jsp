@@ -16,7 +16,7 @@
 			
 	<div id="shop-link">
 		<i class="fas fa-comments-dollar"></i>
-		<span>Negozio</span>
+		<span>Catalogo</span>
 	</div>
 					
 	<div id="library-link">

@@ -301,19 +301,11 @@ public class GameServlet extends HttpServlet {
 			case "deleteGame":
 				Game game = new GameService(db).getGame(Integer.valueOf(request.getParameter("game-id")));
 				
-				if(game != null) {
-					new GameService(db).deleteGame(Integer.valueOf(request.getParameter("game-id")));
-				
-					request.setAttribute("messageGameDelete", "Gioco eliminato con successo");
+				if(game != null)
+					response.setStatus(200);
+				else
+					response.setStatus(400);
 					
-					System.out.println("# GameServlet > POST > Gioco eliminato > " + game.getName());
-				} else {
-					request.setAttribute("errorMessageGameDelete", "Il gioco non e' presente");
-					
-					System.out.println("# GameServlet > POST > Gioco insistente > " + request.getParameter("game-name"));
-				}
-				
-				request.getRequestDispatcher("admin.jsp").forward(request, response);
 				break;
 			
 			default:

@@ -3,6 +3,7 @@ package Control;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -175,11 +176,15 @@ public class UserServlet extends HttpServlet {
 
 					Card parsed_card = new CardService(db).getCardByNumber(card_number);
 
-					new HasCardService(db).addCard(user, parsed_card);
+					if(!(new HasCardService(db).addCard(user, parsed_card))) {
+						response.setStatus(400);
+						System.out.println("# UserServlet > Tentativo di aggiunta di una nuova carda fallito");	
+						return;
+					}
 
 					response.setStatus(200);
 					System.out.println("# UserServlet > Tentativo di aggiunta di una nuova carda riuscito");
-				} catch(IllegalArgumentException e) {
+				} catch(IllegalArgumentException | SQLIntegrityConstraintViolationException e) {
 					response.setStatus(400);
 					System.out.println("# UserServlet > Tentativo di aggiunta di una nuova carda fallito");
 				}

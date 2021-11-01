@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import Model.Card;
 import Model.User;
@@ -42,7 +43,7 @@ public class HasCardService {
         return cards;
     }
 
-    public void addCard(User user, Card card) {
+    public boolean addCard(User user, Card card) throws SQLIntegrityConstraintViolationException {
         try {
             String query = "INSERT INTO has_card(user_id, card_id) VALUES (?, ?)";
 
@@ -50,8 +51,11 @@ public class HasCardService {
             statement.setInt(1, user.getId());
             statement.setInt(2, card.getCard_id());
             statement.executeUpdate();
+
+            return true;
         } catch(SQLException e) {
-            e.printStackTrace();
+           System.out.println("# HasCardService > Constraint Violation");
+           return false;
         }
     }
 }

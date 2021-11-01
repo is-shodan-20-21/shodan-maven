@@ -3,39 +3,29 @@
 </head>
 
 <h1 id="header">
-	<i class="fas fa-dice-d6"></i>
-	Articolista
+	<i class="fas fa-feather-alt"></i>
+	Gestione degli articoli
 </h1>
 
 <div class="writer-div">
 	<div id="add-article">
 		<h2>Pubblica un articolo</h2>
-			<form action="BlogServlet" method="POST">
-				<input class="input" name="add-article-title" type="text" placeholder="Inserisci il titolo dell'articolo" required>
-				<input class="input" name="article-shortTitle" type="text" placeholder="Inserisci il sottotitolo dell'articolo" required>
-				<textarea class="input" id="article-description" name="article-html" rows="4" cols="5" placeholder="Inserisci il contenuto dell'articolo"></textarea>
-				<input type="hidden" name="action" value="addArticle">
-				<input class="button" id="add-article-button" type="submit" value="Aggiungi">
-			</form>
-	</div>
-
-	<div class="modify-article">
-		<h2>Modifica articolo</h2>
-		<form action="BlogServlet" method="POST">
-			<input class="input" name="delete-article-id" type="number" placeholder="Inserisci l'ID dell'articolo" required style="margin-bottom: 10px;">
-			<input class="input" name="add-article-title" type="text" placeholder="Inserisci il titolo dell'articolo" required>
-			<input class="input" name="article-shortTitle" type="text" placeholder="Inserisci il sottotitolo dell'articolo" required>
-			<textarea class="input" id="article-description" name="article-html" rows="4" cols="5" placeholder="Inserisci il nuovo contenuto dell'articolo"></textarea>
-			<input class="button" type="submit" value="Elimina">
+		<form>
+			<input class="input" id="add-article-title" type="text" placeholder="Inserisci il titolo dell'articolo" required>
+			<input class="input" id="add-article-shortTitle" type="text" placeholder="Inserisci il sottotitolo dell'articolo" required>
+			<textarea class="input" id="article-description" name="article-html" rows="4" cols="5" placeholder="Inserisci il contenuto dell'articolo"></textarea>
+			<input type="hidden" name="action" value="addArticle">
+			<input onclick="tryAddArticle(event)" class="button" id="add-article-button" type="submit" value="Aggiungi">
+			<div id="add-article-result"></div>
 		</form>
 	</div>
 	
 	<div class="remove-article">
 		<h2>Rimuovi articolo</h2>
-		<form action="BlogServlet" method="POST">
-			<input class="input" name="delete-article-id" type="number" placeholder="Inserisci l'ID dell'articolo" required style="margin-bottom: 10px;">
-			<input type="hidden" name="action" value="deleteArticle">
-			<input class="button" type="submit" value="Elimina">
+		<form>
+			<input class="input" id="remove-article-id" type="number" placeholder="Inserisci l'ID dell'articolo" required style="margin-bottom: 10px;">
+			<input onclick="tryRemoveArticle(event)" class="button" type="submit" value="Elimina">
+			<div id="remove-article-result"></div>
 		</form>
 	</div>
 </div>
@@ -47,9 +37,7 @@
 </h1>
 
 <div class="table-writer">
-    
-        
-        
+	<!-- AJAX_Components/ArticlesTable.jsp -->
 </div>
 
 <script src="Scripts/WriterRoutines.js"></script>

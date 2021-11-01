@@ -77,33 +77,28 @@ public class BlogServlet extends HttpServlet {
 		switch(request.getParameter("action")) {
 			case "addArticle":
 			
-				new ArticleService(db).addArticle(request.getParameter("add-article-title"),
-						request.getParameter("article-shortTitle"), 
-						request.getParameter("article-html"));
+				new ArticleService(db).addArticle(request.getParameter("title"),
+						request.getParameter("shortTitle"), 
+						request.getParameter("html"));
 		
 				request.setAttribute("messageArticleAdd", "Articolo aggiunto con successo");
-				request.getRequestDispatcher("admin.jsp").forward(request, response);
-		
+				response.setStatus(200);
+
 				System.out.println("# BlogServlet > POST > Articolo aggiunto > " + request.getParameter("add-article-title"));
 		
 				break;
 		
 			case "deleteArticle":
 		
-				Article article = new ArticleService(db).getArticle(Integer.valueOf(request.getParameter("delete-article-id")));
+				Article article = new ArticleService(db).getArticle(Integer.valueOf(request.getParameter("deleteArticleId")));
 				
 				if(article != null) {
-					new ArticleService(db).deleteArticle(Integer.valueOf(request.getParameter("delete-article-id")));
-			
-					request.setAttribute("messageArticleDelete", "Articolo eliminato con successo");
-					request.getRequestDispatcher("admin.jsp").forward(request, response);
-					
+					new ArticleService(db).deleteArticle(Integer.valueOf(request.getParameter("deleteArticleId")));
+					response.setStatus(200);
 					System.out.println("# BlogServelt > POST > Articolo eliminato > " + article.getTitle());
 				} else {
-					request.setAttribute("errorMessageArticleDelete", "Articolo non presente");
-					request.getRequestDispatcher("admin.jsp").forward(request, response);
-					
-					System.out.println("# BlogServelt > POST > Articolo insistente > " + request.getParameter("add-article-title"));
+					response.setStatus(400);
+					System.out.println("# BlogServelt > POST > Articolo insistente");
 				}
 		
 			default:

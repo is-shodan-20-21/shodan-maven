@@ -74,7 +74,6 @@ public class CardService implements Serializable {
         try {
             String query = "INSERT INTO cards(card_type, card_number, card_owner, card_date) VALUES (?, ?, ?, ?)";
 
-
             statement = db.prepareStatement(query);
             statement.setString(1, card.getCard_type());
             statement.setLong(2, card.getCard_number());

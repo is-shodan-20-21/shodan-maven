@@ -230,37 +230,57 @@ public class GameServlet extends HttpServlet {
 		System.out.println("# GameServlet > Session: " + request.getSession().getId());
 		
 		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
-		
+
 		switch(request.getParameter("action")) {
 			case "addGame":
-				String fileName;
-				
-				Date rawDate = Date.valueOf(request.getParameter("game_date"));
+				System.out.println("# GameServlet > POST > Trying to add a game...");
+
+				String fileNameImage;
+				String fileNameLandscape;
+
+				Date rawDate = Date.valueOf(request.getParameter("game-date"));
 				int parsedDate = Integer.valueOf(rawDate.toString().split("-")[0]);
 				
 				int lesserYear = 1970;
 				int greaterYear = 2000;
 				
 				if(parsedDate < lesserYear || parsedDate > greaterYear) {
-					request.setAttribute("errorMessageGameAdd", "La data inserita non &egrave; valida.");
+					request.setAttribute("addGameResponse", "La data inserita non &egrave; valida.");
+					request.getRequestDispatcher("app.jsp").forward(request, response);
+					System.out.println("# GameServlet > POST > Data non valida");
 					response.setStatus(400);
 					
 					return;
 				}
 				
 				try {
-					Part filePart = request.getPart("game_image");
-					fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-					InputStream fileContent = filePart.getInputStream();
-					File filePath = new File(getServletContext().getRealPath("Static/GamePictures"));
-					File file = new File(filePath, fileName);
+					Part filePartImage = request.getPart("game-image");
+					Part filePartLandscape = request.getPart("game-landscape");
+
+					fileNameImage = Paths.get(GameServlet.getSubmittedFileName(filePartImage)).getFileName().toString();
+					fileNameLandscape = Paths.get(GameServlet.getSubmittedFileName(filePartLandscape)).getFileName().toString();
+
+					InputStream fileContentImage = filePartImage.getInputStream();
+					InputStream fileContentLandscape = filePartLandscape.getInputStream();
+
+					File filePathImage = new File(getServletContext().getRealPath("Static/GamePictures"));
+					File filePathLandscape = new File(getServletContext().getRealPath("Static/GameLandscapes"));
+
+					File fileImage = new File(filePathImage, fileNameImage);
+					File fileLandscape = new File(filePathLandscape, fileNameLandscape);
 					
-					filePath.mkdir();
+					filePathImage.mkdir();
+					filePathLandscape.mkdir();
 					
-					if(!file.exists())
-						Files.copy(fileContent, file.toPath());
-					else {
-						request.setAttribute("errorMessageGameAdd", "Impossibile processare la richiesta.");
+					if(!fileImage.exists() && !fileLandscape.exists()) {
+						Files.copy(fileContentImage, fileImage.toPath());
+						Files.copy(fileContentLandscape, fileLandscape.toPath());
+
+						System.out.println("# GameServlet > POST > Immagini caricate");
+					} else {
+						request.setAttribute("addGameResponse", "Impossibile caricare le immagini.");
+						request.getRequestDispatcher("app.jsp").forward(request, response);
+						System.out.println("# GameServlet > POST > Impossibile caricare le immagini");
 						response.setStatus(400);
 						
 						return;
@@ -268,7 +288,9 @@ public class GameServlet extends HttpServlet {
 				} catch(IOException e) {
 					e.printStackTrace();
 					
-					request.setAttribute("errorMessageGameAdd", "Non &egrave; stato possibile aggiungere il gioco.");
+					request.setAttribute("addGameResponse", "Non &egrave; stato possibile aggiungere il gioco.");
+					request.getRequestDispatcher("app.jsp").forward(request, response);
+					System.out.println("# GameServlet > POST > IOException");
 					response.setStatus(400);
 					
 					return;
@@ -276,22 +298,24 @@ public class GameServlet extends HttpServlet {
 				
 				try {		
 					new GameService(db).addGame(
-						request.getParameter("game_name"), 
-						fileName, 
-						Integer.valueOf(request.getParameter("game_price")),
+						request.getParameter("game-name"), 
+						fileNameImage, 
+						Integer.valueOf(request.getParameter("game-price")),
 						rawDate,
-						request.getParameter("game_description"),
-						request.getParameter("game_landscape")
+						request.getParameter("game-description"),
+						fileNameLandscape
 					);
 				} catch(IllegalArgumentException e) {
 					e.printStackTrace();
 					
-					request.setAttribute("messageGameAdd", "I dati forniti non sono validi.");
+					request.setAttribute("addGameResponse", "I dati forniti non sono validi.");
+					request.getRequestDispatcher("app.jsp").forward(request, response);
 					response.setStatus(400);
 					return;
 				}
 				
-				request.setAttribute("messageGameAdd", "Gioco aggiunto con successo");
+				request.setAttribute("addGameResponse", "Gioco aggiunto con successo");
+				request.getRequestDispatcher("app.jsp").forward(request, response);
 				response.setStatus(200);
 			
 				System.out.println("# GameServlet > POST > Gioco aggiunto > " + request.getParameter("game-name"));
@@ -299,10 +323,12 @@ public class GameServlet extends HttpServlet {
 				break;
 			
 			case "deleteGame":
-				Game game = new GameService(db).getGame(Integer.valueOf(request.getParameter("game-id")));
+				Game game = new GameService(db).getGame(Integer.valueOf(request.getParameter("deleteGameId")));
 				
-				if(game != null)
+				if(game != null) {
 					response.setStatus(200);
+					new GameService(db).deleteGame(game.getId());
+				}
 				else
 					response.setStatus(400);
 					
@@ -314,6 +340,24 @@ public class GameServlet extends HttpServlet {
 				break;
 		}
 		
+	}
+
+	/*
+		Curiosamente, Tomcat 7.x non supporta getSubmittedFileName(), introdotto invece nelle versioni 8.x.
+		
+		Scrivere questo metodo, pervenuto in una guida su Stack Overflow (https://stackoverflow.com/questions/2422468/how-can-i-upload-files-to-a-server-using-jsp-servlet/) a mano ..
+		.. risulta necessario. L'alternativa sarebbe cambiare completamente toolchain, essendo obbligati a usare Cargo oppure TomEE invece di Tomcat 7.x.
+
+		Per questo motivo, si è preferito utilizzare il metodo proposto per le piattaforme che impiegano Servlet 3.0.
+	*/
+	private static String getSubmittedFileName(Part part) {
+		for (String cd : part.getHeader("content-disposition").split(";")) {
+			if (cd.trim().startsWith("filename")) {
+				String fileName = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+				return fileName.substring(fileName.lastIndexOf('/') + 1).substring(fileName.lastIndexOf('\\') + 1); // MSIE fix.
+			}
+		}
+		return null;
 	}
 	
 }

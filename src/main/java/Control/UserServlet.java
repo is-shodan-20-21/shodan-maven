@@ -162,8 +162,6 @@ public class UserServlet extends HttpServlet {
 						return;
 					}
 
-					System.out.println(card_number);
-
 					Card raw_card = new Card(
 						0,
 						request.getParameter("cardType"),

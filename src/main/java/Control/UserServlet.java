@@ -96,11 +96,12 @@ public class UserServlet extends HttpServlet {
 
 			case "updateBalance":
 				User dup = user;
-				dup.setMoney(dup.getMoney() + 100);
+				dup.setMoney(dup.getMoney() + Integer.valueOf(request.getParameter("amount")));
 				try {
 					new UserService(db).updateUser(user);
+					response.setStatus(200);
 				} catch(SQLException e) {
-					e.printStackTrace();
+					response.setStatus(400);
 				}
 				break;
 

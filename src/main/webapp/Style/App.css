@@ -952,6 +952,27 @@ input[type="search"]::-webkit-search-results-decoration {
 	background: #201f1f;
 }
 
+.amount-radio {
+	margin-bottom: 20px;
+}
+
+.amount-radio label {
+	font-family: 'Karla';
+	margin-right: 15px;
+}
+
+.amount-radio input[type="text"] {
+	background: #171717;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #292626;
+    font-family: 'Karla', sans-serif;
+    font-size: 17.5px;
+	color: #f49af4;
+	flex-grow: 0.25;
+	outline: none;
+}
+
 #settings-forms {
 	width: 100% !important;
 }
@@ -1167,6 +1188,7 @@ input:-webkit-autofill:focus {
 
 	#cards-container .credit-card {
 		margin-bottom: 25px;
+		flex: 1 1 200px;
 	}
 }
 

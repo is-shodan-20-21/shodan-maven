@@ -1,21 +1,38 @@
 $(document).ready(
     () => {
+        $("#amount-input").on("click", function() {
+            $("#amount-input").attr("placeholder", "0");
+            $("#amount-input-radio").attr("checked", "true");
+        });
+
+        $("#amount-input").on("input", function() {
+            $("#amount-input-radio").attr("value", $("#amount-input").val());
+        });
+
         $(".valid-credit-card").click(
             () => {
-                alert("[DEMO] Ricarica effettuata, +100€ sul saldo!");
-                $.ajax(
-                    {
-                        type: "GET",
-                        url: "UserServlet",
-                        data: {
-                            action: "updateBalance",
-                            cookie: navigator.cookieEnabled,
-				            jsession: window.location.href.substring(
-					            window.location.href.lastIndexOf("=") + 1
-				            ),
+                let amount = $("input[name=\"amount\"]:checked").val();
+                
+                if(amount == 0)
+                    alert("[Payment API Demo] Inserisci un ammontare valido.");
+                else {
+                    $.ajax(
+                        {
+                            type: "GET",
+                            url: "UserServlet",
+                            data: {
+                                action: "updateBalance",
+                                cookie: navigator.cookieEnabled,
+                                jsession: window.location.href.substring(
+                                    window.location.href.lastIndexOf("=") + 1
+                                ),
+                                amount: amount
+                            },
+                            success: () => alert("[Payment API Demo] Ricarica di " + amount + "€ effettuata sul saldo!"),
+                            error: () => alert("[Payment API Demo] Impossibile effettuare la ricarica. Ricontrolla i dati.")
                         }
-                    }
-                )
+                    )
+                }
             }
         );
 

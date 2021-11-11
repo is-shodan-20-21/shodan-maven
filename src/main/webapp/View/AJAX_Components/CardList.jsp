@@ -2,6 +2,28 @@
 
 <div class="card-tip">Ricarica il tuo saldo utilizzando una carta registrata, oppure aggiungine una nuova.</div>
 
+<form class="amount-radio">
+    <label>
+        <input type="radio" name="amount" value="10" checked>
+        10&euro;
+    </label>
+
+    <label>
+        <input type="radio" name="amount" value="25">
+        25&euro;
+    </label>
+
+    <label>
+        <input type="radio" name="amount" value="50">
+        50&euro;
+    </label>
+
+    <label>
+        <input type="radio" id="amount-input-radio" name="amount" value="0">
+        <input type="text" id="amount-input" placeholder="Inserisci una quantit&agrave;..." />
+    </label>
+</form>
+
 <div id="cards-container">
     <c:forEach items="${cards}" var="parsed">
         <div

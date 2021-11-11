@@ -70,6 +70,25 @@ public class HasCartService implements Serializable {
 			statement = db.prepareStatement(query);
 			statement.setInt(1, cart.getUserId());
 			statement.setInt(2, cart.getGameId());
+
+			statement.executeUpdate();
+			
+			return true;
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+
+	public boolean removeItemForAll(Game game) {
+		String query = "DELETE FROM has_cart WHERE game_id = ?";
+		
+		System.out.println("# HasCartService > Query > " + query);
+		
+		try {
+			statement = db.prepareStatement(query);
+			statement.setInt(1, game.getId());
 			
 			statement.executeUpdate();
 			

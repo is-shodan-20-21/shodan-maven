@@ -35,7 +35,8 @@ public class TransactionService {
                         new GameService(this.db).getGame(
                             result.getInt("game_id")
                         ),
-                        result.getDate("transaction_date")
+                        result.getDate("transaction_date"),
+                        result.getInt("transaction_price")
                     )
                 );
             }
@@ -65,7 +66,8 @@ public class TransactionService {
                         new GameService(this.db).getGame(
                             result.getInt("game_id")
                         ),
-                        result.getDate("transaction_date")
+                        result.getDate("transaction_date"),
+                        result.getInt("transaction_price")
                     )
                 );
             }
@@ -77,16 +79,17 @@ public class TransactionService {
     }
 
     public void insertTransaction(Transaction transaction) {
-        System.out.println(transaction.getTransaction_date());
-        String query = "INSERT INTO transactions(user_id, game_id, transaction_date) VALUES ("
-            + transaction.getUser().getId() + ", "
-            + transaction.getGame().getId() + ", \""
-            + transaction.getTransaction_date() + "\")";
+        String query = "INSERT INTO transactions(user_id, game_id, transaction_date, transaction_price) VALUES (?, ?, ?, ?)";
 
         System.out.println(query);
 
         try {
             statement = db.prepareStatement(query);
+            statement.setInt(1, transaction.getUser().getId());
+            statement.setInt(2, transaction.getGame().getId());
+            statement.setDate(3, transaction.getTransaction_date());
+            statement.setInt(4, transaction.getTransaction_price());
+
             statement.executeUpdate();
         } catch(SQLException e) {
             e.printStackTrace();

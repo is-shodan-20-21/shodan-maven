@@ -963,6 +963,10 @@ input[type="search"]::-webkit-search-results-decoration {
 	cursor: pointer;
 }
 
+.transaction-link>span:hover {
+	color: #e9b1e6;
+}
+
 #settings-form-info {
 	text-align: left !important;
 	font-family: 'Karla', sans-serif;

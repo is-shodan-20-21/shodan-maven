@@ -3,6 +3,7 @@ package Control;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -96,7 +97,11 @@ public class UserServlet extends HttpServlet {
 			case "updateBalance":
 				User dup = user;
 				dup.setMoney(dup.getMoney() + 100);
-				new UserService(db).updateUser(user);
+				try {
+					new UserService(db).updateUser(user);
+				} catch(SQLException e) {
+					e.printStackTrace();
+				}
 				break;
 
 			case "purchase":
@@ -126,7 +131,11 @@ public class UserServlet extends HttpServlet {
 				
 				user.setMoney(user.getMoney() - price);
 				
-				new UserService(db).updateUser(user);
+				try {
+					new UserService(db).updateUser(user);
+				} catch(SQLException e) {
+					e.printStackTrace();
+				}
 				
 				System.out.println("# UserServlet > GET > Pagamento concluso con successo");
 				

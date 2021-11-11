@@ -3,6 +3,7 @@ package Control;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,7 +44,11 @@ public class LoginServlet extends HttpServlet {
 					
 				user.setSession(request.getSession().getId());
 					
-				new UserService(db).updateUser(user);
+				try {
+					new UserService(db).updateUser(user);
+				} catch(SQLException e) {
+					e.printStackTrace();
+				}
 					
 				if(request.getParameter("cookie").equals("false"))
 					out.print(response.encodeURL(""));

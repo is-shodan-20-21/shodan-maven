@@ -14,7 +14,7 @@
                 <span data-game-id="${transaction.game.id}">${transaction.game.name}</span>
             </td>
             <td>${transaction.transaction_date}</td>
-            <td>${transaction.game.price}&euro;</td>
+            <td>${transaction.transaction_price}&euro;</td>
         </tr>
     </c:forEach>
 </table>

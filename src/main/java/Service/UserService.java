@@ -70,8 +70,28 @@ public class UserService implements Serializable {
 		
 		return user;
 	}
+
+	public boolean findUserByEmail(String email) {
+		try {
+			String query = "SELECT * FROM users WHERE user_email = ?";
+			
+			statement = db.prepareStatement(query);
+			statement.setString(1, email);
+			
+			ResultSet result = statement.executeQuery();
+			
+			System.out.println("# UserService > Query > " + query);
+
+			if(result.next())
+				return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
 	
-	public boolean updateUser(User user) {
+	public boolean updateUser(User user) throws SQLException {
 		try {
 			String query = 
 				  "UPDATE users SET"

@@ -67,5 +67,12 @@ public class Game implements Serializable {
 	public String getLandscape() {
 		return landscape;
 	}
+
+	/*
+		Routine di aggiornamento del prezzo utilizzata dal Cataloghista
+	*/
+	public void setPrice(int price) {
+		this.price = price;
+	}
 	
 }

@@ -34,7 +34,14 @@ $(document).ready(
 											window.location.href.lastIndexOf("=") + 1
 										)
 									},
-									error: (data) => $("#add-to-cart").click(() => window.location.href="index.jsp")
+									error: (data) => {
+										$(".add-to-cart-icon").html('<i class="fas fa-sign-in-alt"></i>');
+										$(".add-to-cart-text").html("Effettua l'accesso!");
+										document.cookie = "user_session=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+										localStorage.removeItem("last-page");
+										localStorage.removeItem("last-nav");
+										$("#add-to-cart").click(() => window.location.href="index.jsp");
+									}
 								}
 							);
 

@@ -10,6 +10,7 @@ $(document).ready(
 				type: "GET",
 				url: "CartServlet",
 				data: {
+					action: "cartPage",
 					cookie: navigator.cookieEnabled,
 					endpoint: "View/Cart.jsp",
 					jsession: window.location.href.substring(

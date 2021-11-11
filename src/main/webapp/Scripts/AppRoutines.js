@@ -10,6 +10,24 @@ $(document).ready(
 		$.ajax(
 			{
 				type: "GET",
+				url: "CartServlet",
+				data: {
+					action: "quantity",
+					cookie: navigator.cookieEnabled,
+					jsession: window.location.href.substring(
+						window.location.href.lastIndexOf("=") + 1
+					)
+				},
+				success: (data) => localStorage.setItem("cart", data),
+				error: (data) => deleteCart()
+			}
+		).done(
+			() => refreshCart()
+		);
+
+		$.ajax(
+			{
+				type: "GET",
 				url: "UserServlet",
 				data: {
 					action: "role",
@@ -123,11 +141,22 @@ function deleteCart() {
 }
 
 function updateCart() {
-	if(localStorage.getItem("cart") != null)				
-		localStorage.setItem("cart", parseInt(localStorage.getItem("cart")) + 1);
-	else
-		localStorage.setItem("cart", 1);
-	refreshCart();
+	$.ajax(
+		{
+			type: "GET",
+			url: "CartServlet",
+			data: {
+				action: "quantity",
+				cookie: navigator.cookieEnabled,
+				jsession: window.location.href.substring(
+					window.location.href.lastIndexOf("=") + 1
+				)
+			},
+			success: (data) => localStorage.setItem("cart", data)
+		}
+	).done(
+		() => refreshCart()
+	);
 }
 
 function setEmptyView(error = "Non c'è ancora nulla qui...") {

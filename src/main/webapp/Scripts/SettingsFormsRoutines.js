@@ -34,13 +34,27 @@ function tryEmailChange() {
 				jsession: window.location.href.substring(
 					window.location.href.lastIndexOf("=") + 1
 				),
-				email: $("#settings-input-email").val()
+				email: $("#settings-input-email").val(),
+				lastEmail: $("#settings-input-last-email").val()
 			},
 			success: (data) => {
 				$("#email-change-message").html(data);
+				$("#email-change-message").css("color", "#89f189");
 				$("#email-change-message").show();
 				$(".user-data>h2").html($("#settings-input-email").val());
-				setTimeout(() => $("#email-change-message").hide(), 2500);
+				setTimeout(
+					() => $("#email-change-message").hide(), 
+				4500);
+			},
+			error: (data) => {
+				console.log(data);
+				$("#email-change-message").html(data.responseText);
+				$("#email-change-message").css("color", "#ea4e4e");
+				$("#email-change-message").show();
+				$(".user-data>h2").html($("#settings-input-email").val());
+				setTimeout(
+					() => $("#email-change-message").hide(), 
+				4500);
 			}
 		}
 	);
@@ -69,12 +83,20 @@ function tryPasswordChange() {
 				},
 				success: (data) => {
 					$("#password-change-message").html(data);
+					$("#password-change-message").css("color", "#89f189");
 					$("#password-change-message").show();
-					setTimeout(() => $("#password-change-message").hide(), 2500);
+					setTimeout(() => $("#password-change-message").hide(), 4500);
+				},
+				error: (data) => {
+					$("#password-change-message").html(data);
+					$("#password-change-message").css("color", "#ea4e4e");
+					$("#password-change-message").show();
+					setTimeout(() => $("#password-change-message").hide(), 4500);
 				}
 			}
 		);
 	} else {
+		$("#password-change-message").css("color", "#ea4e4e");
 		$("#password-change-message").html("La password deve avere almeno cinque caratteri, di cui almeno una lettera e un numero.");
 		$("#password-change-message").show();
 		setTimeout(() => $("#password-change-message").hide(), 2500);

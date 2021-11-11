@@ -2,6 +2,7 @@ package Control;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -111,13 +112,39 @@ public class SettingsServlet extends HttpServlet {
 				
 				System.out.println("# SettingsServlet > POST > Aggiorna l'email (" + email + ") dell'utente ID " + user.getId());
 				
-				user.setEmail(email);
-				
-				if(new UserService(db).updateUser(user)) {
-					response.getWriter().println("Email modificata con successo!");
-					request.getSession().setAttribute("user_metadata", user);
-				} else
-					response.getWriter().println("Non &egrave; stato possibile modificare l'email. Ricontrolla i dati!");
+				if(!user.getEmail().equals(request.getParameter("lastEmail"))) {
+					response.getWriter().println("Non hai inserito correttamente la tua email attuale.");
+					System.out.println("# SettingsServlet > POST > Fallimento nell'aggiornare la mail");
+					response.setStatus(400);
+					return;
+				} else if(!new UserService(db).findUserByEmail(email)) {
+					response.getWriter().println("Impossibile usare questa email.");
+					System.out.println("# SettingsServlet > POST > Email già presente nel database");
+					response.setStatus(400);
+					return;
+				} else if(email.equals(request.getParameter("lastEmail"))) {
+					response.getWriter().println("Inserisci email diverse.");
+					System.out.println("# SettingsServlet > POST > Email duplicate");
+					response.setStatus(400);
+					return;
+				} else {
+					user.setEmail(email);
+					try {
+						if(new UserService(db).updateUser(user)) {
+							response.getWriter().println("Email modificata con successo!");
+							response.setStatus(200);
+							request.getSession().setAttribute("user_metadata", user);
+						} else {
+							response.setStatus(400);
+							System.out.println("# SettingsServlet > POST > Fallimento nell'aggiornare la mail");
+							response.getWriter().println("Non &egrave; stato possibile modificare l'email. Ricontrolla i dati!");
+						}
+					} catch(SQLException e) {
+						response.setStatus(400);
+						System.out.println("# SettingsServlet > POST > Impossibile aggiornare l'email.");
+						response.getWriter().println("Non &egrave; stato possibile modificare l'email. Ricontrolla i dati!");
+					}
+				}
 				
 				break;
 		
@@ -130,22 +157,32 @@ public class SettingsServlet extends HttpServlet {
 				
 				if(!old_password.equals(user.getPassword())) {
 					response.getWriter().println("Non hai inserito correttamente la tua password attuale!");
+					response.setStatus(400);
 					return;
 				}
 				
 				if(!new_password.equals(new_password_again)) {
 					response.getWriter().println("Le due password inserite non coincidono!");
+					response.setStatus(400);
 					return;
 				}
 				
 				user.setPassword(PasswordHasher.hash(new_password));
 				
-				if(new UserService(db).updateUser(user)) {
-					response.getWriter().println("Password modificata con successo!");
-					request.getSession().setAttribute("user_metadata", user);
-				} else
-					response.getWriter().println("Non &egrave; stato possibile modificare la password. Ricontrolla i dati!");
-				
+				try {
+					if(new UserService(db).updateUser(user)) {
+						response.setStatus(200);
+						response.getWriter().println("Password modificata con successo!");
+						request.getSession().setAttribute("user_metadata", user);
+						return;
+					} else
+						response.getWriter().println("Non &egrave; stato possibile modificare la password. Ricontrolla i dati!");
+				} catch(SQLException e) {
+					e.printStackTrace();
+				}
+
+				response.setStatus(400);
+
 				break;	
 		
 			default:

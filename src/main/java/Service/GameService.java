@@ -251,6 +251,28 @@ public class GameService implements Serializable {
 		
 		return false;
 	}
+
+	public boolean updateGame(Game game) {
+		try {
+			String query = "UPDATE games SET game_price = ? WHERE game_id = ?";
+		
+			System.out.println("# GameService > Query > " + query);
+			
+			statement = db.prepareStatement(query);
+			statement.setInt(1, game.getPrice());
+			statement.setInt(2, game.getId());
+			
+			statement.executeUpdate();
+			
+			System.out.println("# GameService > Aggiorno il gioco " + game.getName());
+		
+			return true;
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
 	
 	public boolean deleteGame(int id) {
 		try {

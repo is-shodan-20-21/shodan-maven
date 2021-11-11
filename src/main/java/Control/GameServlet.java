@@ -231,13 +231,20 @@ public class GameServlet extends HttpServlet {
 		
 		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
 
+		/*
+			A0 -> Prezzo negativo
+			A1 -> Formato della data non valido
+			A2 -> Immagini già presenti nel database
+			A3 -> Impossibile caricare le immagini
+			A4 -> Input non validi
+		*/
+
 		switch(request.getParameter("action")) {
 			case "addGame":
-				System.out.println("# GameServlet > POST > Trying to add a game...");
+				System.out.println("# GameServlet > POST > Provo ad aggiungere un gioco...");
 
 				if(Integer.valueOf(request.getParameter("game-price")) < 0) {
-					request.setAttribute("addGameResponse", "Il costo non puo' essere negativo.");
-					request.getRequestDispatcher("app.jsp").forward(request, response);
+					response.sendRedirect("?__ERR:NO=A0");
 					System.out.println("# GameServlet > POST > Costo negativo");
 					response.setStatus(400);
 					return;
@@ -253,8 +260,7 @@ public class GameServlet extends HttpServlet {
 				int greaterYear = 2000;
 				
 				if(parsedDate < lesserYear || parsedDate > greaterYear) {
-					request.setAttribute("addGameResponse", "La data inserita non &egrave; valida.");
-					request.getRequestDispatcher("app.jsp").forward(request, response);
+					response.sendRedirect("?__ERR:NO=A1");
 					System.out.println("# GameServlet > POST > Data non valida");
 					response.setStatus(400);
 					
@@ -286,9 +292,8 @@ public class GameServlet extends HttpServlet {
 
 						System.out.println("# GameServlet > POST > Immagini caricate");
 					} else {
-						request.setAttribute("addGameResponse", "Impossibile caricare le immagini.");
-						request.getRequestDispatcher("app.jsp").forward(request, response);
-						System.out.println("# GameServlet > POST > Impossibile caricare le immagini");
+						response.sendRedirect("?__ERR:NO=A2");
+						System.out.println("# GameServlet > POST > Immagini già presenti nel database");
 						response.setStatus(400);
 						
 						return;
@@ -296,9 +301,8 @@ public class GameServlet extends HttpServlet {
 				} catch(IOException e) {
 					e.printStackTrace();
 					
-					request.setAttribute("addGameResponse", "Non &egrave; stato possibile aggiungere il gioco.");
-					request.getRequestDispatcher("app.jsp").forward(request, response);
-					System.out.println("# GameServlet > POST > IOException");
+					response.sendRedirect("?__ERR:NO=A3");
+					System.out.println("# GameServlet > POST > Impossibile caricare le immagini");
 					response.setStatus(400);
 					
 					return;
@@ -316,14 +320,14 @@ public class GameServlet extends HttpServlet {
 				} catch(IllegalArgumentException e) {
 					e.printStackTrace();
 					
-					request.setAttribute("addGameResponse", "I dati forniti non sono validi.");
-					request.getRequestDispatcher("app.jsp").forward(request, response);
+					response.sendRedirect("?__ERR:NO=A4");
+					System.out.println("# GameServlet > POST > IllegalArgumentException");
 					response.setStatus(400);
+
 					return;
 				}
 				
-				request.setAttribute("addGameResponse", "Gioco aggiunto con successo");
-				request.getRequestDispatcher("app.jsp").forward(request, response);
+				response.sendRedirect("?__SRVC:OK");
 				response.setStatus(200);
 			
 				System.out.println("# GameServlet > POST > Gioco aggiunto > " + request.getParameter("game-name"));
@@ -336,6 +340,21 @@ public class GameServlet extends HttpServlet {
 				if(game != null) {
 					response.setStatus(200);
 					new GameService(db).deleteGame(game.getId());
+					new HasCartService(db).removeItemForAll(game);
+					new HasGameService(db).removeItemForAll(game);
+				} else
+					response.setStatus(400);
+					
+				break;
+
+			case "updateGame":
+				Game updatedGame = new GameService(db).getGame(Integer.valueOf(request.getParameter("updateGameId")));
+				int newPrice = Integer.valueOf(request.getParameter("updateGamePrice"));
+				
+				if(updatedGame != null && newPrice >= 0) {
+					response.setStatus(200);
+					updatedGame.setPrice(newPrice);
+					new GameService(db).updateGame(updatedGame);
 				}
 				else
 					response.setStatus(400);

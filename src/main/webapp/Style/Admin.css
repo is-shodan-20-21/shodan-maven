@@ -13,6 +13,26 @@ h1 {
   align-items: flex-start;
 }
 
+.storeman-div .a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.storeman-div .a input {
+  display: flex;
+  margin-right: 10px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.storeman-div .a label {
+  text-align: center;
+  font-size: 13px;
+  color: darkgrey;
+  flex: 0.5;
+}
+
 .add-game {
   border-radius: 5px;
   width: 400px;
@@ -28,12 +48,34 @@ h1 {
 .remove-game {
   border-radius: 5px;
   width: 400px;
-  height: 200px;
+  height: 225px;
+  margin-bottom: 30px;
   background: #322d33;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+}
+
+#add-game-result {
+  color: #ea4e4e;
+}
+
+.update-game {
+  border-radius: 5px;
+  width: 400px;
+  height: 225px;
+  background: #322d33;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.admin-game-cont {
+  display: flex;
+  flex-flow: column;
+  align-items: space-evenly;
 }
 
 .modify-game {
@@ -84,6 +126,12 @@ input::placeholder {
 
 #textarea-game::placeholder {
   color: #6e6e6f;
+}
+
+#remove-game-result,
+#update-game-result {
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .button {

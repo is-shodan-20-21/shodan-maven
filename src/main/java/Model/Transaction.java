@@ -18,11 +18,13 @@ public class Transaction implements Serializable {
     private User user;
     private Game game;
     private Date transaction_date;
+    private int transaction_price; // Mantiene il prezzo originale della transazione, in caso il prezzo del gioco cambi nel tempo
 
-    public Transaction(User user, Game game, Date transaction_date) {
+    public Transaction(User user, Game game, Date transaction_date, int transaction_price) {
         this.user = user;
         this.game = game;
         this.transaction_date = transaction_date;
+        this.transaction_price = transaction_price;
     }
 
     public User getUser() {
@@ -47,6 +49,14 @@ public class Transaction implements Serializable {
 
     public void setTransaction_date(Date transaction_date) {
         this.transaction_date = transaction_date;
+    }
+
+    public int getTransaction_price() {
+        return this.transaction_price;
+    }
+
+    public void setTransaction_price(int transaction_price) {
+        this.transaction_price = transaction_price;
     }
 
 }

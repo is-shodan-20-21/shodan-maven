@@ -23,7 +23,8 @@
     <form onsubmit="tryEmailChange(); return false" class="email-form">
         <div class="settings-start">
             <h2>Cambia l'email</h2>
-            <input id="settings-input-email" type="email" required placeholder="email@dominio.eu">
+            <input id="settings-input-last-email" type="email" required placeholder="Inserisci l'email attuale">
+            <input id="settings-input-email" type="email" required placeholder="Inserisci la nuova email">
         </div>
         
         <div class="settings-end">

@@ -2,6 +2,23 @@ $(function() {
 	$('[data-game-owned="true"]').hide();
 	$('[data-game-owned="true"]').parent().children(".game-overlay").children(".game-price").hide();
 
+	$.ajax(
+		{
+			type: "GET",
+			url: "UserServlet",
+			data: {
+				action: "role",
+				cookie: navigator.cookieEnabled,
+				jsession: window.location.href.substring(
+					window.location.href.lastIndexOf("=") + 1
+				)
+			},
+			error: (data) => {
+				$(".game-add").html('<i class="fas fa-sign-in-alt"></i>');
+			}
+		}
+	);
+
 	$(".game-container").click(
 		function() {
 			window.history.pushState(null, null, "?game=" + $(this).attr("data-game-id"));

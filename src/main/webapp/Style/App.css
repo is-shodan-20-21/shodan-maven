@@ -351,6 +351,9 @@ body main #app .content .games .game-add {
     margin-right: -5px;
 	box-shadow: 2px 2px 0px #54084f;
     border: 1px solid #54084f;
+	display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 body main #app .content .games .game-add:hover {

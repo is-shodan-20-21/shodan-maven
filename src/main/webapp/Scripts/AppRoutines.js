@@ -5,7 +5,7 @@ $(document).ready(
 		$("#cta a").click(() => {
 			localStorage.removeItem("last-nav");
 			localStorage.removeItem("last-page");
-		});;
+		});
 
 		$.ajax(
 			{

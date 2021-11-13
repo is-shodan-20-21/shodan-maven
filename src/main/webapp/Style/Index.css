@@ -32,6 +32,7 @@ main {
 	background-size: cover;
 	position: relative;
 	margin: 0 15px 15px 15px;
+	background-position: center;
 }
 
 .loader {

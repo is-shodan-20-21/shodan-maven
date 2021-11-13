@@ -46,7 +46,10 @@
 		>
 		
 			<div class="game-info-container">
-				<h1>Descrizione</h1>
+				<h1>
+					<i class="fas fa-puzzle-piece"></i>
+					Descrizione
+				</h1>
 				<p class="game-description"> ${game.description} </p>
 			</div>	
 		</div>

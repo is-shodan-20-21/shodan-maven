@@ -389,11 +389,13 @@ body main #app .content .games .game-add:hover {
 
 body main #app .content .games .game-container {
 	height: 350px;
-	width: 225px;
+	width: 250px;
 	box-shadow: 0px 0px 3px black;
 	opacity: 0.9;
 	cursor: pointer;
 	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 	position: relative;
 	margin: 0 15px 15px 15px;
 }
@@ -536,10 +538,23 @@ body main #app .content .blog .article-container .article span i {
 }
 
 .game-description {
-    font-size: 22.5px;
+    /*font-size: 22.5px;
     line-height: 27.5px;
     padding: 10px;
-    padding-top: 0;
+    padding-top: 0;*/
+}
+
+.game-info-container {
+	padding-right: 200px;
+}
+
+.game-info-container h1 {
+	margin-left: 20px !important;
+}
+
+.game-info-container p {
+	padding-left: 20px;
+	font-size: 20px;
 }
 
 .game-right .button:hover .add-to-cart-text {
@@ -646,6 +661,7 @@ body main #app .content #game-page .game-image-container .game-image {
 	width: 225px;
 	background-size: cover;
 	box-shadow: 0px 0px 2px black;
+	background-position: center;
 }
 
 /* Blog Page */

@@ -13,3 +13,6 @@ src/main/webapp/Static/Assets/VHS.mp4
 # deploy e target contengono metadati e binari della build effettiva del progetto
 deploy
 target
+
+# github tokens
+__github$tokens

@@ -80,7 +80,7 @@ public class ArticleService {
 		try {
 			String query = "INSERT INTO blog(blog_title, blog_short_title, blog_html) VALUES(?, ?, ?)";
 		
-			System.out.println("# GameService > Query > " + query);
+			System.out.println("# ArticleService > Query > " + query);
 			
 			statement = db.prepareStatement(query);
 			statement.setString(1, title);
@@ -89,7 +89,7 @@ public class ArticleService {
 			
 			statement.executeUpdate();
 			
-			System.out.println("# GameService > Aggiungo l'articolo " + title);
+			System.out.println("# ArticleService > Aggiungo l'articolo " + title);
 		
 			return true;
 		} catch(SQLException e) {
@@ -99,18 +99,49 @@ public class ArticleService {
 		return false;
 	}
 	
+	public Article findArticle(String title, String shortTitle, String html){
+		Article article = null;
+
+		try {
+			String query = "SELECT * FROM blog WHERE blog_title = ? AND blog_short_title = ? AND blog_html = ?";
+		
+			System.out.println("# ArticleService > Query > " + query);
+			
+			statement = db.prepareStatement(query);
+			statement.setString(1, title);
+			statement.setString(2, shortTitle);
+			statement.setString(3, html);
+			
+			ResultSet result = statement.executeQuery();
+			
+			System.out.println("# ArticleService > Aggiungo l'articolo " + title);
+		
+			if(result.next())
+				article = new Article(
+					result.getInt("blog_id"),
+					result.getString("blog_title"),
+					result.getString("blog_short_title"),
+					result.getString("blog_html")
+				);
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return article;
+	}
+
 	public boolean deleteArticle(int id) {
 		try {
 			String query = "DELETE FROM blog WHERE blog_id = ?";
 			
-			System.out.println("# GameService > Query > " + query);
+			System.out.println("# ArticleService > Query > " + query);
 			
 			statement = db.prepareStatement(query);
 			statement.setInt(1, id);
 			
 			statement.executeUpdate();
 			
-			System.out.println("# GameService > Elimino l'articolo con id " + id);
+			System.out.println("# ArticleService > Elimino l'articolo con id " + id);
 			
 			return true;
 		} catch(SQLException e) {

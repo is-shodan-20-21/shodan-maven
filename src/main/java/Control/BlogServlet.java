@@ -1,7 +1,12 @@
 package Control;
 
 import Model.Article;
+import Model.HasWritten;
+import Model.User;
 import Service.ArticleService;
+import Service.HasWrittenService;
+import Service.UserService;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -51,10 +56,14 @@ public class BlogServlet extends HttpServlet {
 							: 0;
 				
 				Article article = new ArticleService(db).getArticle(blog_id);
+
+				HasWritten authorSet = new HasWrittenService(db).getAuthor(blog_id);
+				User author = new UserService(db).getUser(authorSet.getUserId());
 				
 				System.out.println("# BlogServlet > GET > " + article.toString());
 				
 				request.setAttribute("article", article);
+				request.setAttribute("author", author);
 				request.getRequestDispatcher(endpoint).forward(request, response);
 				
 				break;
@@ -73,13 +82,30 @@ public class BlogServlet extends HttpServlet {
 		System.out.println("# BlogServlet > Session: " + request.getSession().getId());
 		
 		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
+
+		User user;
+
+		if(request.getParameter("cookie").equals("false")) {
+			user = new UserService(db).getUserBySession(request.getParameter("jsession"));
+		} else
+			user = (User) request.getSession().getAttribute("user_metadata");
 		
 		switch(request.getParameter("action")) {
 			case "addArticle":
 			
-				new ArticleService(db).addArticle(request.getParameter("title"),
-						request.getParameter("shortTitle"), 
-						request.getParameter("html"));
+				new ArticleService(db).addArticle(
+					request.getParameter("title"),
+					request.getParameter("shortTitle"), 
+					request.getParameter("html")
+				);
+
+				Article neoArticle = new ArticleService(db).findArticle(
+					request.getParameter("title"), 
+					request.getParameter("shortTitle"), 
+					request.getParameter("html")
+				);
+
+				new HasWrittenService(db).addAuthor(new HasWritten(user.getId(), neoArticle.getId()));
 		
 				request.setAttribute("messageArticleAdd", "Articolo aggiunto con successo");
 				response.setStatus(200);
@@ -89,11 +115,12 @@ public class BlogServlet extends HttpServlet {
 				break;
 		
 			case "deleteArticle":
-		
-				Article article = new ArticleService(db).getArticle(Integer.valueOf(request.getParameter("deleteArticleId")));
+				int blog_id = Integer.valueOf(request.getParameter("deleteArticleId"));
+				Article article = new ArticleService(db).getArticle(blog_id);
 				
 				if(article != null) {
-					new ArticleService(db).deleteArticle(Integer.valueOf(request.getParameter("deleteArticleId")));
+					new ArticleService(db).deleteArticle(blog_id);
+					new HasWrittenService(db).removeAuthor(new HasWritten(user.getId(), blog_id));
 					response.setStatus(200);
 					System.out.println("# BlogServelt > POST > Articolo eliminato > " + article.getTitle());
 				} else {

@@ -49,6 +49,36 @@ public class GameService implements Serializable {
 		
 		return game;
 	}
+
+	public Game getGameByName(String name) {
+		Game game = null;
+		
+		try {
+			String query = "SELECT * FROM games WHERE game_name = ?";
+			
+			statement = db.prepareStatement(query);
+			statement.setString(1, name);
+			
+			ResultSet result = statement.executeQuery();
+			
+			System.out.println("# GameService > Query > " + query);
+			
+			if(result.next())
+				game = new Game(
+					result.getInt("game_id"),
+					result.getInt("game_price"),
+					result.getString("game_name"),
+					result.getString("game_description"),
+					result.getString("game_image"),
+					result.getDate("game_release"),
+					result.getString("game_landscape")
+				);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return game;
+	}
 	
 	public ArrayList<Game> getAllGamesByUser(int user_id) {
 		ArrayList<Game> games = new ArrayList<Game>();

@@ -6,6 +6,7 @@ $(document).ready(
 			A2 -> Immagini già presenti nel database
 			A3 -> Impossibile caricare le immagini
 			A4 -> Input non validi
+            A5 -> Titolo già presente
 		*/
 
         loadGamesTable();
@@ -35,6 +36,10 @@ $(document).ready(
                     
                 case "A4":
                     response.html("Input non validi");
+                    break;
+
+                 case "A5":
+                    response.html("Titolo gi&agrave; presente");
                     break;
                     
                 default:

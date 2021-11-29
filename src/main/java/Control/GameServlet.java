@@ -237,6 +237,7 @@ public class GameServlet extends HttpServlet {
 			A2 -> Immagini già presenti nel database
 			A3 -> Impossibile caricare le immagini
 			A4 -> Input non validi
+			A5 -> Titolo già presente
 		*/
 
 		switch(request.getParameter("action")) {
@@ -246,6 +247,13 @@ public class GameServlet extends HttpServlet {
 				if(Integer.valueOf(request.getParameter("game-price")) < 0) {
 					response.sendRedirect("?__ERR:NO=A0");
 					System.out.println("# GameServlet > POST > Costo negativo");
+					response.setStatus(400);
+					return;
+				}
+
+				if(new GameService(db).getGameByName(request.getParameter("game-name")) != null) {
+					response.sendRedirect("?__ERR:NO=A5");
+					System.out.println("# GameServlet > POST > Titolo già presente");
 					response.setStatus(400);
 					return;
 				}

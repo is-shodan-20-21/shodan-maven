@@ -34,7 +34,10 @@ public class ArticleService {
 					result.getInt("blog_id"),
 					result.getString("blog_title"),
 					result.getString("blog_short_title"),
-					result.getString("blog_html")
+					result.getString("blog_html"),
+					new UserService(db).getUser(
+                        result.getInt("user_id")
+                    )
 				);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -65,7 +68,10 @@ public class ArticleService {
 						result.getInt("blog_id"),
 						result.getString("blog_title"),
 						result.getString("blog_short_title"),
-						result.getString("blog_html")
+						result.getString("blog_html"),
+						new UserService(db).getUser(
+                        	result.getInt("user_id")
+                    	)
 					)
 				);
 			}
@@ -76,20 +82,21 @@ public class ArticleService {
 		return blog;
 	}
 	
-	public boolean addArticle(String title, String shortTitle, String html){
+	public boolean addArticle(Article article){
 		try {
-			String query = "INSERT INTO blog(blog_title, blog_short_title, blog_html) VALUES(?, ?, ?)";
+			String query = "INSERT INTO blog(blog_title, blog_short_title, blog_html, user_id) VALUES(?, ?, ?, ?)";
 		
 			System.out.println("# ArticleService > Query > " + query);
 			
 			statement = db.prepareStatement(query);
-			statement.setString(1, title);
-			statement.setString(2, shortTitle);
-			statement.setString(3, html);
+			statement.setString(1, article.getTitle());
+			statement.setString(2, article.getShortTitle());
+			statement.setString(3, article.getHtml());
+			statement.setInt(4, article.getAuthor().getId());
 			
 			statement.executeUpdate();
 			
-			System.out.println("# ArticleService > Aggiungo l'articolo " + title);
+			System.out.println("# ArticleService > Aggiungo l'articolo " + article.getTitle());
 		
 			return true;
 		} catch(SQLException e) {
@@ -121,7 +128,10 @@ public class ArticleService {
 					result.getInt("blog_id"),
 					result.getString("blog_title"),
 					result.getString("blog_short_title"),
-					result.getString("blog_html")
+					result.getString("blog_html"),
+					new UserService(db).getUser(
+                        result.getInt("user_id")
+                    )
 				);
 		} catch(SQLException e) {
 			e.printStackTrace();

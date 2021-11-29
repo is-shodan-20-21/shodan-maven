@@ -1,12 +1,9 @@
 package Control;
 
 import Model.Article;
-import Model.HasWritten;
 import Model.User;
 import Service.ArticleService;
-import Service.HasWrittenService;
 import Service.UserService;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -56,14 +53,10 @@ public class BlogServlet extends HttpServlet {
 							: 0;
 				
 				Article article = new ArticleService(db).getArticle(blog_id);
-
-				HasWritten authorSet = new HasWrittenService(db).getAuthor(blog_id);
-				User author = new UserService(db).getUser(authorSet.getUserId());
 				
 				System.out.println("# BlogServlet > GET > " + article.toString());
 				
 				request.setAttribute("article", article);
-				request.setAttribute("author", author);
 				request.getRequestDispatcher(endpoint).forward(request, response);
 				
 				break;
@@ -93,24 +86,19 @@ public class BlogServlet extends HttpServlet {
 		switch(request.getParameter("action")) {
 			case "addArticle":
 			
-				new ArticleService(db).addArticle(
+				Article newArticle = new Article(
 					request.getParameter("title"),
 					request.getParameter("shortTitle"), 
-					request.getParameter("html")
+					request.getParameter("html"),
+					user
 				);
 
-				Article neoArticle = new ArticleService(db).findArticle(
-					request.getParameter("title"), 
-					request.getParameter("shortTitle"), 
-					request.getParameter("html")
-				);
-
-				new HasWrittenService(db).addAuthor(new HasWritten(user.getId(), neoArticle.getId()));
+				new ArticleService(db).addArticle(newArticle);
 		
 				request.setAttribute("messageArticleAdd", "Articolo aggiunto con successo");
 				response.setStatus(200);
 
-				System.out.println("# BlogServlet > POST > Articolo aggiunto > " + request.getParameter("add-article-title"));
+				System.out.println("# BlogServlet > POST > Articolo aggiunto > " + request.getParameter("title"));
 		
 				break;
 		
@@ -120,7 +108,6 @@ public class BlogServlet extends HttpServlet {
 				
 				if(article != null) {
 					new ArticleService(db).deleteArticle(blog_id);
-					new HasWrittenService(db).removeAuthor(new HasWritten(user.getId(), blog_id));
 					response.setStatus(200);
 					System.out.println("# BlogServelt > POST > Articolo eliminato > " + article.getTitle());
 				} else {

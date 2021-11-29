@@ -14,12 +14,22 @@ public class Article implements Serializable {
 	private String title;
 	private String shortTitle;
 	private String html;
+	private User author;
 	
-	public Article(int id, String title, String shortTitle, String html) {
+	public Article(String title, String shortTitle, String html, User author) {
+		this.id = -1;
+		this.title = title;
+		this.shortTitle = shortTitle;
+		this.html = html;
+		this.author = author;
+	}
+
+	public Article(int id, String title, String shortTitle, String html, User author) {
 		this.id = id;
 		this.title = title;
 		this.shortTitle = shortTitle;
 		this.html = html;
+		this.author = author;
 	}
 	
 	public int getId() {
@@ -36,6 +46,10 @@ public class Article implements Serializable {
 	
 	public String getHtml() {
 		return html;
+	}
+
+	public User getAuthor() {
+		return author;
 	}
 	
 	public String toString() {

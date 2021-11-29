@@ -4,17 +4,15 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import Collection.ParsedCard;
 import Model.Card;
 import Model.User;
-import Service.HasCardService;
+import Service.CardService;
 import Service.TransactionService;
 import Service.UserService;
 import Utils.PasswordHasher;
@@ -60,7 +58,7 @@ public class SettingsServlet extends HttpServlet {
 			case "cardsTable":
 				String endpointCT = request.getParameter("endpoint");
 
-				ArrayList<Card> cards = new HasCardService(db).getCards(user);
+				ArrayList<Card> cards = new CardService(db).getCardsByOwner(user);
 				ArrayList<ParsedCard> parsed = new ArrayList<ParsedCard>();
 
 				for(Card card : cards)

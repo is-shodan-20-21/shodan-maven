@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import Collection.ParsedCard;
 import Model.Role;
 import Model.Card;
@@ -19,7 +17,6 @@ import Model.Game;
 import Model.User;
 import Service.CardService;
 import Service.GameService;
-import Service.HasCardService;
 import Service.HasGameService;
 import Service.HasRoleService;
 import Service.UserService;
@@ -83,7 +80,7 @@ public class UserServlet extends HttpServlet {
 				break;
 		
 			case "cardList":
-				ArrayList<Card> cards = new HasCardService(db).getCards(user);
+				ArrayList<Card> cards = new CardService(db).getAllCards();
 				ArrayList<ParsedCard> parsed = new ArrayList<ParsedCard>();
 
 				for(Card card : cards)
@@ -172,19 +169,16 @@ public class UserServlet extends HttpServlet {
 						return;
 					}
 
-					Card raw_card = new Card(
+					Card newCard = new Card(
 						0,
 						request.getParameter("cardType"),
 						card_number,
 						request.getParameter("cardOwner"),
-						Date.valueOf(request.getParameter("cardDate"))
+						Date.valueOf(request.getParameter("cardDate")),
+						user
 					);
 
-					new CardService(db).insertCard(raw_card);
-
-					Card parsed_card = new CardService(db).getCardByNumber(card_number);
-
-					if(!(new HasCardService(db).addCard(user, parsed_card))) {
+					if(!(new CardService(db).insertCard(newCard))) {
 						response.setStatus(400);
 						System.out.println("# UserServlet > Tentativo di aggiunta di una nuova carda fallito");	
 						return;
@@ -192,7 +186,7 @@ public class UserServlet extends HttpServlet {
 
 					response.setStatus(200);
 					System.out.println("# UserServlet > Tentativo di aggiunta di una nuova carda riuscito");
-				} catch(IllegalArgumentException | SQLIntegrityConstraintViolationException e) {
+				} catch(IllegalArgumentException e) {
 					response.setStatus(400);
 					System.out.println("# UserServlet > Tentativo di aggiunta di una nuova carda fallito");
 				}

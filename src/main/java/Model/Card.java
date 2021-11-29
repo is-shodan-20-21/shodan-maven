@@ -18,13 +18,15 @@ public class Card implements Serializable {
     private long card_number;
     private String card_owner;
     private Date card_date;
+    private User user;
 
-    public Card(int card_id, String card_type, long card_number, String card_owner, Date card_date) {
+    public Card(int card_id, String card_type, long card_number, String card_owner, Date card_date, User user) {
         this.card_id = card_id;
         this.card_type = card_type;
         this.card_number = card_number;
         this.card_owner = card_owner;
         this.card_date = card_date;
+        this.user = user;
     }
 
     public int getCard_id() {
@@ -48,5 +50,9 @@ public class Card implements Serializable {
 
     public Date getCard_date() {
         return this.card_date;
+    }
+
+    public User getOwner() {
+        return this.user;
     }
 }

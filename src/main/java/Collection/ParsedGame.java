@@ -29,4 +29,12 @@ public class ParsedGame implements Serializable {
         return owned;
     }
 
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public void setOwned(boolean owned) {
+        this.owned = owned;
+    }
+
 }

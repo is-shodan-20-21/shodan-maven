@@ -25,4 +25,12 @@ public class ParsedCard {
         return this.safe_digits;
     }
 
+    public void setCard(Card card) {
+        this.card = card;
+    }
+
+    public void setSafe_digits(long digits) {
+        this.safe_digits = digits;
+    }
+
 }

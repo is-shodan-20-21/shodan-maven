@@ -75,4 +75,27 @@ public class Game implements Serializable {
 		this.price = price;
 	}
 	
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public void setRelease(Date release) {
+		this.release = release;
+	}
+
+	public void setLandscape(String landscape) {
+		this.landscape = landscape;
+	}
 }

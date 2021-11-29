@@ -51,9 +51,28 @@ public class Article implements Serializable {
 	public User getAuthor() {
 		return author;
 	}
-	
+
+	public void setId(int id) {
+		
+		this.id = id;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setShortTitle(String shortTitle) {
+		this.shortTitle = shortTitle;
+	}
+
+	public void setHtml(String html) {
+		this.html = html;
+	}
+
+	public void setAuthor(User author) {
+		this.author = author;
+	}	
+
 	public String toString() {
 		return "Article [" + title + "][" + shortTitle + "][" + html + "]";
 	}
-	
 }

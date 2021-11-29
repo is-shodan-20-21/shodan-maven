@@ -55,4 +55,32 @@ public class Card implements Serializable {
     public User getOwner() {
         return this.user;
     }
+
+    public void setCard_id(int card_id) {
+        this.card_id = card_id;
+    }
+
+    public void setCard_type(String card_type) {
+        this.card_type = card_type;
+    }
+
+    public void setCard_number(long card_number) {
+        this.card_number = card_number;
+    }
+
+    public void setCard_owner(String card_owner) {
+        this.card_owner = card_owner;
+    }
+
+    public void setCard_date(Date card_date) {
+        this.card_date = card_date;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

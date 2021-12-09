@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.StyledEditorKit.BoldAction;
 
 @WebServlet("/BlogServlet")
 public class BlogServlet extends HttpServlet {
@@ -85,38 +86,75 @@ public class BlogServlet extends HttpServlet {
 		
 		switch(request.getParameter("action")) {
 			case "addArticle":
+
+				String title = request.getParameter("title");
+				String shortTitle = request.getParameter("shortTitle");
+				String html = request.getParameter("html");
+
+				if (title!=null && !title.equals("")) {
+					if (shortTitle!=null && !shortTitle.equals("")) {
+						if (html!=null && !html.equals("")) {
+							
+							Article newArticle = new Article(
+								title,
+								shortTitle,
+								html,
+								user
+							);
+
+							new ArticleService(db).addArticle(newArticle);
+					
+							request.setAttribute("messageArticleAdd", "Articolo aggiunto con successo");
+							response.setStatus(200);
+
+							System.out.println("# BlogServlet > POST > Articolo aggiunto > " + request.getParameter("title"));
+
+							System.out.println("# TC_AggiungiArticolo > Articolo aggiunto con successo!");
+
+						} else {
+							System.out.println("# TC_AggiungiArticolo > Contenuto: campo obbligatorio");
+						}
+					} else {
+						System.out.println("# TC_AggiungiArticolo > Sottotitolo: campo obbligatorio");
+					}
+				} else {
+					System.out.println("# TC_AggiungiArticolo > Titolo: campo obbligatorio");
+				}
 			
-				Article newArticle = new Article(
-					request.getParameter("title"),
-					request.getParameter("shortTitle"), 
-					request.getParameter("html"),
-					user
-				);
-
-				new ArticleService(db).addArticle(newArticle);
-		
-				request.setAttribute("messageArticleAdd", "Articolo aggiunto con successo");
-				response.setStatus(200);
-
-				System.out.println("# BlogServlet > POST > Articolo aggiunto > " + request.getParameter("title"));
-		
 				break;
+				
 		
 			case "deleteArticle":
-				int blog_id = Integer.valueOf(request.getParameter("deleteArticleId"));
-				Article article = new ArticleService(db).getArticle(blog_id);
-				
-				if(article != null) {
-					new ArticleService(db).deleteArticle(blog_id);
-					response.setStatus(200);
-					System.out.println("# BlogServelt > POST > Articolo eliminato > " + article.getTitle());
+
+				String blog_id_string = request.getParameter("deleteArticleId");
+				if (blog_id_string!=null && !blog_id_string.equals("")) {
+					try {
+						int blog_id = Integer.valueOf(blog_id_string);
+						Article article = new ArticleService(db).getArticle(blog_id);
+						if (article!= null) {
+							new ArticleService(db).deleteArticle(blog_id);
+							response.setStatus(200);
+							System.out.println("# BlogServlet > POST > Articolo eliminato > " + article.getTitle());
+							System.out.println("# TC_RimuoviArticolo > Articolo aggiunto con successo!");
+						} else {
+							response.setStatus(400);
+							System.out.println("# BlogServlet > POST > Articolo non esistente");
+							System.out.println("# TC_RimuoviArticolo > Articolo non esistente");
+						}
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+						System.out.println("# TC_RimuoviArticolo > Formato ID errato");
+						response.setStatus(400);
+					}
 				} else {
+					System.out.println("# TC_RimuoviArticolo > ID mancante");
 					response.setStatus(400);
-					System.out.println("# BlogServelt > POST > Articolo insistente");
 				}
+
+				break;
 		
 			default:
-				System.out.println("# BlogServelt > POST > Nessuna azione specificata");
+				System.out.println("# BlogServlet > POST > Nessuna azione specificata");
 			
 			break;
 		}

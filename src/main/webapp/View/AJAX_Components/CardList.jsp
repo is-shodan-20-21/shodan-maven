@@ -28,12 +28,13 @@
     <c:forEach items="${cards}" var="parsed">
         <div
             class="valid-credit-card credit-card ${parsed.card.card_type}"
+            data-card-id="${parsed.card.card_id}"
         >
-            <div>
-                <h1>${parsed.card.card_type}</h1>
-                <h2>${parsed.card.card_number}</h2>
-                <h3>${parsed.card.card_owner}</h2>
-                <h4>${parsed.card.card_date}</h2>
+            <div data-card-id="${parsed.card.card_id}">
+                <h1 data-card-id="${parsed.card.card_id}">${parsed.card.card_type}</h1>
+                <h2 data-card-id="${parsed.card.card_id}">${parsed.card.card_number}</h2>
+                <h3 data-card-id="${parsed.card.card_id}">${parsed.card.card_owner}</h2>
+                <h4 data-card-id="${parsed.card.card_id}">${parsed.card.card_date}</h2>
             </div>
         </div>
     </c:forEach>

@@ -10,9 +10,12 @@ $(document).ready(
         });
 
         $(".valid-credit-card").click(
-            () => {
+            function(e) {
                 let amount = $("input[name=\"amount\"]:checked").val();
+                let cardId = $(e.target).attr("data-card-id");
                 
+                console.log($(e.target));
+
                 if(amount == 0)
                     alert("[Payment API Demo] Inserisci un ammontare valido.");
                 else {
@@ -26,7 +29,8 @@ $(document).ready(
                                 jsession: window.location.href.substring(
                                     window.location.href.lastIndexOf("=") + 1
                                 ),
-                                amount: amount
+                                amount: amount,
+                                cardId: cardId
                             },
                             success: () => alert("[Payment API Demo] Ricarica di " + amount + "€ effettuata sul saldo!"),
                             error: () => alert("[Payment API Demo] Impossibile effettuare la ricarica. Ricontrolla i dati.")
@@ -70,6 +74,7 @@ function tryNewCard() {
                 cardNumber: $(".card-number").val(),
                 cardOwner: $(".card-owner").val(),
                 cardDate: $(".card-due").val(),
+                cardCVV: $(".card-cvv").val()
             },
             success: () => {
                 $("#app").load("View/Payment.jsp");

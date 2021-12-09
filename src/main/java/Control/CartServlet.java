@@ -100,38 +100,43 @@ public class CartServlet extends HttpServlet {
 				break;
 				
 			case "pay":
-				if(user.getMoney() >= Integer.valueOf(request.getParameter("total"))) {
-					HasCartService service = new HasCartService(db);
-					ArrayList<Game> games = service.selectCart(user);
-					
-					System.out.println(new java.sql.Date(new java.util.Date().getTime()));
+				HasCartService service = new HasCartService(db);
+				ArrayList<Game> games = service.selectCart(user);
 
-					for(Game game : games) {
-						new HasGameService(db).addGame(user, game);
-						new TransactionService(db).insertTransaction(
-							new Transaction(user, game, new java.sql.Date(new java.util.Date().getTime()), game.getPrice())
-						);
-					}
-					
-					System.out.println("# CartServlet > Pagamento > Saldo utente: " + user.getMoney() + " - Totale: " + Integer.valueOf(request.getParameter("total")));
-					
-					user.setMoney(
-						user.getMoney() - Integer.valueOf(request.getParameter("total"))
-					);
-					
-					try {
-						new UserService(db).updateUser(user);
-					} catch(SQLException e) {
-						e.printStackTrace();
-					}
-					
-					request.getSession().setAttribute("user_metadata", user);
-					
-					service.dropCart(user);
-					response.setStatus(200);
+				if(games != null) {
+					if(user.getMoney() >= Integer.valueOf(request.getParameter("total"))) {
+
+						for(Game game : games) {
+							new HasGameService(db).addGame(user, game);
+							new TransactionService(db).insertTransaction(
+								new Transaction(user, game, new java.sql.Date(new java.util.Date().getTime()), game.getPrice())
+							);
+						}
+						
+						System.out.println("# CartServlet > Pagamento > Saldo utente: " + user.getMoney() + " - Totale: " + Integer.valueOf(request.getParameter("total")));
+						
+						user.setMoney(user.getMoney() - Integer.valueOf(request.getParameter("total")));
+						
+						try {
+							new UserService(db).updateUser(user);
+						} catch(SQLException e) {
+							e.printStackTrace();
+						}
+						
+						request.getSession().setAttribute("user_metadata", user);
+						service.dropCart(user);
+						response.setStatus(200);
+
+						System.out.println("# TC_PagaOra > Acquisto effettuato con successo");
+
+						return;
+					} else
+						System.out.println("# TC_PagaOra > Saldo insufficiente");
 				} else
-					response.setStatus(400);
-					
+					System.out.println("# TC_PagaOra > Carrello non contiene giochi");
+
+				response.setStatus(400);
+
 				break;
 			
 			case "addGame":

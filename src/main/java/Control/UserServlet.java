@@ -92,14 +92,40 @@ public class UserServlet extends HttpServlet {
 				break;
 
 			case "updateBalance":
+
 				User dup = user;
-				dup.setMoney(dup.getMoney() + Integer.valueOf(request.getParameter("amount")));
-				try {
-					new UserService(db).updateUser(user);
-					response.setStatus(200);
-				} catch(SQLException e) {
-					response.setStatus(400);
-				}
+
+				if(Integer.valueOf(request.getParameter("amount")) != null) {
+					if(Integer.valueOf(request.getParameter("amount")) > 0) {
+						Card card = new CardService(db).getCard(Integer.valueOf(request.getParameter("cardId")));
+
+						if(card != null) {
+							Date cardDate = card.getCard_date();
+							java.util.Date today = new java.util.Date();
+
+							// Metodo deprecato
+							today.setHours(0);
+
+							if(today.before(cardDate)) {
+								dup.setMoney(dup.getMoney() + Integer.valueOf(request.getParameter("amount")));
+
+								try {
+									new UserService(db).updateUser(user);
+									response.setStatus(200);
+								} catch(SQLException e) {
+									response.setStatus(400);
+								}
+								System.out.println("# TC_RicaricaSaldo > Ricarica effettuata");
+								return;
+							} else 
+								System.out.println("# TC_RicaricaSaldo > Carta scaduta");
+						} else
+							System.out.println("# TC_RicaricaSaldo > Carta non esistente");
+					} else
+						System.out.println("# TC_RicaricaSaldo > Quantità non valida");
+				} else
+					System.out.println("# TC_RicaricaSaldo > Formato quantità non valido");
+
 				break;
 
 			case "purchase":
@@ -159,37 +185,65 @@ public class UserServlet extends HttpServlet {
 
 		switch(request.getParameter("action")) {
 			case "newCard":
-				try {
-					Long card_number = Long.valueOf(request.getParameter("cardNumber"));
-					int digits = String.valueOf(card_number).length();
+				String card_type = request.getParameter("cardType");
+				String card_owner = request.getParameter("cardOwner");
+				int card_owner_length = card_owner.length();
+				Long card_number = Long.valueOf(request.getParameter("cardNumber"));
+				int card_number_digits = request.getParameter("cardNumber").length();
+				Date card_date = Date.valueOf(request.getParameter("cardDate"));
+				String card_cvv = request.getParameter("cardCVV");
+				int card_cvv_digits = card_cvv.length();
+				java.util.Date today = new java.util.Date();
 
-					if(digits != 16) {
-						response.setStatus(400);
-						System.out.println("# UserServlet > Tentativo di aggiunta di una nuova carda fallito");
-						return;
-					}
+				today.setHours(0);
 
-					Card newCard = new Card(
-						0,
-						request.getParameter("cardType"),
-						card_number,
-						request.getParameter("cardOwner"),
-						Date.valueOf(request.getParameter("cardDate")),
-						user
-					);
+				if(card_type.length() >= 0) {
+					if(card_number != null) {
+						if(card_number_digits == 16) {
+							if(new CardService(db).getCardByNumber(card_number) == null) {
+								if(card_owner != null) {
+									if(card_owner_length >= 0) {
+										if(card_cvv != null) {
+											if(card_cvv_digits == 3) {
+												if(card_date != null) {
+													if(today.before(card_date)) {
+														Card newCard = new Card(
+															0,
+															card_type,
+															card_number,
+															card_owner,
+															card_date,
+															user
+														);
+			
+														new CardService(db).insertCard(newCard);
 
-					if(!(new CardService(db).insertCard(newCard))) {
-						response.setStatus(400);
-						System.out.println("# UserServlet > Tentativo di aggiunta di una nuova carda fallito");	
-						return;
-					}
+														System.out.println("# TC_AggiungiCarta > Carta aggiunta con successo (LC2.LI2.FI2.EXID2.LT2.FT2.LCVV2.FCVV2.FD2.S2)");
+														response.setStatus(200);
 
-					response.setStatus(200);
-					System.out.println("# UserServlet > Tentativo di aggiunta di una nuova carda riuscito");
-				} catch(IllegalArgumentException e) {
-					response.setStatus(400);
-					System.out.println("# UserServlet > Tentativo di aggiunta di una nuova carda fallito");
-				}
+														return;
+													} else
+														System.out.println("# TC_AggiuntiCarta > Carta scaduta");
+												} else
+													System.out.println("# TC_AggiungiCarta > Formato data non valido");
+											} else
+												System.out.println("# TC_AggiungiCarta > Formato CVV non valido");
+										} else
+											System.out.println("# TC_AggiungiCarta > CVV: campo obbligatorio");
+									} else
+										System.out.println("# TC_AggiungiCarta > Formato titolare non valido");
+								} else
+									System.out.println("# TC_AggiungiCarta > Titolare: campo obbligatorio"); 
+							} else
+								System.out.println("# TC_AggiungiCarta > Carta già esistente");
+						} else
+							System.out.println("# TC_AggiungiCarta > Formato numero carta non valido");
+					} else
+						System.out.println("# TC_AggiungiCarta > Numero carta: campo obbligatorio");
+				} else
+					System.out.println("# TC_AggiungiCarta > Circuito: campo obbligatorio");
+
+				response.setStatus(400);
 				break;
 
 			case "logout":

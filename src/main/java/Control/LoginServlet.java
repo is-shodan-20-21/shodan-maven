@@ -28,44 +28,19 @@ public class LoginServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
-		if(username == null || password == null) {
-			String failureMessage = "";
-
-			/*
-				TC_Login
-				-> TC_LoginFailed4
-			*/
-			failureMessage += (username == null) ? "Username: campo obbligatorio.\n" : "";
-
-			/*
-				TC_Login
-				-> TC_LoginFailed2
-			*/
-			failureMessage += (password == null) ? "Password: campo obbligatorio.\n" : "";
-
-			out.print(failureMessage);
-			System.out.println("# LoginServlet > Tentativo di login fallito (value(s) == null).");
-			response.setStatus(400);
-			return;
-		}
-
 		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
 		UserService service = new UserService(db);
 		int id = service.getIdByUsername(username);
-			
-		if(id != -1) {
-			User user = service.getUser(id); 
 
-			if(user.getPassword().equals(PasswordHasher.hash((password)))) {
-				/*
-					TC_Login
-					-> TC_LoginOK
-				*/
+		if(id != -1){
+			User user = service.getUser(id); 
+			if(user.getPassword().equals(PasswordHasher.hash((password)))){
 				response.setStatus(200);	
 				response.addCookie(new Cookie("user_session", request.getSession().getId()));
 				request.getSession().setAttribute("user_metadata", user);
 					
 				System.out.println("# LoginServlet > URL Rewriting: " + response.encodeURL("index.jsp"));
+				System.out.println("# LoginServlet > TC_LoginOK > Login effettuato");
 					
 				user.setSession(request.getSession().getId());
 					
@@ -77,33 +52,15 @@ public class LoginServlet extends HttpServlet {
 					
 				if(request.getParameter("cookie").equals("false"))
 					out.print(response.encodeURL(""));
-				
-				System.out.println("# LoginServlet > Login effettuato!");
-				System.out.println("# LoginServlet > Tentativo di creazione del cookie: [user_session = " + request.getSession().getId() + "]");
-				
-				return;
-			} else {
-				/*
-					TC_Login
-					-> TC_LoginFailed1
-				*/
-				out.print("La password &egrave; errata!");
-				System.out.println("# LoginServlet > Tentativo di login fallito (password errata).");
-					
+			}else{
+				System.out.println("# LoginServlet > TC_LoginFailed1 > Password errata");
 				response.setStatus(400);
 				return;
 			}
-		} else {
-			/*
-				TC_Login
-				-> TC_LoginFailed3
-			*/
-			out.print("L'username &egrave; errato o inesistente!");
-			System.out.println("# LoginServlet > Tentativo di login fallito (username errato o inesistente).");
-				
+		}else{
+			System.out.println("# LoginServlet > TC_LoginFailed2 > Utente non esistente");
 			response.setStatus(400);
 			return;
-		}
-		
+		}						
 	}
 }

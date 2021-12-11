@@ -27,14 +27,14 @@ public class SignInServlet extends HttpServlet {
 		String repeatPassword = request.getParameter("password2");
 		String email = request.getParameter("email");
 
-		boolean usernamePattern = username.matches("^[A-Za-z][A-Za-z0-9_]{7,29}$");
-		boolean passwordPattern = password.matches("/^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{5,}$/");
+		boolean usernamePattern = username.matches("^[A-Za-z][A-Za-z0-9_]{3,29}$");
+		boolean passwordPattern = password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{5,}$");
 		boolean emailPattern = email.matches("^\\S+@\\S+$");
 
 		UserService service = new UserService(db);
 		
 		//PARAMETRO USERNAME
-		if(username.length() > 0 ){
+		if(username.length() > 0){
 			if(usernamePattern){
 				int id = service.getIdByUsername(username);
 				if(id == -1){

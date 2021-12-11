@@ -160,11 +160,9 @@ public class SettingsServlet extends HttpServlet {
 				String old_password = PasswordHasher.hash(request.getParameter("old_password"));
 				String new_password = request.getParameter("new_password");
 				String new_password_again = request.getParameter("new_password_again");
-				boolean newPasswordPattern = new_password.matches("/^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{5,}$/");
+				boolean newPasswordPattern = new_password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{5,}$");
 				
 				System.out.println("# SettingsServlet > POST > Aggiorna la password dell'utente ID " + user.getId());
-
-				System.out.println(new_password);
 
 				if(old_password.equals(user.getPassword())){
 					if(new_password.length() > 0){

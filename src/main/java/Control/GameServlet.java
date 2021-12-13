@@ -257,7 +257,6 @@ public class GameServlet extends HttpServlet {
 								Date rawDate = Date.valueOf(gameDate);
 								int parsedDate = Integer.valueOf(rawDate.toString().split("-")[0]);
 
-								// TODO: check the date format
 								if (gameDate != null) {
 
 									int lesserYear = 1970;

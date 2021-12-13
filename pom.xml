@@ -21,6 +21,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>13</maven.compiler.release>
+    <tomcat7-version>7.0.93</tomcat7-version>
   </properties>
 
   <dependencies>
@@ -29,6 +30,12 @@
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>4.0.0</version>
     </dependency>
 
     <dependency>
@@ -95,9 +102,13 @@
           <groupId>org.apache.tomcat.maven</groupId>
           <artifactId>tomcat7-maven-plugin</artifactId>
           <version>2.2</version>
-          <configuration>
-            <port>8080</port>
-          </configuration> 
+          <dependencies>
+              <dependency>
+                  <groupId>org.apache.tomcat.embed</groupId>
+                  <artifactId>tomcat-embed-core</artifactId>
+                  <version>${tomcat7-version}</version>
+              </dependency>
+          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>

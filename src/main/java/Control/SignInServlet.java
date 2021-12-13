@@ -52,7 +52,7 @@ public class SignInServlet extends HttpServlet {
 												response.setStatus(200);
 											}else{
 												System.out.println("# SignInServlet > TC_RegistrazioneFailed1 > E-mail già esistente");
-												out.print("E-mail già esistente");
+												out.print("E-mail gia' esistente");
 												response.setStatus(400);
 												return;
 											}

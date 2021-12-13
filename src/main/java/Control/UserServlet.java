@@ -218,7 +218,7 @@ public class UserServlet extends HttpServlet {
 			
 														new CardService(db).insertCard(newCard);
 
-														System.out.println("# TC_AggiungiCarta > Carta aggiunta con successo (LC2.LI2.FI2.EXID2.LT2.FT2.LCVV2.FCVV2.FD2.S2)");
+														System.out.println("# TC_AggiungiCarta > Carta aggiunta con successo");
 														response.setStatus(200);
 
 														return;

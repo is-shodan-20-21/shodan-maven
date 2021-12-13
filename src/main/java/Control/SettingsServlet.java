@@ -123,7 +123,7 @@ public class SettingsServlet extends HttpServlet {
 										response.getWriter().println("Email modificata con successo!");
 										response.setStatus(200);
 										request.getSession().setAttribute("user_metadata", user);
-										System.out.println("# SettinServlet > TC_ModificaEmailOK > Email modificata con successo");
+										System.out.println("# SettinServlet > TC_ModificaEmail > Email modificata con successo");
 									} else {
 										response.setStatus(400);
 										System.out.println("# SettingsServlet > POST > Fallimento nell'aggiornare la mail");
@@ -131,24 +131,25 @@ public class SettingsServlet extends HttpServlet {
 									}
 								} catch(SQLException e) {
 									response.setStatus(400);
-									System.out.println("# SettingsServlet > POST > Impossibile aggiornare l'email.");
+									System.out.println("# SettingsServlet > POST > Impossibile aggiornare l'email");
+
 									response.getWriter().println("Non &egrave; stato possibile modificare l'email. Ricontrolla i dati!");
 									return;
 								}
 							}else{
-								System.out.println("# SettinServlet > TC_ModificaEmailFailed1 > Email già in uso");
+								System.out.println("# SettinServlet > TC_ModificaEmail > Email già in uso");
 								response.getWriter().println("Impossibile usare questa email.");
 								response.setStatus(400);
 								return;
 							}
 						}else{
-							System.out.println("# SettinServlet > TC_ModificaEmailFailed2 > Formato nuova email non valido");
+							System.out.println("# SettinServlet > TC_ModificaEmail > Formato nuova email non valido");
 						}
 					}else{
-						System.out.println("# SettinServlet > TC_ModificaEmailFailed3 > Nuova mail campo obbligatorio");
+						System.out.println("# SettinServlet > TC_ModificaEmail > Nuova mail campo obbligatorio");
 					}
 				}else{
-					System.out.println("# SettinServlet > TC_ModificaEmailFailed6 > Email errata");
+					System.out.println("# SettinServlet > TC_ModificaEmail > Email errata");
 					response.getWriter().println("Non hai inserito correttamente la tua email attuale.");
 					response.setStatus(400);
 					return;
@@ -176,7 +177,8 @@ public class SettingsServlet extends HttpServlet {
 											response.setStatus(200);
 											response.getWriter().println("Password modificata con successo!");
 											request.getSession().setAttribute("user_metadata", user);
-											System.out.println("# SettingServlet > TC_ModificaPassOK > Password modificata con successo");
+
+											System.out.println("# SettingServlet > TC_ModificaPassword > Password modificata con successo");
 											return;
 										} else
 											response.getWriter().println("Non &egrave; stato possibile modificare la password. Ricontrolla i dati!");
@@ -187,21 +189,21 @@ public class SettingsServlet extends HttpServlet {
 									response.setStatus(400);
 									return;
 								}else{
-									System.out.println("# SettingServlet > TC_ModificaPassFailed1 > Le password non coincidono");
+									System.out.println("# SettingServlet > TC_ModificaPassword > Le password non coincidono");
 									response.setStatus(400);
 									return;
 								}
 							}else{
-								System.out.println("# SettingServlet > TC_ModificaPassFailed6 > Ripeti password: campo obbligatorio");
+								System.out.println("# SettingServlet > TC_ModificaPassword > Ripeti password: campo obbligatorio");
 							}
 						}else{
-							System.out.println("# SettingServlet > TC_ModificaPassFailed3 > Formato nuova password non valido");
+							System.out.println("# SettingServlet > TC_ModificaPassword > Formato nuova password non valido");
 						}
 					}else{
-						System.out.println("# SettingServlet > TC_ModificaPassFailed4 > Nuova password campo obbligatorio");
+						System.out.println("# SettingServlet > TC_ModificaPassword > Nuova password campo obbligatorio");
 					}
 				}else{
-					System.out.println("# SettingServlet > TC_ModificaPassFailed5 > Password errata");
+					System.out.println("# SettingServlet > TC_ModificaPassword > Password errata");
 				}
 				
 				break;

@@ -22,7 +22,7 @@ import org.openqa.selenium.Keys;
 import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-public class RimuoviArticoloTest {
+public class RimuoviTitoloTest {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
@@ -38,7 +38,7 @@ public class RimuoviArticoloTest {
     driver.quit();
   }
   @Test
-  public void rimuoviArticoloOK() {
+  public void rimuoviTitoloFormatoIDErrato() {
     driver.get("http://localhost:8080/shodan_maven/");
     driver.manage().window().setSize(new Dimension(1898, 1018));
     driver.findElement(By.id("login-username")).click();
@@ -50,15 +50,13 @@ public class RimuoviArticoloTest {
       WebDriverWait wait = new WebDriverWait(driver, 30);
       wait.until(ExpectedConditions.presenceOfElementLocated(By.id("roles-link")));
     }
-    driver.findElement(By.id("roles-link")).click();
-    driver.findElement(By.cssSelector(".role-item:nth-child(3)")).click();
-    driver.findElement(By.id("remove-article-id")).click();
-    driver.findElement(By.id("remove-article-id")).sendKeys("2");
-    driver.findElement(By.cssSelector(".button:nth-child(2)")).click();
-    assertThat(driver.findElement(By.id("remove-article-result")).getText(), is("Articolo rimosso con successo!"));
+    driver.findElement(By.id("delete-game-id")).click();
+    driver.findElement(By.id("delete-game-id")).sendKeys("abc");
+    driver.findElement(By.cssSelector(".button:nth-child(4)")).click();
+    assertThat(driver.findElement(By.id("delete-game-result")).getText(), is("Formato ID errato"));
   }
   @Test
-  public void rimuoviArticoloIDMancante() {
+  public void rimuoviTitoloIDMancante() {
     driver.get("http://localhost:8080/shodan_maven/");
     driver.manage().window().setSize(new Dimension(1898, 1018));
     driver.findElement(By.id("login-username")).click();
@@ -70,13 +68,12 @@ public class RimuoviArticoloTest {
       WebDriverWait wait = new WebDriverWait(driver, 30);
       wait.until(ExpectedConditions.presenceOfElementLocated(By.id("roles-link")));
     }
-    driver.findElement(By.id("roles-link")).click();
-    driver.findElement(By.cssSelector(".role-item:nth-child(3)")).click();
-    driver.findElement(By.cssSelector(".button:nth-child(2)")).click();
-    assertThat(driver.findElement(By.id("remove-article-result")).getText(), is("ID: campo obbligatorio."));
+    driver.findElement(By.id("delete-game-id")).click();
+    driver.findElement(By.cssSelector(".button:nth-child(4)")).click();
+    assertThat(driver.findElement(By.id("delete-game-result")).getText(), is("ID Gioco: campo obbligatorio"));
   }
   @Test
-  public void rimuoviArticoloFormatoIDErrato() {
+  public void rimuoviTitoloOK() {
     driver.get("http://localhost:8080/shodan_maven/");
     driver.manage().window().setSize(new Dimension(1898, 1018));
     driver.findElement(By.id("login-username")).click();
@@ -88,15 +85,13 @@ public class RimuoviArticoloTest {
       WebDriverWait wait = new WebDriverWait(driver, 30);
       wait.until(ExpectedConditions.presenceOfElementLocated(By.id("roles-link")));
     }
-    driver.findElement(By.id("roles-link")).click();
-    driver.findElement(By.cssSelector(".role-item:nth-child(3)")).click();
-    driver.findElement(By.id("remove-article-id")).click();
-    driver.findElement(By.id("remove-article-id")).sendKeys("uno");
-    driver.findElement(By.id("remove-article-id")).sendKeys(Keys.ENTER);
-    assertThat(driver.findElement(By.id("remove-article-result")).getText(), is("Formato ID errato."));
+    driver.findElement(By.id("delete-game-id")).click();
+    driver.findElement(By.id("delete-game-id")).sendKeys("1");
+    driver.findElement(By.cssSelector(".button:nth-child(4)")).click();
+    assertThat(driver.findElement(By.id("delete-game-result")).getText(), is("Gioco eliminato con successo!"));
   }
   @Test
-  public void rimuoviArticoloArticoloInesistente() {
+  public void rimuoviTitoloTitoloInesistente() {
     driver.get("http://localhost:8080/shodan_maven/");
     driver.manage().window().setSize(new Dimension(1898, 1018));
     driver.findElement(By.id("login-username")).click();
@@ -108,11 +103,9 @@ public class RimuoviArticoloTest {
       WebDriverWait wait = new WebDriverWait(driver, 30);
       wait.until(ExpectedConditions.presenceOfElementLocated(By.id("roles-link")));
     }
-    driver.findElement(By.id("roles-link")).click();
-    driver.findElement(By.cssSelector(".role-item:nth-child(3)")).click();
-    driver.findElement(By.id("remove-article-id")).click();
-    driver.findElement(By.id("remove-article-id")).sendKeys("10");
-    driver.findElement(By.cssSelector(".button:nth-child(2)")).click();
-    assertThat(driver.findElement(By.id("remove-article-result")).getText(), is("Articolo non esistente"));
+    driver.findElement(By.id("delete-game-id")).click();
+    driver.findElement(By.id("delete-game-id")).sendKeys("999");
+    driver.findElement(By.cssSelector(".button:nth-child(4)")).click();
+    assertThat(driver.findElement(By.id("delete-game-result")).getText(), is("Il titolo non e\\\' presente"));
   }
 }

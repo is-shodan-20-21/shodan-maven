@@ -28,6 +28,7 @@ public class PagamentoTest {
   JavascriptExecutor js;
   @Before
   public void setUp() {
+    System.setProperty("webdriver.chrome.driver", "../commons/driver/chromedriver.exe");
     driver = new ChromeDriver();
     js = (JavascriptExecutor) driver;
     vars = new HashMap<String, Object>();

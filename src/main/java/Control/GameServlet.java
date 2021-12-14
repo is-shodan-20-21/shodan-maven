@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+
+import org.openqa.selenium.InvalidArgumentException;
+
 import Collection.ParsedGame;
 import Model.Game;
 import Model.User;
@@ -43,10 +46,12 @@ public class GameServlet extends HttpServlet {
 				? Integer.parseInt(request.getParameter("limit"))
 				: 0;
 
-		if (request.getParameter("cookie").equals("false"))
+		if (request.getParameter("cookie") != null && request.getParameter("cookie").equals("false"))
 			user = new UserService(db).getUserBySession(request.getParameter("jsession"));
 		else
 			user = (User) request.getSession().getAttribute("user_metadata");
+
+		System.out.println("Action: " + request.getParameter("action"));
 
 		switch (request.getParameter("action")) {
 			case "parsed":
@@ -228,18 +233,9 @@ public class GameServlet extends HttpServlet {
 
 		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
 
-		/*
-		 * A0 -> Prezzo negativo
-		 * A1 -> Formato della data non valido
-		 * A2 -> Immagini già presenti nel database
-		 * A3 -> Impossibile caricare le immagini
-		 * A4 -> Input non validi
-		 * A5 -> Titolo già presente
-		 */
-
 		switch (request.getParameter("action")) {
 			case "addGame":
-				System.out.println("# GameServlet > POST > Provo ad aggiungere un gioco...");
+				String oracle = "";
 
 				String gameName = request.getParameter("game-name");
 				String gamePrice = request.getParameter("game-price");
@@ -248,175 +244,182 @@ public class GameServlet extends HttpServlet {
 
 				if (gameName != null && !gameName.equals("")) {
 
-					if (new GameService(db).getGameByName(gameName) == null) {
+					if(gameName.matches("[a-zA-z\\s]*")) {
 
-						if (gamePrice != null && !gamePrice.equals("")) {
+						if (new GameService(db).getGameByName(gameName) == null) {
 
-							if (Integer.valueOf(request.getParameter("game-price")) > 0) {
+							if (gamePrice != null && !gamePrice.equals("")) {
 
-								Date rawDate = Date.valueOf(gameDate);
-								int parsedDate = Integer.valueOf(rawDate.toString().split("-")[0]);
+								try {
 
-								if (gameDate != null) {
+									if (Integer.valueOf(request.getParameter("game-price")) > 0) {
 
-									int lesserYear = 1970;
-									int greaterYear = 2000;
+										if (gameDate != null && !gameDate.equals("")) {
 
-									if (parsedDate >= lesserYear && parsedDate <= greaterYear) {
+											try {
+												Date rawDate = Date.valueOf(gameDate);
+												int parsedDate = Integer.valueOf(rawDate.toString().split("-")[0]);
 
-										if (gameDescription != null && !gameDescription.equals("")) {
+												int lesserYear = 1970;
+												int greaterYear = 2000;
 
-											Part filePartImage = request.getPart("game-image");
+												if (parsedDate >= lesserYear && parsedDate <= greaterYear) {
 
-											if (filePartImage != null) {
+													if (gameDescription != null && !gameDescription.equals("")) {
 
-												Part filePartLandscape = request.getPart("game-landscape");
+														if (request.getPart("game-image").getSize() > 0) {
+															
+															Part filePartImage = request.getPart("game-image");
+															
+															String fileNameImage = Paths
+																.get(GameServlet.getSubmittedFileName(filePartImage))
+																.getFileName().toString();
 
-												if (filePartLandscape != null) {
+															String fileMimeImage = getServletContext().getMimeType(fileNameImage);
 
-													String fileNameImage;
-													String fileNameLandscape;
+															if(fileMimeImage.startsWith("image/")) {
 
-													fileNameImage = Paths
-															.get(GameServlet.getSubmittedFileName(filePartImage))
-															.getFileName().toString();
-													fileNameLandscape = Paths
-															.get(GameServlet.getSubmittedFileName(filePartLandscape))
-															.getFileName()
-															.toString();
+																if (request.getPart("game-landscape").getSize() > 0) {
+																	
+																	Part filePartLandscape = request.getPart("game-landscape");
 
-													InputStream fileContentImage = filePartImage.getInputStream();
-													InputStream fileContentLandscape = filePartLandscape
-															.getInputStream();
+																	String fileNameLandscape = Paths
+																				.get(GameServlet.getSubmittedFileName(filePartLandscape))
+																				.getFileName()
+																				.toString();
 
-													File filePathImage = new File(
-															getServletContext().getRealPath("Static/GamePictures"));
-													File filePathLandscape = new File(
-															getServletContext().getRealPath("Static/GameLandscapes"));
+																	String fileMimeLandscape = getServletContext().getMimeType(fileNameLandscape);
 
-													File fileImage = new File(filePathImage, fileNameImage);
-													File fileLandscape = new File(filePathLandscape, fileNameLandscape);
+																	if(fileMimeLandscape.startsWith("image/")) {
 
-													filePathImage.mkdir();
-													filePathLandscape.mkdir();
+																		InputStream fileContentImage = filePartImage.getInputStream();
+																		InputStream fileContentLandscape = filePartLandscape
+																				.getInputStream();
 
-													if (!fileImage.exists() && !fileLandscape.exists()) {
-														Files.copy(fileContentImage, fileImage.toPath());
-														Files.copy(fileContentLandscape, fileLandscape.toPath());
+																		File filePathImage = new File(
+																				getServletContext().getRealPath("Static/GamePictures"));
+																		File filePathLandscape = new File(
+																				getServletContext().getRealPath("Static/GameLandscapes"));
 
-														System.out.println(
-																"# GameServlet > TC_Aggiungi_titolo > Immagini caricate");
+																		File fileImage = new File(filePathImage, fileNameImage);
+																		File fileLandscape = new File(filePathLandscape, fileNameLandscape);
 
-														try {
-															new GameService(db).addGame(
-																	gameName,
-																	fileNameImage,
-																	Integer.valueOf(gamePrice),
-																	rawDate,
-																	gameDescription,
-																	fileNameLandscape);
-														} catch (IllegalArgumentException e) {
-															e.printStackTrace();
+																		filePathImage.mkdir();
+																		filePathLandscape.mkdir();
 
-															response.sendRedirect("?__ERR:NO=A4");
-															System.out
-																	.println(
-																			"# GameServlet > TC_Aggiungi_titolo > IllegalArgumentException");
+																		if (!fileImage.exists() && !fileLandscape.exists()) {
+																			Files.copy(fileContentImage, fileImage.toPath());
+																			Files.copy(fileContentLandscape, fileLandscape.toPath());
+
+																			try {
+																				new GameService(db).addGame(
+																					gameName,
+																					fileNameImage,
+																					Integer.valueOf(gamePrice),
+																					rawDate,
+																					gameDescription,
+																					fileNameLandscape
+																				);
+
+																				oracle = "Gioco aggiunto";
+																				response.setStatus(200);
+																			} catch (IllegalArgumentException e) {
+																				e.printStackTrace();
+
+																				oracle = "IllegalArgumentException";
+																				response.setStatus(400);
+																			}
+																		} else {
+																			oracle = "Immagini gia' presenti nel database";
+																			response.setStatus(400);
+																		}
+																	} else {
+																		oracle = "Formato sfondo non valido";
+																		response.setStatus(400);
+																	}
+																} else {
+																	oracle = "Sfondo: campo obbligatorio";
+																	response.setStatus(400);
+																}
+															} else {
+																oracle = "Formato cover non valido";
+																response.setStatus(400);
+															}
+														} else {
+															oracle = "Cover: campo obbligatorio";
 															response.setStatus(400);
-
-															return;
 														}
-
-														response.sendRedirect("?__SRVC:OK");
-														response.setStatus(200);
-
-														System.out.println(
-																"# GameServlet > TC_Aggiungi_titolo > Gioco aggiunto > "
-																		+ request.getParameter("game-name"));
-
 													} else {
-														response.sendRedirect("?__ERR:NO=A2");
-														System.out.println(
-																"# GameServlet > TC_Aggiungi_titolo > Immagini già presenti nel database");
+														oracle = "Descrizione: campo obbligatorio";
 														response.setStatus(400);
-
-														return;
 													}
-
 												} else {
-													System.out.println(
-															"# GameServlet > TC_Aggiungi_titolo > Sfondo: campo obbligatorio");
+													oracle = "Data fuori intervallo";
+													response.setStatus(400);
 												}
-
-											} else {
-												System.out.println(
-														"# GameServlet > TC_Aggiungi_titolo > Cover: campo obbligatorio");
+											} catch(IllegalArgumentException e) {
+												oracle = "Formato data non valido";
+												response.setStatus(400);
 											}
-
 										} else {
-											System.out.println(
-													"# GameServlet > TC_Aggiungi_titolo > Descrizione: campo obbligatorio");
+											oracle = "Data: campo obbligatorio";
+											response.setStatus(400);
 										}
-
 									} else {
-										response.sendRedirect("?__ERR:NO=A1");
-										System.out
-												.println("# GameServlet > TC_Aggiungi_titolo > Data fuori intervallo");
+										oracle = "Prezzo negativo";
 										response.setStatus(400);
-										return;
 									}
-
-								} else {
-									System.out.println("# GameServlet > TC_Aggiungi_titolo > Formato data non valido");
+								} catch(NumberFormatException e) {
+									oracle = "Formato prezzo non valido";
+									response.setStatus(400);
 								}
-
 							} else {
-								response.sendRedirect("?__ERR:NO=A0");
-								System.out.println("# GameServlet > TC_Aggiungi_titolo > Prezzo negativo");
+								oracle = "Prezzo: campo obbligatorio";
 								response.setStatus(400);
-								return;
 							}
-
 						} else {
-							System.out.println("# GameServlet > TC_Aggiungi_titolo > Prezzo: campo obbligatorio");
+							oracle = "Titolo gia' presente";
+							response.setStatus(400);
 						}
-
 					} else {
-						response.sendRedirect("?__ERR:NO=A5");
-						System.out.println("# GameServlet > TC_Aggiungi_titolo > Titolo già presente");
-						response.setStatus(400);
-						return;
+						oracle = "Formato nome non valido";
+						response.setStatus(400);						
 					}
-
 				} else {
-
-					System.out.println("# GameServlet > TC_Aggiungi_titolo > Titolo: campo obbligatorio");
-
+					oracle = "Nome: campo obbligatorio";
+					response.setStatus(400);
 				}
+
+				response.sendRedirect("/shodan_maven/app.jsp?__ORACLE=" + oracle);
 
 				break;
 
 			case "deleteGame":
-
 				String gameId = request.getParameter("deleteGameId");
 
 				if (gameId != null && !gameId.equals("")) {
+					if(gameId.matches("[1-9]+")) {
+						Game game = new GameService(db).getGame(Integer.valueOf(gameId));
 
-					Game game = new GameService(db).getGame(Integer.valueOf(gameId));
+						if (game != null) {
+							response.setStatus(200);
+							new GameService(db).deleteGame(game.getId());
 
-					if (game != null) {
-						response.setStatus(200);
-						new GameService(db).deleteGame(game.getId());
-						new HasCartService(db).removeItemForAll(game);
-						new HasGameService(db).removeItemForAll(game);
-						System.out.println("# GameServlet > TC_Rimuovi_titolo > Il titolo rimosso con successo");
+							new HasCartService(db).removeItemForAll(game);
+							new HasGameService(db).removeItemForAll(game);
+
+							response.getWriter().println("Il titolo rimosso con successo");
+							return;
+						} else {
+							response.getWriter().println("Il titolo non e' presente");
+							response.setStatus(400);
+						}
 					} else {
-						System.out.println("# GameServlet > TC_Rimuovi_titolo > Il titolo non è presente");
-						response.setStatus(400);
+						response.getWriter().println("Formato ID errato");
+						response.setStatus(400);	
 					}
-
 				} else {
-					System.out.println("# GameServlet > TC_Rimuovi_titolo > ID Gioco: campo obbligatorio");
+					response.getWriter().println("ID Gioco: campo obbligatorio");
 					response.setStatus(400);
 				}
 
@@ -428,40 +431,44 @@ public class GameServlet extends HttpServlet {
 				String gamePriceUpdate = request.getParameter("updateGamePrice");
 
 				if (gameIdUpdate != null && !gameIdUpdate.equals("")) {
-					Game updatedGame = new GameService(db).getGame(Integer.valueOf(gameIdUpdate));
+					if(gameIdUpdate.matches("[1-9]+")) {
+						Game updatedGame = new GameService(db).getGame(Integer.valueOf(gameIdUpdate));
 
-					if (updatedGame != null) {
+						if (updatedGame != null) {
+							if (gamePriceUpdate != null && !gamePriceUpdate.equals("")) {
+								try {
+									int newPrice = Integer.valueOf(gamePriceUpdate);
 
-						if (gamePriceUpdate != null && !gamePriceUpdate.equals("")) {
+									if (newPrice >= 0) {
+										updatedGame.setPrice(newPrice);
+										new GameService(db).updateGame(updatedGame);
 
-							int newPrice = Integer.valueOf(gamePriceUpdate);
-
-							if (newPrice >= 0) {
-
-								response.setStatus(200);
-								updatedGame.setPrice(newPrice);
-								new GameService(db).updateGame(updatedGame);
-								System.out.println(
-										"# GameServlet > TC_Aggiorna_titolo > Prezzo del titolo aggiornato con successo!");
-
+										response.setStatus(200);
+										response.getWriter().println("Prezzo del titolo aggiornato con successo!");
+										return;
+									} else {
+										response.setStatus(400);
+										response.getWriter().println("Prezzo negativo");
+									}
+								} catch(NumberFormatException e) {
+									response.setStatus(400);
+									response.getWriter().println("Formato prezzo non valido");
+								}
 							} else {
 								response.setStatus(400);
-								System.out.println("# GameServlet > TC_Aggiorna_titolo > Prezzo negativo");
+								response.getWriter().println("Prezzo: campo obbligatorio");
 							}
-
 						} else {
 							response.setStatus(400);
-							System.out.println("# GameServlet > TC_Aggiorna_titolo > Prezzo: campo obbligatorio");
+							response.getWriter().println("Titolo non presente");
 						}
-
 					} else {
 						response.setStatus(400);
-						System.out.println("# GameServlet > TC_Aggiorna_titolo > Titolo non presente");
+						response.getWriter().println("Formato ID non valido");						
 					}
-
 				} else {
 					response.setStatus(400);
-					System.out.println("# GameServlet > TC_Aggiorna_titolo > Titolo: campo obbligatorio");
+					response.getWriter().println("ID: campo obbligatorio");
 				}
 
 				break;

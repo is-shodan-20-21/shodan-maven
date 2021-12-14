@@ -1,53 +1,23 @@
+var oracle;
+
 $(document).ready(
     () => { 
-        /*
-            A0 -> Prezzo negativo
-			A1 -> Formato della data non valido
-			A2 -> Immagini già presenti nel database
-			A3 -> Impossibile caricare le immagini
-			A4 -> Input non validi
-            A5 -> Titolo già presente
-		*/
-
         loadGamesTable();
-        let response = $("#add-game-result");
-        if(new URLSearchParams(window.location.search).has("__SRVC:OK")) {
-            response.css("color", "#89f189");
-            response.html("Gioco aggiunto con successo!");
+
+        console.log(new URLSearchParams(window.location.search).has("__ORACLE"));
+
+        if(new URLSearchParams(window.location.search).has("__ORACLE")) {
+            oracle = new URLSearchParams(window.location.search).get("__ORACLE");
+            console.log(oracle);
         }
-
-        if(new URLSearchParams(window.location.search).has("__ERR:NO")) {
-            switch(new URLSearchParams(window.location.search).get("__ERR:NO")) {
-                case "A0":
-                    response.html("Il prezzo non puo' essere negativo");
-                    break;
-
-                case "A1":
-                    response.html("Formato della data non valido");
-                    break;
-                        
-                case "A2":
-                    response.html("Immagini già presenti nel database");
-                    break;
-                    
-                case "A3": 
-                    response.html("Impossibile caricare le immagini");
-                    break;
-                    
-                case "A4":
-                    response.html("Input non validi");
-                    break;
-
-                 case "A5":
-                    response.html("Titolo gi&agrave; presente");
-                    break;
-                    
-                default:
-                    response.html("Errore non meglio definito");
-                    break; 
-            }
-        }
+        
         window.history.pushState(null, null, "app.jsp");
+        if(oracle == "Gioco aggiunto")
+            $("#add-game-result").css("color", "green");
+            
+        $("#add-game-result").text(oracle);
+
+        console.log(0);
     }
 );
 
@@ -97,7 +67,7 @@ function tryDeleteGame(e) {
             },
             error: (data) => {
                 $("#delete-game-result").css("color", "#ea4e4e");
-                $("#delete-game-result").html("Non &egrave; stato possibile eliminare il gioco.");
+                $("#delete-game-result").html(data.responseText);
                 loadGamesTable();
             }
         }
@@ -127,7 +97,7 @@ function tryUpdateGame(e) {
             },
             error: (data) => {
                 $("#update-game-result").css("color", "#ea4e4e");
-                $("#update-game-result").html("Non &egrave; stato possibile aggiornare il gioco.");
+                $("#update-game-result").html(data.responseText);
                 loadGamesTable();
             }
         }

@@ -23,7 +23,7 @@
 	<div class="remove-article">
 		<h2>Rimuovi articolo</h2>
 		<form>
-			<input class="input" id="remove-article-id" type="number" placeholder="Inserisci l'ID dell'articolo" required style="margin-bottom: 10px;">
+			<input class="input" id="remove-article-id" type="text" placeholder="Inserisci l'ID dell'articolo" required style="margin-bottom: 10px;">
 			<input onclick="tryRemoveArticle(event)" class="button" type="submit" value="Elimina">
 			<div id="remove-article-result"></div>
 		</form>

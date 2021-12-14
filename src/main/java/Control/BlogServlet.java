@@ -105,21 +105,24 @@ public class BlogServlet extends HttpServlet {
 					
 							request.setAttribute("messageArticleAdd", "Articolo aggiunto con successo");
 							response.setStatus(200);
-
-							System.out.println("# BlogServlet > POST > Articolo aggiunto > " + request.getParameter("title"));
-
 							System.out.println("# TC_AggiungiArticolo > Articolo aggiunto con successo!");
+							return;
 
 						} else {
+							response.getWriter().print("Contenuto: campo obbligatorio");
 							System.out.println("# TC_AggiungiArticolo > Contenuto: campo obbligatorio");
 						}
 					} else {
+						response.getWriter().print("Sottotitolo: campo obbligatorio");
 						System.out.println("# TC_AggiungiArticolo > Sottotitolo: campo obbligatorio");
 					}
 				} else {
+					response.getWriter().print("Titolo: campo obbligatorio");
 					System.out.println("# TC_AggiungiArticolo > Titolo: campo obbligatorio");
 				}
 			
+				response.setStatus(400);
+
 				break;
 				
 		
@@ -137,15 +140,16 @@ public class BlogServlet extends HttpServlet {
 							System.out.println("# TC_RimuoviArticolo > Articolo aggiunto con successo!");
 						} else {
 							response.setStatus(400);
-							System.out.println("# BlogServlet > POST > Articolo non esistente");
+							response.getWriter().println("Articolo non esistente");
 							System.out.println("# TC_RimuoviArticolo > Articolo non esistente");
 						}
 					} catch (NumberFormatException e) {
-						e.printStackTrace();
+						response.getWriter().println("Formato ID errato.");
 						System.out.println("# TC_RimuoviArticolo > Formato ID errato");
 						response.setStatus(400);
 					}
 				} else {
+					response.getWriter().println("ID: campo obbligatorio.");
 					System.out.println("# TC_RimuoviArticolo > ID mancante");
 					response.setStatus(400);
 				}

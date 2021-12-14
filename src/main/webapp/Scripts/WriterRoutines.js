@@ -49,7 +49,7 @@ function tryAddArticle(e) {
 				$("#add-article-result").html("Articolo aggiunto con successo!");
 				loadTable();
 			},
-			error: () => $("#add-article-result").html("Non è stato possibile aggiungere l'articolo."),
+			error: (data) => $("#add-article-result").html(data.responseText),
 		}
 	);
 }
@@ -73,7 +73,7 @@ function tryRemoveArticle(e) {
 				$("#remove-article-result").html("Articolo rimosso con successo!");
 				loadTable();
 			},
-			error: () => $("#remove-article-result").html("Non è stato possibile rimuovere l'articolo."),
+			error: (data) => $("#remove-article-result").html(data.responseText),
 		}
 	);
 }

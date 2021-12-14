@@ -124,26 +124,22 @@ public class SettingsServlet extends HttpServlet {
 										response.setStatus(200);
 										request.getSession().setAttribute("user_metadata", user);
 										System.out.println("# SettinServlet > TC_ModificaEmail > Email modificata con successo");
+										return;
 									} else {
-										response.setStatus(400);
 										System.out.println("# SettingsServlet > POST > Fallimento nell'aggiornare la mail");
 										response.getWriter().println("Non &egrave; stato possibile modificare l'email. Ricontrolla i dati!");
 									}
 								} catch(SQLException e) {
-									response.setStatus(400);
 									System.out.println("# SettingsServlet > POST > Impossibile aggiornare l'email");
-
 									response.getWriter().println("Non &egrave; stato possibile modificare l'email. Ricontrolla i dati!");
-									return;
 								}
 							}else{
 								System.out.println("# SettinServlet > TC_ModificaEmail > Email già in uso");
 								response.getWriter().println("Impossibile usare questa email.");
-								response.setStatus(400);
-								return;
 							}
 						}else{
 							System.out.println("# SettinServlet > TC_ModificaEmail > Formato nuova email non valido");
+							response.getWriter().println("Formato nuova email non valido.");
 						}
 					}else{
 						System.out.println("# SettinServlet > TC_ModificaEmail > Nuova mail campo obbligatorio");
@@ -151,10 +147,10 @@ public class SettingsServlet extends HttpServlet {
 				}else{
 					System.out.println("# SettinServlet > TC_ModificaEmail > Email errata");
 					response.getWriter().println("Non hai inserito correttamente la tua email attuale.");
-					response.setStatus(400);
-					return;
 				}
 				
+				response.setStatus(400);
+
 				break;
 		
 			case "updatePassword":
@@ -185,27 +181,27 @@ public class SettingsServlet extends HttpServlet {
 									} catch(SQLException e) {
 										e.printStackTrace();
 									}
-
-									response.setStatus(400);
-									return;
 								}else{
 									System.out.println("# SettingServlet > TC_ModificaPassword > Le password non coincidono");
-									response.setStatus(400);
-									return;
+									response.getWriter().println("Le password non coincidono.");
 								}
 							}else{
 								System.out.println("# SettingServlet > TC_ModificaPassword > Ripeti password: campo obbligatorio");
 							}
 						}else{
 							System.out.println("# SettingServlet > TC_ModificaPassword > Formato nuova password non valido");
+							response.getWriter().println("Formato nuova password non valido.");
 						}
 					}else{
 						System.out.println("# SettingServlet > TC_ModificaPassword > Nuova password campo obbligatorio");
 					}
 				}else{
 					System.out.println("# SettingServlet > TC_ModificaPassword > Password errata");
+					response.getWriter().println("Password corrente errata.");
 				}
 				
+				response.setStatus(400);
+
 				break;
 		
 			default:

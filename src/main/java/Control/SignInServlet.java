@@ -50,42 +50,48 @@ public class SignInServlet extends HttpServlet {
 												System.out.println("# SignInServlet > TC_RegistrazioneOK > Registrazione avvenuta con successo");
 												out.print("Registrazione avvenuta con successo");
 												response.setStatus(200);
+												return;
 											}else{
 												System.out.println("# SignInServlet > TC_RegistrazioneFailed1 > E-mail già esistente");
 												out.print("E-mail gia' esistente");
-												response.setStatus(400);
-												return;
 											}
-										}else{											
+										}else{				
+											out.print("Formato e-mail non valido");							
 											System.out.println("# SignInServlet > TC_RegistrazioneFailed2 > Formato e-mail non valido");
 										}
-									}else{										
-										System.out.println("# SignInServlet > TC_RegistrazioneFailed3 > Email campo obbligatorio");
+									}else{			
+										out.print("Email: campo obbligatorio");							
+										System.out.println("# SignInServlet > TC_RegistrazioneFailed3 > Email: campo obbligatorio");
 									}
-								}else{									
+								}else{
+									out.print("Le password non coincidono");									
 									System.out.println("# SignInServlet > TC_RegistrazioneFailed4 > Le password non coincidono");
-									response.setStatus(400);
-									return;
 								}
 							}else{
+								out.print("Ripeti password: campo obbligatorio");
 								System.out.println("# SignInServlet > TC_RegistrazioneFailed5 > Ripeti password campo obbligatorio");
 							}
 						}else{
+							out.print("Formato password non valido");
 							System.out.println("# SignInServlet > TC_RegistrazioneFailed6 > Formato password non valido");
 						}
 					}else{
+						out.print("Password: campo obbligatorio");
 						System.out.println("# SignInServlet > TC_RegistrazioneFailed7 > Password campo obbligatorio");
 					}
 				}else{
+					out.print("Username esistente");
 					System.out.println("# SignInServlet > TC_RegistrazioneFailed8 > Username già esistente");
-					response.setStatus(400);
-					return;
 				}
 			}else{
+				out.print("Formato username non valido");
 				System.out.println("# SignInServlet > TC_RegistrazioneFailed9 > Formato username non valido");
 			}
 		}else{
+			out.print("Username: campo obbligatorio");
 			System.out.println("# SignInServlet > TC_RegistrazioneFailed10 > Username - campo obbligatorio");
 		}
+
+		response.setStatus(400);
 	}
 }

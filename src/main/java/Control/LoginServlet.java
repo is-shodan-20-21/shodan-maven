@@ -54,11 +54,13 @@ public class LoginServlet extends HttpServlet {
 					out.print(response.encodeURL(""));
 			}else{
 				System.out.println("# LoginServlet > TC_LoginFailed1 > Password errata");
+				out.println("Password errata");
 				response.setStatus(400);
 				return;
 			}
 		}else{
 			System.out.println("# LoginServlet > TC_LoginFailed2 > Utente non esistente");
+			out.println("Utente non esistente");
 			response.setStatus(400);
 			return;
 		}						

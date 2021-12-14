@@ -88,7 +88,7 @@ function tryPasswordChange() {
 					setTimeout(() => $("#password-change-message").hide(), 4500);
 				},
 				error: (data) => {
-					$("#password-change-message").html(data);
+					$("#password-change-message").html(data.responseText);
 					$("#password-change-message").css("color", "#ea4e4e");
 					$("#password-change-message").show();
 					setTimeout(() => $("#password-change-message").hide(), 4500);

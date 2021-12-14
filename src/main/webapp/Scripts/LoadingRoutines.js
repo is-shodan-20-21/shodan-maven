@@ -37,7 +37,7 @@ function progress() {
 		$("#loading-line").width($("#loading-line").width() + 5);
 		setTimeout(
 			() => progress(),
-		30);
+		10);
 	} else {
 		$("#loading-container").fadeOut(250, 
 			() => {

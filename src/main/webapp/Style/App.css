@@ -1053,6 +1053,10 @@ input[type="search"]::-webkit-search-results-decoration {
 	margin: 0;
 }
 
+#cards-message {
+	font-family: 'Karla', sans-serif;
+}
+
 .email-form {
 	margin-right: 0 !important;
 }

@@ -22,6 +22,10 @@
         <input type="radio" id="amount-input-radio" name="amount" value="0">
         <input type="text" id="amount-input" placeholder="Inserisci una quantit&agrave;..." />
     </label>
+
+    <span id="cards-message">
+        
+    </span>
 </form>
 
 <div id="cards-container">

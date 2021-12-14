@@ -13,11 +13,9 @@ $(document).ready(
             function(e) {
                 let amount = $("input[name=\"amount\"]:checked").val();
                 let cardId = $(e.target).attr("data-card-id");
-                
-                console.log($(e.target));
 
                 if(amount == 0)
-                    alert("[Payment API Demo] Inserisci un ammontare valido.");
+                    $("#cards-message").text("Quantita' non valido.");
                 else {
                     $.ajax(
                         {
@@ -32,8 +30,8 @@ $(document).ready(
                                 amount: amount,
                                 cardId: cardId
                             },
-                            success: () => alert("[Payment API Demo] Ricarica di " + amount + "€ effettuata sul saldo!"),
-                            error: () => alert("[Payment API Demo] Impossibile effettuare la ricarica. Ricontrolla i dati.")
+                            success: (data) => $("#cards-message").text(data),
+                            error: (data) => $("#cards-message").text(data.responseText)
                         }
                     )
                 }
@@ -43,12 +41,12 @@ $(document).ready(
         $(".credit-card-add").click(
             (e) => {
                 let newCard = "<form onsubmit='tryNewCard(); return false' autocomplete='nope'>"
-                    + "<input required class='card-type' type='search' placeholder='Circuito'>"
-                    + "<input required class='card-number' type='search' placeholder='Numero di carta'>"
-                    + "<input required class='card-owner' type='search' placeholder='Titolare'>"
-                    + "<input required class='card-cvv' type='search' placeholder='CVV'>"
-                    + "<input required class='card-due' type='search' placeholder='Scadenza'>"
-                    + "<input type='submit' style='visibility: hidden'>"
+                    + "<input class='card-type' type='search' placeholder='Circuito'>"
+                    + "<input class='card-number' type='search' placeholder='Numero di carta'>"
+                    + "<input class='card-owner' type='search' placeholder='Titolare'>"
+                    + "<input class='card-cvv' type='search' placeholder='CVV'>"
+                    + "<input class='card-due' type='search' placeholder='Scadenza'>"
+                    + "<input id='new-card-form-submit' type='submit'>"
                     + "</form>";
                 $(e.target).off();
                 $(e.target).addClass("credit-card-wip");
@@ -79,9 +77,9 @@ function tryNewCard() {
             success: () => {
                 $("#app").load("View/Payment.jsp");
             },
-            error: () => {
+            error: (data) => {
                 $(".card-tip").css("color", "darkred");
-                $(".card-tip").html("I dati inseriti non sono validi. Riprova digitando correttamente i dati.");
+                $(".card-tip").html(data.responseText);
             }
         }
     )

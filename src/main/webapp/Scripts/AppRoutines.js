@@ -95,15 +95,15 @@ $(document).ready(
 				});
 			}
 
-			if(localStorage.getItem("last-nav") != null && localStorage.getItem("last-nav") != "NavGuest")
+			/*if(localStorage.getItem("last-nav") != null && localStorage.getItem("last-nav") != "NavGuest")
 				$("nav").load("View/Nav/" + localStorage.getItem("last-nav") + ".jsp");
-			else {
+			else {*/
 				NAV_HANDLER.done(function(data) {
 					$("nav").load(data);
 					console.log(data);
 					localStorage.setItem("last-nav", data.split("/")[2].split(".")[0]);  	
 				});
-			}
+			//}
 		} else {
 			MAIN_HANDLER.done(function(data) {
 				$("#app").load(data); 	

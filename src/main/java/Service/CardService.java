@@ -138,13 +138,28 @@ public class CardService implements Serializable {
             statement.setString(3, card.getCard_owner());
             statement.setDate(4, card.getCard_date());
             statement.setInt(5, card.getOwner().getId());
-            statement.executeUpdate();
+            if (statement.executeUpdate()==0)
+                return false;
 
             return true;
         } catch(SQLException e) {
             e.printStackTrace();
         }
 
+        return false;
+    }
+
+    public boolean removeCard (Card card) {
+        try {
+            String query = "DELETE FROM cards WHERE card_id = ?";
+            statement = db.prepareStatement(query);
+            statement.setInt(1, card.getCard_id());
+            if (statement.executeUpdate()==0)
+                return false;
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 }

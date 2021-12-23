@@ -71,7 +71,8 @@ public class HasCartService implements Serializable {
 			statement.setInt(1, cart.getUserId());
 			statement.setInt(2, cart.getGameId());
 
-			statement.executeUpdate();
+			if (statement.executeUpdate()==0)
+				return false;
 			
 			return true;
 		} catch(SQLException e) {
@@ -90,7 +91,8 @@ public class HasCartService implements Serializable {
 			statement = db.prepareStatement(query);
 			statement.setInt(1, game.getId());
 			
-			statement.executeUpdate();
+			if (statement.executeUpdate()==0)
+				return false;
 			
 			return true;
 		} catch(SQLException e) {
@@ -109,7 +111,8 @@ public class HasCartService implements Serializable {
 			statement = db.prepareStatement(query);
 			statement.setInt(1, user.getId());
 			
-			statement.executeUpdate();
+			if (statement.executeUpdate()==0)
+				return false;
 			
 			return true;
 		} catch(SQLException e) {

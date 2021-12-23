@@ -18,7 +18,7 @@ public class HasGameService implements Serializable {
 		this.db = db;
 	}	
 	
-	public void addGame(User user, Game game) {
+	public boolean addGame(User user, Game game) {
 		try {
 			String query = "INSERT INTO has_game VALUES (?, ?)";
 			
@@ -26,12 +26,15 @@ public class HasGameService implements Serializable {
 			statement.setInt(1, user.getId());
 			statement.setInt(2, game.getId());
 			
-			statement.executeUpdate();
+			if (statement.executeUpdate()==0)
+				return false;
 			
 			System.out.println("# GameService > Query > " + query);
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	public boolean hasGame(User user, Game game) {
@@ -61,7 +64,8 @@ public class HasGameService implements Serializable {
 			statement.setInt(1, user.getId());
 			statement.setInt(2, game.getId());
 			
-			statement.executeUpdate();
+			if (statement.executeUpdate()==0)
+				return false;
 			
 			return true;
 		} catch(SQLException e) {
@@ -80,7 +84,8 @@ public class HasGameService implements Serializable {
 			statement = db.prepareStatement(query);
 			statement.setInt(1, game.getId());
 			
-			statement.executeUpdate();
+			if (statement.executeUpdate()==0)
+				return false;
 			
 			return true;
 		} catch(SQLException e) {

@@ -114,7 +114,8 @@ public class UserService implements Serializable {
 			statement.setString(6, user.getSession());
 			statement.setInt(7, user.getId());
 			
-			statement.executeUpdate();
+			if (statement.executeUpdate()==0)
+				return false;
 			
 			System.out.println("# UserService > Aggiorno l'utente ID " + user.getId());
 			
@@ -170,7 +171,8 @@ public class UserService implements Serializable {
 			statement = db.prepareStatement(query);
 			statement.setInt(1, id);
 			
-			statement.executeUpdate();
+			if (statement.executeUpdate()==0)
+				return false;
 			
 			System.out.println("# UserService > Query > " + query);
 			
@@ -234,6 +236,25 @@ public class UserService implements Serializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public User getUserByUsername (String username) {
+		try {
+			String query = "SELECT user_id FROM users WHERE user_name = ?";
+			
+			statement = db.prepareStatement(query);
+			statement.setString(1, username);
+			
+			ResultSet result = statement.executeQuery();
+			
+			System.out.println("# SessionService > Query > " + query);
+			
+			if(result.next())
+				return getUser(result.getInt("user_id"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

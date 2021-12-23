@@ -94,7 +94,8 @@ public class ArticleService {
 			statement.setString(3, article.getHtml());
 			statement.setInt(4, article.getAuthor().getId());
 			
-			statement.executeUpdate();
+			if (statement.executeUpdate()==0)
+				return false;
 			
 			System.out.println("# ArticleService > Aggiungo l'articolo " + article.getTitle());
 		
@@ -149,7 +150,8 @@ public class ArticleService {
 			statement = db.prepareStatement(query);
 			statement.setInt(1, id);
 			
-			statement.executeUpdate();
+			if (statement.executeUpdate()==0)
+				return false;
 			
 			System.out.println("# ArticleService > Elimino l'articolo con id " + id);
 			

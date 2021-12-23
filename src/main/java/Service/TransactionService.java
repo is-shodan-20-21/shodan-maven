@@ -78,7 +78,7 @@ public class TransactionService {
         return transactions;
     }
 
-    public void insertTransaction(Transaction transaction) {
+    public boolean insertTransaction(Transaction transaction) {
         String query = "INSERT INTO transactions(user_id, game_id, transaction_date, transaction_price) VALUES (?, ?, ?, ?)";
 
         System.out.println(query);
@@ -90,9 +90,29 @@ public class TransactionService {
             statement.setDate(3, transaction.getTransaction_date());
             statement.setInt(4, transaction.getTransaction_price());
 
-            statement.executeUpdate();
+            if (statement.executeUpdate()==0)
+                return false;
+            return true;
         } catch(SQLException e) {
             e.printStackTrace();
         }
+        return false;
+    }
+
+    public boolean deleteTransaction(Transaction transaction) {
+        try {
+            String query = "DELETE FROM transactions WHERE user_id = ? AND game_id = ?";
+            statement = db.prepareStatement(query);
+            statement.setInt(1, transaction.getUser().getId());
+            statement.setInt(2, transaction.getGame().getId());
+
+            if (statement.executeUpdate()==0)
+                return false;
+    
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

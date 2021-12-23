@@ -25,8 +25,9 @@ public class TestGameServlet extends Mockito {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
 
+    /* se levi il commento -> crasha
     @Mock
-    private GameService gameDAO;
+    private GameService gameDAO;*/
 
     @InjectMocks
     private GameServlet gameServlet;
@@ -41,7 +42,7 @@ public class TestGameServlet extends Mockito {
     @Test
     public void TestAddGameDescrizioneMancante () throws ServletException, IOException {
         request.addParameter("action", "addGame");
-        //request.addParameter("endpoint", "View/Game.jsp");
+        request.addParameter("endpoint", "View/Game.jsp");
         request.addParameter("game-name", "Ciccio Fusco");
         request.addParameter("game-price", "55");
         request.addParameter("game-date", "1999-10-01");

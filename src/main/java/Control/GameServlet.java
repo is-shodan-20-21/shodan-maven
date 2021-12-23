@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -19,6 +20,7 @@ import javax.servlet.http.Part;
 import org.openqa.selenium.InvalidArgumentException;
 
 import Collection.ParsedGame;
+import Database.DBConnectionPool;
 import Model.Game;
 import Model.User;
 import Service.GameService;
@@ -36,11 +38,20 @@ import Service.UserService;
 public class GameServlet extends HttpServlet {
 	private static final long serialVersionUID = -8724190928795580877L;
 
-	protected void doGet(
+	public void doGet(
 			HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		User user = null;
-		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
+		//Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
+		Connection db = null;
+		try {
+			db = DBConnectionPool.getConnection();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+
 		String endpoint = request.getParameter("endpoint");
 		int limit = (request.getParameter("limit") != null)
 				? Integer.parseInt(request.getParameter("limit"))
@@ -226,16 +237,22 @@ public class GameServlet extends HttpServlet {
 		}
 	}
 
-	protected void doPost(
+	public void doPost(
 			HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("# GameServlet > Session: " + request.getSession().getId());
 
-		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
+		//Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
+		Connection db = null;
+		try {
+			db = DBConnectionPool.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		switch (request.getParameter("action")) {
 			case "addGame":
-				String oracle = "";
+				String oracle = "Sono entrato nella servlet";
 
 				String gameName = request.getParameter("game-name");
 				String gamePrice = request.getParameter("game-price");
@@ -267,7 +284,7 @@ public class GameServlet extends HttpServlet {
 
 													if (gameDescription != null && !gameDescription.equals("")) {
 
-														if (request.getPart("game-image").getSize() > 0) {
+														if (request.getPart("game-image").getSize() > 0 ) {
 															
 															Part filePartImage = request.getPart("game-image");
 															
@@ -391,6 +408,7 @@ public class GameServlet extends HttpServlet {
 				}
 
 				response.sendRedirect("/shodan_maven/app.jsp?__ORACLE=" + oracle);
+				request.setAttribute("testMessage", oracle);
 
 				break;
 

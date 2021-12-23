@@ -10,6 +10,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import Database.DBConnectionPool;
 import Model.User;
 import Service.UserService;
 import Utils.PasswordHasher;
@@ -19,16 +21,23 @@ public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 5201749135928085764L;
 
-	protected void doPost(
+	public void doPost(
 		HttpServletRequest request,
 		HttpServletResponse response
 	) throws ServletException, IOException {
+		String testMessage = "";
 		PrintWriter out = response.getWriter();
 	
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
-		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
+		//Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
+		Connection db = null;
+		try {
+			db = DBConnectionPool.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		UserService service = new UserService(db);
 		int id = service.getIdByUsername(username);
 
@@ -52,16 +61,22 @@ public class LoginServlet extends HttpServlet {
 					
 				if(request.getParameter("cookie").equals("false"))
 					out.print(response.encodeURL(""));
+				testMessage = "Login riuscito";
+				request.setAttribute("testMessage", testMessage);
 			}else{
 				System.out.println("# LoginServlet > TC_LoginFailed1 > Password errata");
 				out.println("Password errata");
 				response.setStatus(400);
+				testMessage = "Password errata";
+				request.setAttribute("testMessage", testMessage);
 				return;
 			}
 		}else{
 			System.out.println("# LoginServlet > TC_LoginFailed2 > Utente non esistente");
 			out.println("Utente non esistente");
 			response.setStatus(400);
+			testMessage = "Utente non esistente";
+			request.setAttribute("testMessage", testMessage);
 			return;
 		}						
 	}

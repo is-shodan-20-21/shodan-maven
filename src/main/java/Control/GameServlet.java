@@ -241,7 +241,7 @@ public class GameServlet extends HttpServlet {
 			HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("# GameServlet > Session: " + request.getSession().getId());
-
+		String testMessage = "";
 		//Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
 		Connection db = null;
 		try {
@@ -416,31 +416,37 @@ public class GameServlet extends HttpServlet {
 				String gameId = request.getParameter("deleteGameId");
 
 				if (gameId != null && !gameId.equals("")) {
-					if(gameId.matches("[1-9]+")) {
+					if(gameId.matches("[0-9]+")) {
 						Game game = new GameService(db).getGame(Integer.valueOf(gameId));
 
-						if (game != null) {
+						if (game != null ) {
 							response.setStatus(200);
-							new GameService(db).deleteGame(game.getId());
+							if(request.getParameter("puppet") == null){
+								new GameService(db).deleteGame(game.getId());
 
-							new HasCartService(db).removeItemForAll(game);
-							new HasGameService(db).removeItemForAll(game);
-
+								new HasCartService(db).removeItemForAll(game);
+								new HasGameService(db).removeItemForAll(game);
+							}
 							response.getWriter().println("Il titolo rimosso con successo");
+							request.setAttribute("testMessage", "Titolo rimosso con successo");
 							return;
 						} else {
+							testMessage = "Il titolo non e' presente";
 							response.getWriter().println("Il titolo non e' presente");
 							response.setStatus(400);
 						}
 					} else {
+						testMessage = "Formato ID errato";
 						response.getWriter().println("Formato ID errato");
 						response.setStatus(400);	
 					}
 				} else {
+					testMessage = "ID Gioco: campo obbligatorio";
 					response.getWriter().println("ID Gioco: campo obbligatorio");
 					response.setStatus(400);
 				}
 
+				request.setAttribute("testMessage", testMessage);
 				break;
 
 			case "updateGame":
@@ -449,7 +455,7 @@ public class GameServlet extends HttpServlet {
 				String gamePriceUpdate = request.getParameter("updateGamePrice");
 
 				if (gameIdUpdate != null && !gameIdUpdate.equals("")) {
-					if(gameIdUpdate.matches("[1-9]+")) {
+					if(gameIdUpdate.matches("[0-9]+")) {
 						Game updatedGame = new GameService(db).getGame(Integer.valueOf(gameIdUpdate));
 
 						if (updatedGame != null) {
@@ -459,36 +465,45 @@ public class GameServlet extends HttpServlet {
 
 									if (newPrice >= 0) {
 										updatedGame.setPrice(newPrice);
-										new GameService(db).updateGame(updatedGame);
+										if(request.getParameter("puppet") == null)
+											new GameService(db).updateGame(updatedGame);	
 
 										response.setStatus(200);
+										request.setAttribute("testMessage", "Prezzo del titolo aggiornato con successo!");
 										response.getWriter().println("Prezzo del titolo aggiornato con successo!");
 										return;
 									} else {
 										response.setStatus(400);
+										testMessage = "Prezzo negativo";
 										response.getWriter().println("Prezzo negativo");
 									}
 								} catch(NumberFormatException e) {
 									response.setStatus(400);
+									testMessage = "Formato prezzo non valido";
 									response.getWriter().println("Formato prezzo non valido");
 								}
 							} else {
 								response.setStatus(400);
+								testMessage = "Prezzo: campo obbligatorio";
 								response.getWriter().println("Prezzo: campo obbligatorio");
 							}
 						} else {
 							response.setStatus(400);
+							testMessage = "Titolo non presente";
 							response.getWriter().println("Titolo non presente");
 						}
 					} else {
 						response.setStatus(400);
+						testMessage = "Formato ID non valido";
 						response.getWriter().println("Formato ID non valido");						
 					}
 				} else {
 					response.setStatus(400);
+					testMessage = "ID: campo obbligatorio";
 					response.getWriter().println("ID: campo obbligatorio");
 				}
 
+				request.setAttribute("testMessage", testMessage);
 				break;
 
 			default:

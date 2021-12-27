@@ -4,14 +4,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import Control.SettingsServlet;
-import Service.UserService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,12 +21,8 @@ public class TestModificaEmail extends Mockito {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
 
-    @Mock
-    private UserService userDAO;
-
     @InjectMocks
     private SettingsServlet servlet;
-
 
     @BeforeEach
     void setUp() throws Exception {

@@ -4,14 +4,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import Control.GameServlet;
-import Service.GameService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,10 +20,6 @@ import javax.servlet.ServletException;
 public class TestAggiornaTitolo extends Mockito {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
-
-    
-    @Mock
-    private GameService userDAO;
 
     @InjectMocks
     private GameServlet servlet;

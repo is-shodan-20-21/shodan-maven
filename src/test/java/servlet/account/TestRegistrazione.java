@@ -23,9 +23,6 @@ public class TestRegistrazione {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
 
-    @Mock
-    private UserService userDAO;
-
     @InjectMocks
     private SignInServlet servlet;
 

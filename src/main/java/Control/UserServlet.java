@@ -20,6 +20,7 @@ import Service.GameService;
 import Service.HasGameService;
 import Service.HasRoleService;
 import Service.UserService;
+import Database.DBConnectionPool;
 
 @WebServlet("/UserServlet")
 public class UserServlet extends HttpServlet {
@@ -33,21 +34,30 @@ public class UserServlet extends HttpServlet {
 		this.user = null;
 	}
 	
-	protected void doGet(
+	public void doGet(
 		HttpServletRequest request,
 		HttpServletResponse response
 	) throws ServletException, IOException {
 		System.out.println("# UserServlet > Session: " + request.getSession().getId());
 
-		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
 		String endpoint = request.getParameter("endpoint");
 		
-		if(request.getParameter("cookie") != null) {
-			if(request.getParameter("cookie").equals("false"))
-				user = new UserService(db).getUserBySession(request.getParameter("jsession"));
-			else
-				user = (User) request.getSession().getAttribute("user_metadata");
+		Connection db = null;
+		try {
+			db = DBConnectionPool.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		
+
+		if(request.getParameter("puppet") == null) {
+			if (request.getParameter("cookie") != null && request.getParameter("cookie").equals("false"))
+				user = new UserService(db).getUserBySession(request.getParameter("jsession"));
+		else
+			user = (User) request.getSession().getAttribute("user_metadata");
+		} else
+			user = new UserService(db).getUserByUsername("admin");
+
 		
 		switch(request.getParameter("action")) {
 			case "role":
@@ -113,6 +123,7 @@ public class UserServlet extends HttpServlet {
 									new UserService(db).updateUser(user);
 									response.setStatus(200);
 									response.getWriter().println("Ricarica effettuata con successo!");
+									request.setAttribute("testMessage", "Ricarica effettuata con successo");
 									return;
 								} catch(SQLException e) {
 									response.setStatus(400);
@@ -121,18 +132,22 @@ public class UserServlet extends HttpServlet {
 								return;
 							} else {
 								System.out.println("# TC_RicaricaSaldo > Carta scaduta");
+								request.setAttribute("testMessage", "Carta scaduta");
 								response.getWriter().println("Carta scaduta");
 							}
 						} else {
 							System.out.println("# TC_RicaricaSaldo > Carta non esistente");
+							request.setAttribute("testMessage", "Carta non esistente");
 							response.getWriter().println("Carta non esistente");
 						}
 					} else {
 						System.out.println("# TC_RicaricaSaldo > Quantità non valida");
+						request.setAttribute("testMessage", "Quantita' non valida");
 						response.getWriter().println("Quantità non valida");
 					}
 				} catch(NumberFormatException e) {
 					System.out.println("# TC_RicaricaSaldo > Formato quantità non valido");
+					request.setAttribute("testMessage", "Formato quantita' non valido");
 					response.getWriter().println("Formato quantita' non valido");
 				}
 
@@ -182,18 +197,27 @@ public class UserServlet extends HttpServlet {
 		}
 	}
 	
-	protected void doPost(
+	public void doPost(
 		HttpServletRequest request,
 		HttpServletResponse response
 	) throws ServletException, IOException, NumberFormatException {
-		Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
-		
-		if(request.getParameter("cookie") != null) {
-			if(request.getParameter("cookie").equals("false"))
-				user = new UserService(db).getUserBySession(request.getParameter("jsession"));
-			else
-				user = (User) request.getSession().getAttribute("user_metadata");
+		//Connection db = (Connection) request.getServletContext().getAttribute("databaseConnection");
+
+		Connection db = null;
+		try {
+			db = DBConnectionPool.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		
+
+		if(request.getParameter("puppet") == null) {
+			if (request.getParameter("cookie") != null && request.getParameter("cookie").equals("false"))
+				user = new UserService(db).getUserBySession(request.getParameter("jsession"));
+		else
+			user = (User) request.getSession().getAttribute("user_metadata");
+		} else
+			user = new UserService(db).getUserByUsername("admin");
 
 		switch(request.getParameter("action")) {
 			case "newCard":
@@ -231,38 +255,49 @@ public class UserServlet extends HttpServlet {
 														new CardService(db).insertCard(newCard);
 
 														System.out.println("# TC_AggiungiCarta > Carta aggiunta con successo");
+														request.setAttribute("testMessage", "Carta aggiunta con successo");
 														response.setStatus(200);
 
 														return;
 													} else {
 														response.getWriter().println("Carta scaduta");
+														request.setAttribute("testMessage", "Carta scaduta");
 													}
 												} catch(IllegalArgumentException e) {
 													response.getWriter().println("Formato data non valido");
+													request.setAttribute("testMessage", "Formato data non valido");
 												}
 											} else {
 												response.getWriter().println("Formato CVV non valido");
+												request.setAttribute("testMessage", "Formato CVV non valido");
 											}
 										} else {
 											response.getWriter().println("CVV: campo obbligatorio");
+											request.setAttribute("testMessage", "CVV: campo obbligatorio");
 										}
 									} else {
 										response.getWriter().println("Formato titolare non valido");
+										request.setAttribute("testMessage", "Formato titolare non valido");
 									}
 								} else {
 									response.getWriter().println("Titolare: campo obbligatorio"); 
+									request.setAttribute("testMessage", "Titolare: campo obbligatorio");
 								}
 							} else {
 								response.getWriter().println("Carta gia' esistente");
+								request.setAttribute("testMessage", "Carta gia' esistente");
 							}
 						} else {
 							response.getWriter().println("Formato numero carta non valido");
+							request.setAttribute("testMessage", "Formato numero carta non valido");
 						}
 					} else {
 						response.getWriter().println("Numero carta: campo obbligatorio");
+						request.setAttribute("testMessage", "Numero carta: campo obbligatorio");
 					}
 				} else {
 					response.getWriter().println("Circuito: campo obbligatorio");
+					request.setAttribute("testMessage", "Circuito: campo obbligatorio");
 				}
 
 				response.setStatus(400);

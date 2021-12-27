@@ -43,6 +43,30 @@ public class TestPagaOra{
         assertEquals(oracle, request.getAttribute("testMessage"));
     }
 
+    @Test
+    public void TestPagaOraSaldoInsufficiente () throws ServletException, IOException {
+        request.setParameter("cookie", "true");
+        request.setParameter("action", "pay");
+        request.setParameter("total", "900");
+        request.setParameter("puppet", "true");
+        servlet.doPost(request, response);
+        String oracle = "Saldo insufficiente";
+        assertEquals(oracle, request.getAttribute("testMessage"));
+    }
+
+    @Test
+    public void TestPagaOraCarrelloVuoto () throws ServletException, IOException {
+        request.setParameter("cookie", "true");
+        request.setParameter("action", "pay");
+        request.setParameter("total", "900");
+        request.setParameter("puppet", "true");
+        request.setParameter("games", "0");
+        servlet.doPost(request, response);
+        String oracle = "Carrello non contiene giochi";
+        assertEquals(oracle, request.getAttribute("testMessage"));
+    }
+
+
 
     @AfterEach
     void tearDown() throws Exception {

@@ -115,6 +115,9 @@ public class CartServlet extends HttpServlet {
 				HasCartService service = new HasCartService(db);
 				ArrayList<Game> games = service.selectCart(user);
 
+				if(request.getParameter("puppet")!=null&&request.getParameter("games")!=null)
+					games=null;
+
 				if(games != null) {
 					if(user.getMoney() >= Integer.valueOf(request.getParameter("total"))) {
 
@@ -145,8 +148,11 @@ public class CartServlet extends HttpServlet {
 						return;
 					} else
 						System.out.println("# TC_PagaOra > Saldo insufficiente");
-				} else
+						request.setAttribute("testMessage", "Saldo insufficiente");
+				} else{
 					System.out.println("# TC_PagaOra > Carrello non contiene giochi");
+					request.setAttribute("testMessage", "Carrello non contiene giochi");
+				}
 
 				response.setStatus(400);
 

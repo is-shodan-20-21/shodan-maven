@@ -252,7 +252,8 @@ public class UserServlet extends HttpServlet {
 															user
 														);
 			
-														new CardService(db).insertCard(newCard);
+														if(request.getParameter("puppet") == null) 
+															new CardService(db).insertCard(newCard);
 
 														System.out.println("# TC_AggiungiCarta > Carta aggiunta con successo");
 														request.setAttribute("testMessage", "Carta aggiunta con successo");
